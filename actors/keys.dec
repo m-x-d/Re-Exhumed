@@ -1,0 +1,67 @@
+actor ExKey : Key 
+{
+	Radius 12
+	Height 32
+	Scale 0.5
+	Inventory.PickupSound "pickups/key"
+}
+
+actor ExKey1 : ExKey 3320 
+{
+	//$Category Keys
+	//$Title Time Key
+	
+	Inventory.Pickupmessage "Time Key"
+	
+	States
+	{
+		Spawn:
+			KEY1 ABCDEFGH 3
+			loop
+	}
+}
+
+actor ExKey2 : ExKey 3328 
+{
+	//$Category Keys
+	//$Title Power Key
+	
+	Inventory.Pickupmessage "Power Key"
+	
+	States 
+	{
+		Spawn:
+			KEY2 ABCDEFGH 3
+			loop
+	}
+}
+
+actor ExKey3 : ExKey 3336 
+{
+	//$Category Keys
+	//$Title Earth Key
+	
+	Inventory.Pickupmessage "Earth Key"
+	
+	States 
+	{
+		Spawn:
+			KEY3 ABCD 3
+			loop
+	}
+}
+
+actor ExKey4 : ExKey 3340 
+{
+	//$Category Keys
+	//$Title War Key
+	
+	Inventory.Pickupmessage "War Key"
+	
+	States 
+	{
+		Spawn:
+			KEY4 ABCDEFGH 3
+			loop
+	}
+}

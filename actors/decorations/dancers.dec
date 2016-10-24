@@ -1,0 +1,120 @@
+actor ExAbstractDancer : ExBlockingDecoration
+{
+	radius 16
+	height 40
+	scale 0.5
+	
+	-SHOOTABLE
+}
+
+actor ExDancer1 : ExAbstractDancer 2064
+{
+	//$Category Decoration
+	//$Title Exotic dancer 1 (animated)
+	States
+	{
+		Spawn:
+			DNC1 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:	
+			DNC1 ABCB 10
+			loop
+	}
+}
+
+actor ExDancer2 : ExAbstractDancer 2067
+{
+	//$Category Decoration
+	//$Title Exotic dancer 2 (animated)
+	States
+	{
+		Spawn:
+			DNC2 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC2 ABCDEDCB 8
+			loop
+	}
+}
+
+actor ExDancer3 : ExAbstractDancer 2072
+{
+	//$Category Decoration
+	//$Title Exotic dancer 3
+	States
+	{
+		Spawn:
+			DNC3 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC3 A -1
+			stop
+	}
+}
+
+actor ExDancer4 : ExAbstractDancer 2079
+{
+	//$Category Decoration
+	//$Title Exotic dancer 4
+	States
+	{
+		Spawn:
+			DNC4 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC4 A -1
+			stop
+	}
+}
+
+actor ExDancer5 : ExAbstractDancer 2080
+{
+	//$Category Decoration
+	//$Title Exotic dancer 5
+	States
+	{
+		Spawn:
+			DNC5 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC5 A -1
+			stop
+	}
+}
+
+actor ExDancer6 : ExAbstractDancer 2081
+{
+	//$Category Decoration
+	//$Title Exotic dancer 6
+	States
+	{
+		Spawn:
+			DNC6 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC6 A -1
+			stop
+	}
+}
+
+actor ExDancer7 : ExAbstractDancer 2082
+{
+	//$Category Decoration
+	//$Title Exotic dancers
+	States
+	{
+		Spawn:
+			DNC7 A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.05), ScaleY + frandom(-0.05, 0.05))
+			goto Idle
+			
+		Idle:
+			DNC7 A -1
+			stop
+	}
+}

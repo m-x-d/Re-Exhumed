@@ -1,0 +1,117 @@
+Glow
+{
+  Flats 
+  {
+     F_SKY //skies
+     
+     ART305 //water1
+     WTR1_01
+     WTR1_02
+     WTR1_03
+     WTR1_04
+     WTR1_05
+     WTR1_06
+     WTR1_07
+     WTR1_08
+     WTR1_09
+     WTR1_10
+     WTR1_11
+     WTR1_12
+     WTR1_13
+     WTR1_14
+     WTR1_15
+     WTR1_16
+     
+     ART310 //water2
+     WTR2_01
+     WTR2_02
+     WTR2_03
+     WTR2_04
+     WTR2_05
+     WTR2_06
+     WTR2_07
+     WTR2_08
+     WTR2_09
+     WTR2_10
+     WTR2_11
+     WTR2_12
+     WTR2_13
+     WTR2_14
+     WTR2_15
+     WTR2_16
+     
+     ART314 //water3
+     WTR3_01
+     WTR3_02
+     WTR3_03
+     WTR3_04
+     WTR3_05
+     WTR3_06
+     WTR3_07
+     WTR3_08
+     WTR3_09
+     WTR3_10
+     WTR3_11
+     WTR3_12
+     
+     ART320 //water4
+     WTR4_01
+     WTR4_02
+     WTR4_03
+     WTR4_04
+     WTR4_05
+     WTR4_06
+     WTR4_07
+     WTR4_08
+     WTR4_09
+     WTR4_10
+     WTR4_11
+     WTR4_12
+
+     ART375 //lava1
+     LAVA1_01
+     LAVA1_02
+     LAVA1_03
+     LAVA1_04
+     LAVA1_05
+     LAVA1_06
+     LAVA1_07
+     LAVA1_08
+     LAVA1_09
+     LAVA1_10
+     LAVA1_11
+     LAVA1_12
+     LAVA1_13
+     LAVA1_14
+     LAVA1_15
+     LAVA1_16
+
+     ART388 //lava2
+     LAVA2_01
+     LAVA2_02
+     LAVA2_03
+     LAVA2_04
+     LAVA2_05
+     LAVA2_06
+     LAVA2_07
+     LAVA2_08
+     LAVA2_09
+     LAVA2_10
+     LAVA2_11
+     LAVA2_12
+
+     ART461 //lava_rocks
+     LAVAR_01
+     LAVAR_02
+     LAVAR_03
+     LAVAR_04
+     LAVAR_05
+     LAVAR_06
+     LAVAR_07
+     LAVAR_08
+     LAVAR_09
+     LAVAR_10
+     LAVAR_11
+     LAVAR_12
+  }
+}

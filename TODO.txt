@@ -1,0 +1,8 @@
+TODO:
+MOAR DECORATE scale randomization!
+Mummy wind (spider?) attack
+Animated textures animations [partly done]
+TERRAIN
+
+TOFIX:
+Pistol reload bug

@@ -1,0 +1,77 @@
+//$gzdb_skip
+//spider eyes
+brightmap sprite SPIAA0   { map "brightmaps/enemies/spider/SPIAA0.png" }
+brightmap sprite SPIAB0   { map "brightmaps/enemies/spider/SPIAB0.png" }
+brightmap sprite SPIJA1   { map "brightmaps/enemies/spider/SPIJA1.png" }
+brightmap sprite SPIJA2A8 { map "brightmaps/enemies/spider/SPIJA2A8.png" }
+brightmap sprite SPIWA1   { map "brightmaps/enemies/spider/SPIWA1.png" }
+brightmap sprite SPIWA8A2 { map "brightmaps/enemies/spider/SPIWA8A2.png" }
+brightmap sprite SPIWB1   { map "brightmaps/enemies/spider/SPIWB1.png" }
+brightmap sprite SPIWB7B3 { map "brightmaps/enemies/spider/SPIWB7B3.png" }
+brightmap sprite SPIWB8B2 { map "brightmaps/enemies/spider/SPIWB8B2.png" }
+brightmap sprite SPIWC1   { map "brightmaps/enemies/spider/SPIWC1.png" }
+brightmap sprite SPIWC7C3 { map "brightmaps/enemies/spider/SPIWC7C3.png" }
+brightmap sprite SPIWC8C2 { map "brightmaps/enemies/spider/SPIWC8C2.png" }
+
+//rat eyes
+brightmap sprite RAT_A1   { map "brightmaps/enemies/rat/RAT_A1.png" }
+brightmap sprite RAT_A2A8 { map "brightmaps/enemies/rat/RAT_A2A8.png" }
+brightmap sprite RAT_A3A7 { map "brightmaps/enemies/rat/RAT_A3A7.png" }
+brightmap sprite RAT_B1   { map "brightmaps/enemies/rat/RAT_B1.png" }
+brightmap sprite RAT_B2B8 { map "brightmaps/enemies/rat/RAT_B2B8.png" }
+brightmap sprite RAT_B3B7 { map "brightmaps/enemies/rat/RAT_B3B7.png" }
+brightmap sprite RATFA0   { map "brightmaps/enemies/rat/RATFA0.png" }
+brightmap sprite RATFB0   { map "brightmaps/enemies/rat/RATFB0.png" }
+
+//anubis eyes
+brightmap sprite NUBAA1   { map "brightmaps/enemies/anubis/NUBAA1.png" }
+brightmap sprite NUBAA6A4 { map "brightmaps/enemies/anubis/NUBAA6A4.png" }
+brightmap sprite NUBAA7A3 { map "brightmaps/enemies/anubis/NUBAA7A3.png" }
+brightmap sprite NUBAA8A2 { map "brightmaps/enemies/anubis/NUBAA8A2.png" }
+brightmap sprite NUBAB1   { map "brightmaps/enemies/anubis/NUBAB1.png" }
+brightmap sprite NUBAB6B4 { map "brightmaps/enemies/anubis/NUBAB6B4.png" }
+brightmap sprite NUBAB7B3 { map "brightmaps/enemies/anubis/NUBAB7B3.png" }
+brightmap sprite NUBAB8B2 { map "brightmaps/enemies/anubis/NUBAB8B2.png" }
+brightmap sprite NUBAC1   { map "brightmaps/enemies/anubis/NUBAC1.png" }
+brightmap sprite NUBAC7C3 { map "brightmaps/enemies/anubis/NUBAC7C3.png" }
+brightmap sprite NUBAC8C2 { map "brightmaps/enemies/anubis/NUBAC8C2.png" }
+brightmap sprite NUBAD1   { map "brightmaps/enemies/anubis/NUBAD1.png" }
+brightmap sprite NUBAD7D3 { map "brightmaps/enemies/anubis/NUBAD7D3.png" }
+brightmap sprite NUBAD8D2 { map "brightmaps/enemies/anubis/NUBAD8D2.png" }
+brightmap sprite NUBAE1   { map "brightmaps/enemies/anubis/NUBAE1.png" }
+brightmap sprite NUBAE7E3 { map "brightmaps/enemies/anubis/NUBAE7E3.png" }
+brightmap sprite NUBAE8E2 { map "brightmaps/enemies/anubis/NUBAE8E2.png" }
+brightmap sprite NUBDA0   { map "brightmaps/enemies/anubis/NUBDA0.png" }
+brightmap sprite NUBDB0   { map "brightmaps/enemies/anubis/NUBDB0.png" }
+brightmap sprite NUBDC0   { map "brightmaps/enemies/anubis/NUBDC0.png" }
+brightmap sprite NUBIA1   { map "brightmaps/enemies/anubis/NUBIA1.png" }
+brightmap sprite NUBIA2A8 { map "brightmaps/enemies/anubis/NUBIA2A8.png" }
+brightmap sprite NUBIA3A7 { map "brightmaps/enemies/anubis/NUBIA3A7.png" }
+brightmap sprite NUBIA4A6 { map "brightmaps/enemies/anubis/NUBIA4A6.png" }
+brightmap sprite NUBPA1   { map "brightmaps/enemies/anubis/NUBPA1.png" }
+brightmap sprite NUBPA6A4 { map "brightmaps/enemies/anubis/NUBPA6A4.png" }
+brightmap sprite NUBPA7A3 { map "brightmaps/enemies/anubis/NUBPA7A3.png" }
+brightmap sprite NUBPA8A2 { map "brightmaps/enemies/anubis/NUBPA8A2.png" }
+brightmap sprite NUBWA1   { map "brightmaps/enemies/anubis/NUBWA1.png" }
+brightmap sprite NUBWA6A4 { map "brightmaps/enemies/anubis/NUBWA6A4.png" }
+brightmap sprite NUBWA7A3 { map "brightmaps/enemies/anubis/NUBWA7A3.png" }
+brightmap sprite NUBWA8A2 { map "brightmaps/enemies/anubis/NUBWA8A2.png" }
+brightmap sprite NUBWB1   { map "brightmaps/enemies/anubis/NUBWB1.png" }
+brightmap sprite NUBWB6B4 { map "brightmaps/enemies/anubis/NUBWB6B4.png" }
+brightmap sprite NUBWB7B3 { map "brightmaps/enemies/anubis/NUBWB7B3.png" }
+brightmap sprite NUBWB8B2 { map "brightmaps/enemies/anubis/NUBWB8B2.png" }
+brightmap sprite NUBWC1   { map "brightmaps/enemies/anubis/NUBWC1.png" }
+brightmap sprite NUBWC6C4 { map "brightmaps/enemies/anubis/NUBWC6C4.png" }
+brightmap sprite NUBWC7C3 { map "brightmaps/enemies/anubis/NUBWC7C3.png" }
+brightmap sprite NUBWC8C2 { map "brightmaps/enemies/anubis/NUBWC8C2.png" }
+
+//anubis gore head
+brightmap sprite AGORA0 { map "brightmaps/enemies/anubis/gore/AGORA0.png" }
+brightmap sprite AGORB0 { map "brightmaps/enemies/anubis/gore/AGORB0.png" }
+brightmap sprite AGORC0 { map "brightmaps/enemies/anubis/gore/AGORC0.png" }
+brightmap sprite AGORD0 { map "brightmaps/enemies/anubis/gore/AGORD0.png" }
+brightmap sprite AGORY0 { map "brightmaps/enemies/anubis/gore/AGORY0.png" }
+
+//misc
+brightmap sprite DNC5A0 { map "brightmaps/enemies/misc/DNC5A0.png" } //when you see it...
+

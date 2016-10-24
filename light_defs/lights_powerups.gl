@@ -1,0 +1,156 @@
+//Heart powerup
+pointlight PHEART
+{
+	color 0.16 0.02 0.02
+	size 40
+	offset 0 40 0
+}
+
+object ExFullHealthItem
+{
+	frame PHRT { light PHEART }
+}
+
+//Weapon power powerup
+object ExWeaponPowerItem
+{
+  frame PHND { light PHEART }
+}
+
+//Invisibility powerup
+object ExInvisibilityItem
+{
+	frame PINV { light MANAF3 }
+}
+
+//Invulnerability powerup
+pointlight PINVULN
+{
+	color 0.17 0.49 0.62
+	size 32
+	offset 0 24 0
+}
+
+object ExInvulnerabilityItem
+{
+  frame PSCR { light PINVULN }
+}
+
+//Torch powerup
+pointlight PTORCH1
+{
+	color 1.0 0.77 0.4
+	size 40
+	offset 0 40 0
+}
+
+pointlight PTORCH2
+{
+	color 1.0 0.71 0.56
+	size 38
+	offset 0 41 0
+}
+
+pointlight PTORCH3
+{
+	color 1.0 0.91 0.45
+	size 41
+	offset 0 40 0
+}
+
+pointlight PTORCH4
+{
+	color 1.0 0.80 0.5
+	size 39
+	offset 0 38 0
+}
+
+object ExTorchItem
+{
+	frame PTRCA { light PTORCH1 }
+	frame PTRCB { light PTORCH2 }
+	frame PTRCC { light PTORCH3 }
+	frame PTRCD { light PTORCH4 }
+	frame PTRCE { light PTORCH2 }
+	frame PTRCF { light PTORCH1 }
+	frame PTRCG { light PTORCH3 }
+	frame PTRCH { light PTORCH4 }
+}
+
+//Firefly (remember that series? It was great!)
+pointlight FFLY1
+{
+	color 1.0 0.77 0.4
+	size 110
+	offset 0 12 0
+}
+
+pointlight FFLY2
+{
+	color 1.0 0.71 0.56
+	size 112
+	offset 0 11 0
+}
+
+pointlight FFLY3
+{
+	color 1.0 0.91 0.45
+	size 116
+	offset 0 9 0
+}
+
+pointlight FFLY4
+{
+	color 1.0 0.54 0.29
+	size 118
+	offset 0 12 0
+}
+
+//Torch fade animation
+pointlight FFLY5
+{
+	color 0.82 0.43 0.24
+	size 100
+	offset 0 7 0
+}
+
+pointlight FFLY6
+{
+	color 0.58 0.42 0.35
+	size 85
+	offset 0 10 0
+}
+
+pointlight FFLY7
+{
+	color 0.48 0.4 0.38
+	size 70
+	offset 0 9 0
+}
+
+pointlight FFLY8
+{
+	color 0.36 0.33 0.33
+	size 55
+	offset 0 8 0
+}
+
+pointlight FFLYAMB
+{
+	color 0.49 0.45 0.39
+	size 400
+	offset 0 -30 0
+}
+
+object ExFireFly
+{
+	frame FFLYA { light FFLY1 }
+	frame FFLYB { light FFLY2 }
+	frame FFLYC { light FFLY3 }
+	frame FFLYD { light FFLY4 }
+	frame FFLYE { light FFLY5 }
+	frame FFLYF { light FFLY6 }
+	frame FFLYG { light FFLY7 }
+	frame FFLYH { light FFLY8 }
+	frame FFLY  { light FFLYAMB }
+}

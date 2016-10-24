@@ -1,0 +1,31 @@
+//$gzdb_skip
+//MANA
+brightmap sprite MANAA0 { map "brightmaps/pickups/mana/MANAA0.png" }
+brightmap sprite MANAB0 { map "brightmaps/pickups/mana/MANAB0.png" }
+brightmap sprite MANAC0 { map "brightmaps/pickups/mana/MANAC0.png" }
+brightmap sprite MANAD0 { map "brightmaps/pickups/mana/MANAD0.png" }
+
+//MANA VIAL
+brightmap sprite MCLCA0 { map "brightmaps/pickups/vials/VIALA0.png" }
+brightmap sprite MCLCB0 { map "brightmaps/pickups/vials/VIALB0.png" }
+brightmap sprite MCLCC0 { map "brightmaps/pickups/vials/VIALC0.png" }
+brightmap sprite MCLCD0 { map "brightmaps/pickups/vials/VIALD0.png" }
+brightmap sprite MCLCE0 { map "brightmaps/pickups/vials/VIALE0.png" }
+brightmap sprite MCLCF0 { map "brightmaps/pickups/vials/VIALF0.png" }
+
+//HEALTH VIAL
+brightmap sprite HCLCA0 { map "brightmaps/pickups/vials/VIALA0.png" }
+brightmap sprite HCLCB0 { map "brightmaps/pickups/vials/VIALB0.png" }
+brightmap sprite HCLCC0 { map "brightmaps/pickups/vials/VIALC0.png" }
+brightmap sprite HCLCD0 { map "brightmaps/pickups/vials/VIALD0.png" }
+brightmap sprite HCLCE0 { map "brightmaps/pickups/vials/VIALE0.png" }
+brightmap sprite HCLCF0 { map "brightmaps/pickups/vials/VIALF0.png" }
+
+//SCARAB POWERUP
+brightmap sprite PSCRB0 { map "brightmaps/pickups/scarab/PSCRB0.png" }
+brightmap sprite PSCRC0 { map "brightmaps/pickups/scarab/PSCRC0.png" }
+brightmap sprite PSCRD0 { map "brightmaps/pickups/scarab/PSCRD0.png" }
+brightmap sprite PSCRE0 { map "brightmaps/pickups/scarab/PSCRE0.png" }
+brightmap sprite PSCRF0 { map "brightmaps/pickups/scarab/PSCRF0.png" }
+brightmap sprite PSCRG0 { map "brightmaps/pickups/scarab/PSCRG0.png" }
+brightmap sprite PSCRH0 { map "brightmaps/pickups/scarab/PSCRH0.png" }

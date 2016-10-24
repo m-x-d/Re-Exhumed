@@ -1,0 +1,973 @@
+#library "excommon"
+#include "zcommon.acs"
+
+//////////////////////////////////////////////////////
+//VARIABLES
+//////////////////////////////////////////////////////
+
+//Secret powerup
+str fonts[9] = {"DISCO1", "DISCO2", "DISCO3", "DISCO4", "DISCO5", "DISCO6", "DISCO7", "DISCO8", "DISCO9"};
+int shiftAmmount[5] = {0.00025, 0.0005, 0.0009, 0.0005, 0.00025}; //{0.0005, 0.001, 0.0018, 0.001, 0.0005};
+int positionsY[1];
+
+//player info
+int playerID;
+int playerNum;
+int prevHealth;
+int specialactioninprogress;
+
+//footsteps
+int stepDistance = 64.0;
+int curStepDistance;
+int lastPlayerX;
+int lastPlayerY;
+
+str footstepSounds[4] = { "explayer/footsteps/stone", "explayer/footsteps/sand", "explayer/footsteps/water", "explayer/footsteps/lava" };
+
+str texturesSand[2] = { "ART178", "ART356" }; //todo: add all relevant textures, synch with TERRAIN
+str texturesLava[2] = { "ART375", "ART388" };
+str texturesWater[1] = { "ART305" };
+
+int numSandTextures = 2;
+int numLavaTextures = 1;
+int numWaterTextures = 1;
+
+int MAT_STONE = 0;
+int MAT_SAND = 1;
+int MAT_WATER = 2;
+int MAT_LAVA = 3;
+
+//////////////////////////////////////////////////////
+//SCRIPTS
+//////////////////////////////////////////////////////
+
+script "ExMapInit" ENTER 
+{
+	Delay(1);
+	playerNum = PlayerNumber();
+	playerID = 1000 + playerNum;
+	Thing_ChangeTID (0, playerID);
+		
+	prevHealth = GetActorProperty(playerID, APROP_Health);
+	lastPlayerX = GetActorX(playerID);
+	lastPlayerY = GetActorY(playerID);
+
+	ACS_NamedExecute("ExUpdatePlayerStatus", 0);
+}
+
+script "ExUpdatePlayerStatus" (void) 
+{
+	//health bar update
+	int giveCount, takeCount, pitch;
+	int health = GetActorProperty(playerID, APROP_Health);
+	int curHealth = health / 3;
+	int markersCount = CheckActorInventory(playerID, "ExHealthMarker");
+	
+	//are we damaged, but still alive?
+	if(health < prevHealth && health > 0)
+	{
+		ACS_NamedExecute("ExOnPlayerDamaged", 0, prevHealth - health);
+	}
+
+	prevHealth = health;
+
+	//update health bar
+	if(curHealth > markersCount)
+	{
+		giveCount = curHealth - markersCount;
+		GiveActorInventory(playerID, "ExHealthMarker", giveCount);
+	}
+	else if(curHealth < markersCount)
+	{
+		takeCount = markersCount - curHealth;
+		TakeActorInventory(playerID, "ExHealthMarker", takeCount);
+	}
+
+	//are we underwater?
+	int waterlevel = GetActorProperty(playerID, APROP_Waterlevel);
+	if(waterlevel == 3)
+	{
+		//kill mummy player
+		if(CheckActorClass(playerID, "ExMummyPlayer"))
+		{
+			Thing_Damage2(playerID, 1000, MOD_WATER);
+		}
+		
+		//morph player
+		if(!CheckActorClass(playerID, "ExUnderwaterPlayer"))
+		{
+			ExMorphPlayerTo("ExUnderwaterPlayer");
+		}
+	
+		//check air supply
+		int curAirSupply = 12 - GetAirSupply(playerNum) / 43;
+		if(curAirSupply > 12) curAirSupply = 12;
+		markersCount = CheckActorInventory(playerID, "ExUnderwaterAirSupplyMarker");
+
+		if(curAirSupply > markersCount)
+		{
+			giveCount = curAirSupply - markersCount;
+			GiveActorInventory(playerID, "ExUnderwaterAirSupplyMarker", giveCount);
+		}
+		else if(curAirSupply < markersCount)
+		{
+			takeCount = markersCount - curAirSupply;
+			TakeActorInventory(playerID, "ExUnderwaterAirSupplyMarker", takeCount);
+		}
+		
+		//underwater SFX
+		GiveActorInventory(playerID, "ExUnderwaterSFXSpawner", 1);
+		
+		//air bubbles
+		GiveActorInventory(playerID, "ExUnderwaterBubbleMarker", 1);
+		if(CheckActorInventory(playerID, "ExUnderwaterBubbleMarker") > 45)
+		{
+			GiveActorInventory(playerID, "ExUwPlayerBubbleSpawner", 1);
+			TakeActorInventory(playerID, "ExUnderwaterBubbleMarker", 999);
+		}
+	} 
+	else 
+	{
+		//unmorph if needed
+		if(CheckActorClass(playerID, "ExUnderwaterPlayer"))
+		{
+			TakeActorInventory(playerID, "ExUnderwaterAirSupplyMarker", 12);
+			TakeActorInventory(playerID, "ExUnderwaterBubbleMarker", 999);
+			ExUnmorphPlayer();
+		}
+		
+		//footsteps
+		int cfz = GetActorFloorZ(playerID);
+		if(GetActorZ(playerID) - cfz == 0 && !CheckActorClass(playerID, "ExMummyPlayer")) //if we are not in the air and not a mummy
+		{ 
+			int cx = GetActorX(playerID);
+			int cy = GetActorY(playerID);
+
+			if(curStepDistance > stepDistance)
+			{
+				int material;
+				if(waterlevel > 0)
+				{
+				  material = MAT_WATER;
+				}
+				else
+				{
+					material = ExGetFloorMaterial(playerID);	
+				}
+				
+				if(material != MAT_LAVA)
+					ThingSound(playerID, footstepSounds[material], 24);
+					
+				if(material == MAT_WATER)
+					Spawn("ExWaterSplashSmall", cx + Random(-16, 16), cy + Random(-16, 16), cfz + 16);
+				else if(material == MAT_LAVA)
+					Spawn("ExSmokeSmall", cx + Random(-16, 16), cy + Random(-16, 16), cfz + 10);
+
+				curStepDistance = 0;
+			}
+			else
+			{
+				curStepDistance += VectorLength(lastPlayerX - cx, lastPlayerY - cy);
+			}
+			
+			lastPlayerX = cx;
+			lastPlayerY = cy;
+		}
+		else
+		{
+			curStepDistance = 0;
+		}
+	}
+
+	//compas
+	int angle = GetActorAngle(playerID) - 4004; //angle + 22 degrees
+	if(angle < 0) angle += 65535;
+	int direction = angle / 8190; //0..7, North is 7
+	markersCount = CheckActorInventory(playerID, "ExDirectionMarker");
+	
+	if(direction > markersCount)
+	{
+		giveCount = direction - markersCount;
+		GiveActorInventory(playerID, "ExDirectionMarker", giveCount);
+	}
+	else if(direction < markersCount)
+	{
+		takeCount = markersCount - direction;
+		TakeActorInventory(playerID, "ExDirectionMarker", takeCount);
+	}
+
+	//quotes
+	int score = CheckActorInventory(playerID, "ExScoreMarker");
+	if(score > 1000 && Random(1, 5) == 1)
+	{
+		ActivatorSound("explayer/taunt", 127);
+		TakeActorInventory(playerID, "ExScoreMarker", score);
+	}
+
+	Delay(6); //update every 1/6 second
+	if(curHealth > 0) Restart;
+}
+
+script "ExGetM60AmmoCount" (void) 
+{
+	SetResultValue(CheckActorInventory(playerID, "ExM60Bullets"));
+}
+
+script "ExGetPlayerID" (void) 
+{
+	SetResultValue(playerID);
+}
+
+script "ExPlayerIsMorphed" (void)
+{
+	SetResultValue(!CheckActorClass(playerID, "ExPlayer"));
+}
+
+script "ExUpdateTorchPowerupLight" (int tid) 
+{
+	int playerZ = GetActorZ(playerID) + GetActorViewHeight(playerID);
+	int safeceilZ = GetActorCeilingZ(playerID) - 12.0;
+	SetActorPosition(tid, GetActorX(playerID), GetActorY(playerID), MathMin(playerZ, safeceilZ), false);
+}
+
+script "ExMathClamp" (int value, int min, int max) 
+{
+	if(value < min) SetResultValue(min);
+	else if(value > max) SetResultValue(max);
+	else SetResultValue(value);
+}
+
+script "ExOnMorphMissileHit" (int x, int y, int z)
+{
+	int px = GetActorX(playerID) >> 16;
+	int py = GetActorY(playerID) >> 16;
+	int pz = GetActorZ(playerID) + GetActorFloorZ(playerID) >> 16;
+	
+	int dx, dy, dz;
+	
+	if(px > x) dx = px - x;
+	else dx = x - px;
+	
+	if(py > y) dy = py - y;
+	else dy = y - py;
+	
+	if(pz > z) dz = pz - z;
+	else dz = z - pz;
+	
+	if(dx < 28 && dy < 28 && dz < 60) ExMorphPlayerTo("ExMummyPlayer");
+}
+
+script "ExUnMorphPlayer" (void) 
+{
+	ExUnmorphPlayer();
+}
+
+script "ExGetManaAmmount" (void) 
+{
+	SetResultValue(CheckActorInventory(playerID, "ExManaAmmo"));
+}
+
+script "ExGetPlayerZ" (void) 
+{
+	SetResultValue(GetActorZ(playerID) >> 16);
+}
+
+script "ExTargetIsUnderwater" (int tid)
+{
+  int waterlevel = GetActorProperty(tid, APROP_Waterlevel);
+	SetResultValue(waterlevel > 1);
+}
+
+script "ExOnRefillAirSupplyUsed" (void) 
+{
+	int breathcounter = 0;
+	for(int i = 0; i < 300; i++)
+	{
+		SetAirSupply(playerNum, 525); //15 seconds
+		Delay(5);
+		
+		//play breating sounds every 4 seconds
+		if(breathcounter++ > 24)
+		{
+			breathcounter = 0;
+			ThingSound(playerID, "explayer/scuba", 126);
+		}
+	}
+	ThingSound(playerID, "pickups/powerup_expired", 126);
+}
+
+script "ExRefillAirSupply" (void) 
+{
+	SetAirSupply(playerNum, 525);
+}
+
+//TODO: negative values check?
+script "ExPlayerInRangeZ" (int tz, int distance) 
+{
+	int pz = GetActorZ(playerID) >> 16;
+	int dz;
+
+	if(pz > tz)
+		dz = pz - tz;
+	else
+		dz = tz - pz;
+
+	SetResultValue(dz < distance);
+}
+
+script "ExFireButtonPressed" (void)
+{
+	SetResultValue(GetPlayerInput(-1, MODINPUT_BUTTONS) & BT_ATTACK);
+}
+
+script "ExTeleportPlayer" (int teleportID, int destinationID) 
+{
+	int deltaX = GetActorX(playerID) - GetActorX(teleportID);
+	int deltaY = GetActorY(playerID) - GetActorY(teleportID);
+	SetActorPosition(playerID, GetActorX(destinationID) + deltaX, GetActorY(destinationID) + deltaY, GetActorZ(playerID), false);
+}
+
+script "ExChangePlayerHealthBy" (int ammount)
+{
+	int curhealth = GetActorProperty(playerID, APROP_Health);
+	int targethealth = curhealth + ammount;
+	if(targethealth > 100) targethealth = 100;
+	SetActorProperty(playerID, APROP_Health, targethealth);
+}
+
+
+//called when player picks up mana or uses a powerup
+script "ExUpdatePowerups" (void) 
+{
+	int manaCount = CheckActorInventory(playerID, "ExManaAmmo");
+
+	//torch, uses 3 mana
+	int itemCount = CheckActorInventory(playerID, "ExTorchPowerup");
+	if(itemCount > 0 && manaCount < 3)
+	{
+		TakeActorInventory(playerID, "ExTorchPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveTorchPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveTorchPowerup");
+		
+		if(itemCount > 0 && manaCount > 2)
+		{
+			TakeActorInventory(playerID, "ExInactiveTorchPowerup", itemCount);
+			GiveActorInventory(playerID, "ExTorchPowerup", itemCount);
+		}
+	}
+	
+	//heart, uses 15 mana
+	itemCount = CheckActorInventory(playerID, "ExFullHealthPowerup");
+	if(itemCount > 0 && manaCount < 15)
+	{
+		TakeActorInventory(playerID, "ExFullHealthPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveFullHealthPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveFullHealthPowerup");
+		
+		if(itemCount > 0 && manaCount > 14)
+		{
+			TakeActorInventory(playerID, "ExInactiveFullHealthPowerup", itemCount);
+			GiveActorInventory(playerID, "ExFullHealthPowerup", itemCount);
+		}
+	}
+	
+	//hand, uses 15 mana
+	itemCount = CheckActorInventory(playerID, "ExWeaponPowerPowerup");
+	if(itemCount > 0 && manaCount < 15)
+	{
+		TakeActorInventory(playerID, "ExWeaponPowerPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveWeaponPowerPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveWeaponPowerPowerup");
+		
+		if(itemCount > 0 && manaCount > 14)
+		{
+			TakeActorInventory(playerID, "ExInactiveWeaponPowerPowerup", itemCount);
+			GiveActorInventory(playerID, "ExWeaponPowerPowerup", itemCount);
+		}
+	}
+	
+	//eye, uses 10 mana
+	itemCount = CheckActorInventory(playerID, "ExInvisibilityPowerup");
+	if(itemCount > 0 && manaCount < 10)
+	{
+		TakeActorInventory(playerID, "ExInvisibilityPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveInvisibilityPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveInvisibilityPowerup");
+		
+		if(itemCount > 0 && manaCount > 9)
+		{
+			TakeActorInventory(playerID, "ExInactiveInvisibilityPowerup", itemCount);
+			GiveActorInventory(playerID, "ExInvisibilityPowerup", itemCount);
+		}
+	}
+
+	//scarab, uses 30 mana
+	itemCount = CheckActorInventory(playerID, "ExInvulnerabilityPowerup");
+	if(itemCount > 0 && manaCount < 30)
+	{
+		TakeActorInventory(playerID, "ExInvulnerabilityPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveInvulnerabilityPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveInvulnerabilityPowerup");
+		
+		if(itemCount > 0 && manaCount == 30)
+		{
+			TakeActorInventory(playerID, "ExInactiveInvulnerabilityPowerup", itemCount);
+			GiveActorInventory(playerID, "ExInvulnerabilityPowerup", itemCount);
+		}
+	}
+	
+	//mask, uses 6 mana
+	itemCount = CheckActorInventory(playerID, "ExBreathingMaskPowerup");
+	if(itemCount > 0 && manaCount < 6)
+	{
+		TakeActorInventory(playerID, "ExBreathingMaskPowerup", itemCount);
+		GiveActorInventory(playerID, "ExInactiveBreathingMaskPowerup", itemCount);
+	} 
+	else 
+	{
+		itemCount = CheckActorInventory(playerID, "ExInactiveBreathingMaskPowerup");
+		
+		if(itemCount > 0 && manaCount > 5)
+		{
+			TakeActorInventory(playerID, "ExInactiveBreathingMaskPowerup", itemCount);
+			GiveActorInventory(playerID, "ExBreathingMaskPowerup", itemCount);
+		}
+	}
+}
+
+script "ExThrustUnderwaterPlayer" (void) 
+{
+	int input = GetPlayerInput(-1, MODINPUT_FORWARDMOVE);
+
+	if(input > 0)
+	{
+		int pitch = GetActorPitch(0) * 20 >> 16;
+		int direction;
+		int thrust;
+
+		if(pitch > 0) 
+		{
+			direction = -1;
+			thrust = 5 - pitch;
+		}
+		else
+		{
+			direction = 1;
+			thrust = 5 + pitch;
+		}
+
+		ThrustThing(GetActorAngle(0) >> 8, thrust, 0, 0);
+		ThrustThingZ(0, pitch, direction, 1);
+	}
+}
+
+script "ExOnPlayerDeath" (void) 
+{
+	specialactioninprogress = true;
+	
+	//Set the mood :)
+	LocalSetMusic("SILENCE");
+	GiveActorInventory(playerID, "ExCutsceneMarker", 1);
+	GiveActorInventory(playerID, "ExShowStopper", 1);
+	
+	//not if in 3rd person mode
+	if(GetCVar("r_deathcamera"))
+	{
+		LocalSetMusic("Peril");
+		ACS_NamedExecute("ExDeathScreenFade", 0);
+		Terminate;
+	}
+	
+	if(GetActorZ(playerID) - GetActorFloorZ(playerID) > 0) //not on floor yet...
+	{
+		Delay(16);
+		Restart;
+	} 
+
+	Delay(48);
+	LocalSetMusic("Peril");
+
+	//Caalculate shade alpha
+	int shadealpha = ExGetHudShadeAlpha();
+
+	// Setup HUD
+	SetHudSize(320, 200, true);
+	int aligncoordx = ExGetClassicRightHudBorder();
+
+	for(int num = 1; num < 128; num++)
+	{
+		if(num == 9 || num == 13 || num == 22 || num == 77 || num == 81 || num == 92 || num == 98 || num == 116)
+		{
+			PlaySound(playerID, "bubbles/bubble", CHAN_AUTO | CHAN_NOPAUSE);	
+		}
+
+		ExDrawFakeHud("DEADHAND", "DEADHANDSHADE", num, aligncoordx, 0.1, shadealpha, 0);
+		Delay(2);
+	}
+	
+	// Wait a bit and fade out
+	ACS_NamedExecute("ExDeathScreenFade", 0);
+}
+
+script "ExOnPlayerXDeath" (void) 
+{
+	specialactioninprogress = true;
+	
+	//Set the mood :)
+	LocalSetMusic("SILENCE");
+	GiveActorInventory(playerID, "ExCutsceneMarker", 1);
+	GiveActorInventory(playerID, "ExShowStopper", 1);
+	
+	//not if in 3rd person mode
+	if(GetCVar("r_deathcamera"))
+	{
+		LocalSetMusic("Peril");
+		ACS_NamedExecute("ExDeathScreenFade", 0);
+		Terminate;
+	}
+	
+	if(GetActorZ(playerID) - GetActorFloorZ(playerID) > 0) //not on floor yet...
+	{
+		Delay(16);
+		Restart;
+	}
+	
+	Delay(48);
+	LocalSetMusic("Peril");
+		
+	//Caalculate shade alpha
+	int shadealpha = ExGetHudShadeAlpha();
+		
+	// Setup HUD
+	SetHudSize(320, 200, true);
+	int aligncoordx = ExGetClassicRightHudBorder();
+	int num;
+
+	for(num = 1; num < 24; num++)
+	{
+		ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", num, aligncoordx, 0.1, shadealpha, 0);
+		Delay(2);
+	}
+
+	ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", 24, aligncoordx, 0.1, shadealpha, 0);
+	Delay(6);
+	
+	ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", 25, aligncoordx, 0.1, shadealpha, 0);
+	Delay(4);
+	
+	for(num = 26; num < 28; num++)
+	{
+		ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", num, aligncoordx, 0.1, shadealpha, 0);
+		Delay(2);
+	}
+	
+	ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", 28, aligncoordx, 0.1, shadealpha, 0);
+	Delay(10);
+	
+	for(num = 29; num < 33; num++)
+	{
+		ExDrawFakeHud("BURNEDHAND", "BURNEDHANDSHADE", num, aligncoordx, 0.1, shadealpha, 0);
+		Delay(2);
+	}
+	
+	// Wait a bit and fade out
+	ACS_NamedExecute("ExDeathScreenFade", 0);
+}
+
+script "ExOnMorphedPlayerDeath" (void) 
+{
+	specialactioninprogress = true;
+	
+	//Set the mood :)
+	LocalSetMusic("SILENCE");
+	GiveActorInventory(playerID, "ExCutsceneMarker", 1);
+	GiveActorInventory(playerID, "ExShowStopper", 1);
+	
+	Delay(48);
+	LocalSetMusic("Peril");
+	
+	// Wait a bit and fade out
+	ACS_NamedExecute("ExDeathScreenFade", 0);
+}
+
+script "ExDeathScreenFade" (void)
+{
+  // Wait a bit
+	Delay(32);
+	
+	//Fade out
+	SetFont("FADE");
+	SetHudSize(0, 0, false);
+	int fadealpha = 0.006;
+	int fadealpha2 = 0.001;
+	int fadestep = fadealpha;
+	int fadestep2 = fadealpha2;
+	
+	for(int i = 0; i < 130; i++)
+	{
+		 HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_ALPHA, 1, 0, 0.5, 0.5, 0, fadealpha);
+		 fadealpha += fadestep;
+		 Delay(1);
+	}
+	
+	for(i = 0; i < 200; i++)
+	{
+		 SetFont("FADE");
+		 HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_ALPHA, 1, 0, 0.5, 0.5, 0, fadealpha);
+		 
+		 SetFont("FADE2");
+		 HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_ALPHA, 0, 0, 0.5, 0.5, 0, fadealpha2);
+		 
+		 fadealpha += fadestep;
+		 fadealpha2 += fadestep2;
+		 Delay(1);
+	}
+}
+
+script "ExOnPlayerDamaged" (int ammount) 
+{
+	int dirX, dirY;
+	if(ammount > 40) ammount = 40;
+	ammount = ammount << 16;
+
+	if(Random(1, 2) == 1)	dirX = 1;
+	else dirX = -1;
+	
+	if(Random(1, 2) == 1)	dirY = 0.5;
+	else dirY = -0.5;
+
+	for(int i = 0; i < 5; i++)
+	{
+		SetActorAngle(playerID, GetActorAngle(playerID) + FixedMul(ammount * dirX, shiftAmmount[i]));
+		SetActorPitch(playerID, GetActorPitch(playerID) + FixedMul(FixedMul(ammount, dirY), shiftAmmount[i]));
+		Delay(1);
+	}
+}
+
+script "ExCarryPlayerAlongY" (int moverTID, int positionSlot) 
+{
+	int moverY = GetActorY(moverTID);
+	int prevMoverY = positionsY[positionSlot];
+	
+	if(prevMoverY == 0)
+	{
+		positionsY[positionSlot] = moverY;
+		Terminate;
+	}
+
+	if(prevMoverY == moverY) Terminate;
+	
+	SetActorPosition(playerID, GetActorX(playerID), GetActorY(playerID) + (moverY - prevMoverY), GetActorZ(playerID), false);
+	positionsY[positionSlot] = moverY;
+}
+
+script "ExResetMover" (int positionSlot) 
+{
+	positionsY[positionSlot] = 0;
+}
+
+//Called from decorate
+script "ExActivatorIsOnLava" (void)
+{
+	SetResultValue(ExGetFloorMaterial(0) == MAT_LAVA);
+}
+
+//////////////////////////////////////////////////////
+//FUNCTIONS
+//////////////////////////////////////////////////////
+function void ExMorphPlayerTo(str class)
+{
+	int health = GetActorProperty (playerID, APROP_Health);
+	int vx = GetActorVelX(playerID);
+	int vy = GetActorVelY(playerID);
+	int vz = GetActorVelZ(playerID);
+	int pitch = GetActorPitch(playerID);
+	MorphActor(playerID, class, "", 1048576, MRF_WHENINVULNERABLE | MRF_FULLHEALTH | MRF_NEWTIDBEHAVIOUR | MRF_LOSEACTUALWEAPON, "ExNoFlash", "ExNoFlash");
+	SetActorVelocity(playerID, vx, vy, vz, false, false); //keep current velocity,
+	SetActorPitch(playerID, pitch); //pitch
+	SetActorProperty(playerID, APROP_Health, health); //and health
+}
+
+function void ExUnmorphPlayer(void) 
+{
+	int health = GetActorProperty (playerID, APROP_Health);
+	int vx = GetActorVelX(playerID);
+	int vy = GetActorVelY(playerID);
+	int vz = GetActorVelZ(playerID);
+	int pitch = GetActorPitch(playerID);
+	UnMorphActor(playerID);
+	SetActorVelocity(playerID, vx, vy, vz, false, false); //keep current velocity,
+	SetActorPitch(playerID, pitch); //pitch
+	SetActorProperty(playerID, APROP_Health, health); //and health
+}
+
+function int ExGetFloorMaterial(int TID) 
+{
+	for(int i = 0; i < numSandTextures; i++)
+	{
+		if(CheckActorFloorTexture(TID, texturesSand[i]))
+			return MAT_SAND;
+	}
+
+	for(i = 0; i < numWaterTextures; i++)
+	{
+		if(CheckActorFloorTexture(TID, texturesWater[i]))
+			return MAT_WATER;
+	}
+
+	for(i = 0; i < numLavaTextures; i++)
+	{
+		if(CheckActorFloorTexture(TID, texturesLava[i]))
+			return MAT_LAVA;
+	}
+
+	return MAT_STONE;
+}
+
+//MATH
+function int MathMax(int a, int b)
+{
+   if(a > b) return a;
+	 return b;
+}
+
+function int MathMin(int a, int b)
+{
+   if(a < b) return a;
+	 return b;
+}
+
+//HUD
+function int ExGetClassicRightHudBorder(void)
+{
+	//calculate virtual hud width
+	int width = GetCVar("vid_defwidth");
+	int height = GetCVar("vid_defheight");
+	int hudwidth = (FixedMul(240.0, FixedDiv(width << 16, height << 16)) + 0.5) >> 16; //calculate classic width, do some rounding, convert to int
+	
+	//calculate position at the right edge of visible HUD; .2 is there to align HudMessage to the right side of the screen.
+	return ((hudwidth - (hudwidth - 320) / 2) << 16) + 1.2;
+}
+
+function int ExGetHudShadeAlpha(void)
+{
+	// Torch powerup is active or player is standing on lava?
+	int extrabrightness = 0;
+	if(CheckActorInventory(playerID, "ExTorchActiveMarker") > 0 || ExGetFloorMaterial(playerID) == MAT_LAVA)
+	{                                    
+	   extrabrightness = 192.0;
+	}
+	
+	//Get regular brightness
+	int brightness = GetActorLightLevel(playerID) << 16;
+	
+	//Then invert the value
+	return 1.0 - FixedDiv(MathMax(brightness, extrabrightness), 256.0);
+}
+
+function void ExDrawFakeHud(str graphic, str shade, int index, int posx, int posy, int shadealpha, int holdtime)
+{
+	//Draw graphic
+	SetFont(StrParam(s:graphic, i:index));
+	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_LAYER_UNDERHUD | HUDMSG_NOTWITHFULLMAP, 3, 0, posx, posy, holdtime);
+
+	//Draw shade
+	SetFont(StrParam(s:shade, i:index));
+	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_LAYER_UNDERHUD | HUDMSG_NOTWITHFULLMAP | HUDMSG_ALPHA, 2, 0, posx, posy, holdtime, shadealpha);
+}
+
+//////////////////////////////////////////////////////
+//EXTRA KEYS
+//////////////////////////////////////////////////////
+
+//Use Torch powerup (3 mana)
+script 993 (void)
+{
+	ExUsePowerup("ExTorchPowerup", "ExInactiveTorchPowerup", 3);
+}
+
+//Use Breathing mask powerup (6 mana)
+script 994 (void)
+{
+	ExUsePowerup("ExBreathingMaskPowerup", "ExInactiveBreathingMaskPowerup", 6);
+}
+
+//Use Weapon power powerup (15 mana)
+script 995 (void)
+{
+	ExUsePowerup("ExWeaponPowerPowerup", "ExInactiveWeaponPowerPowerup", 15);
+}
+
+//Use Scarab (invulnerability) powerup (30 mana)
+script 996 (void)
+{
+	ExUsePowerup("ExInvulnerabilityPowerup", "ExInactiveInvulnerabilityPowerup", 30);
+}
+
+//Use Heart (full health) powerup (15 mana)
+script 997 (void)
+{
+	ExUsePowerup("ExFullHealthPowerup", "ExInactiveFullHealthPowerup", 15);
+}
+
+//Use Invisibility powerup (10 mana)
+script 998 (void)
+{
+	ExUsePowerup("ExInvisibilityPowerup", "ExInactiveInvisibilityPowerup", 10);
+}
+
+//Throw a grenade 
+script 999 (void)
+{
+	//Not when morphed, also not when grenades are selected as a normal weapon
+	if(!specialactioninprogress && !CheckActorClass(playerID, "ExMummyPlayer") && !CheckWeapon("ExGrenade"))
+	{
+		if(CheckActorInventory(playerID, "ExGrenadeAmmo") > 0)
+		{
+			// Block other actions
+			specialactioninprogress = true;
+			
+			//Play "pin sound"
+			PlaySound(playerID, "grenade/pin", CHAN_WEAPON, 1.0, false, ATTN_NORM);
+			
+			//Wait a bit
+			Delay(14);
+			
+			//Play "toss sound"
+			PlaySound(playerID, "grenade/toss", CHAN_WEAPON, 1.0, false, ATTN_NORM);
+			
+			//Throw with medium power
+			ACS_NamedExecute("ExThrowGrenade", 0, 12, true);
+			
+			//Wait a bit more
+			Delay(16);
+			
+			// Unblock other actions
+			specialactioninprogress = false;
+			
+			//Say quote?
+			if(Random(0, 10) > 8 && GetActorProperty (playerID, APROP_Health) > 0 && GetActorProperty(playerID, APROP_Waterlevel) < 3)
+			{
+				Delay(Random(0, 16));
+				PlaySound(playerID, "grenade/quote", CHAN_VOICE, 1.0, false, ATTN_NORM);
+			}
+		}
+		else
+		{
+			Log(s:"You don't have any grenades!");
+			PlaySound(playerID, "pickups/powerup_use_fail", CHAN_VOICE, 1.0, false, ATTN_NORM);
+		}
+	}
+	else
+	{
+		PlaySound(playerID, "pickups/powerup_use_fail", CHAN_VOICE, 1.0, false, ATTN_NORM);
+	}
+}
+
+//Quick melee (9 frames)
+script 1000 (void)
+{
+	//Not when morphed, also not when machete is selected as a normal weapon
+	if(!specialactioninprogress && CheckActorClass(playerID, "ExPlayer") && !CheckWeapon("ExMachete"))
+	{
+		// Block other actions
+		specialactioninprogress = true;
+		
+		//Caalculate shade alpha
+		int shadealpha = ExGetHudShadeAlpha();
+		
+		// Setup HUD
+		SetHudSize(320, 200, true);
+		int num;
+    
+		// Before attack
+		for(num = 1; num < 7; num++)
+		{
+			ExDrawFakeHud("MELEE", "MELEESHADE", num, 0.1, 240.2, shadealpha, 0.03);
+			Delay(1);
+		}
+		
+		// Attack
+		LineAttack(playerID, GetActorAngle(playerID) + 0.03, GetActorPitch(playerID), random(1, 8) * 3, "ExMachetePuff", "Melee", 72.0);
+		
+		// After attack
+		for(num = 7; num < 10; num++)
+		{
+			ExDrawFakeHud("MELEE", "MELEESHADE", num, 0.1, 240.2, shadealpha, 0.03);
+			Delay(1);
+		}
+		
+		//Wait a bit
+		Delay(16);
+		
+		// Unblock other actions
+		specialactioninprogress = false;		
+	}
+	else
+	{
+		PlaySound(playerID, "pickups/powerup_use_fail", CHAN_VOICE, 1.0, false, ATTN_NORM);
+	}
+}
+
+//since throwing a grenade via keyboard shortcut requires ACS anyway, let's have both weapon and key use the same piece of code...
+script "ExThrowGrenade" (int power, int usepitchpowercorrection)
+{
+	//Power is in 6-18 range
+	int speed = (cos(GetActorPitch(playerID)) * 8 >> 16) * power + 8;
+	int vspeedraw = -sin(GetActorPitch(playerID)) * 16 >> 16; 
+	int vspeed = vspeedraw * power + 80;
+	
+	if(vspeed < 64) vspeed = 64;
+	else if(vspeed > 128) vspeed = 128;
+	
+	//Half speed when crouching or looking downward
+	if((usepitchpowercorrection && vspeedraw < -4) || GetPlayerInput(playerNum, MODINPUT_BUTTONS) & BT_CROUCH)
+	{
+		speed = speed / 2;
+		vspeed = vspeed / 2;
+	} 
+	
+	//Toss them pineaples!
+	str actorname;
+	if(CheckActorInventory(playerID, "PowerWeaponLevel2") != 0)
+		 actorname = "ExThrownGrenadePowered";
+	else
+		 actorname = "ExThrownGrenade";
+	
+	SpawnProjectile(playerID, actorname, GetActorAngle(playerID) >> 8, speed, vspeed, 3, 0);
+	
+	//Remove from inventory
+	TakeActorInventory(playerID, "ExGrenadeAmmo", 1);
+}
+
+function void ExUsePowerup(str name, str inactivename, int manacost)
+{
+	if(CheckActorInventory(playerID, inactivename) > 0)
+	{
+		UseActorInventory(playerID, inactivename); //Let the actor display it's inactive message
+	}
+	else if(CheckActorInventory(playerID, name) > 0 && CheckActorInventory(playerID, "ExManaAmmo") >= manacost)
+	{
+		UseActorInventory(playerID, name);
+	}
+	else
+	{
+		Log(s:"You don't have this powerup yet!");
+		PlaySound(playerID, "pickups/powerup_use_fail", CHAN_VOICE, 1.0, false, ATTN_NORM);
+	}
+}

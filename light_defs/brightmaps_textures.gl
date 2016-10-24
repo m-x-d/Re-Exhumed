@@ -1,0 +1,29 @@
+//$gzdb_skip
+//lava_wall1
+brightmap texture ART400 { map "brightmaps/textures/ART400.png" }
+brightmap texture ART401 { map "brightmaps/textures/ART401.png" }
+
+//lava_wall1 tall
+brightmap texture LWALL11 { map "brightmaps/textures/LWALL11.png" }
+brightmap texture LWALL12 { map "brightmaps/textures/LWALL12.png" }
+
+//lava_wall2
+brightmap texture ART358 { map "brightmaps/textures/ART358.png" }
+brightmap texture ART359 { map "brightmaps/textures/ART359.png" }
+
+//lava_wall2 tall
+brightmap texture LWALL21 { map "brightmaps/textures/LWALL21.png" }
+brightmap texture LWALL22 { map "brightmaps/textures/LWALL22.png" }
+
+//key doors
+//golden, key1
+brightmap texture LDOORA1A { map "brightmaps/textures/LDOORA1A.png" }
+brightmap texture LDOORA1B { map "brightmaps/textures/LDOORA1B.png" }
+brightmap texture LDOORA1C { map "brightmaps/textures/LDOORA1C.png" }
+brightmap texture LDOORA1D { map "brightmaps/textures/LDOORA1D.png" }
+
+//golden, key2
+brightmap texture LDOORA2A { map "brightmaps/textures/LDOORA2A.png" }
+brightmap texture LDOORA2B { map "brightmaps/textures/LDOORA2B.png" }
+brightmap texture LDOORA2C { map "brightmaps/textures/LDOORA2C.png" }
+brightmap texture LDOORA2D { map "brightmaps/textures/LDOORA2D.png" }

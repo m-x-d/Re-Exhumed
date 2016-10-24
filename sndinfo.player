@@ -1,0 +1,123 @@
+//PLAYER
+explayer/xdeath    JON_FDIE //also fall death
+//explayer/land    JON_LAND
+explayer/gasp      JON_GASP
+explayer/surface   JON_RUNS
+explayer/land      FOOT_LND
+//explayer/usefail   JON_PUSH
+explayer/usefail   HUM2
+explayer/jump1     JON_JUMP
+explayer/jumpquote JON_LND2
+
+$random explayer/jump { explayer/jump1 misc/silence misc/silence misc/silence }
+
+
+explayer/dive1 BUBBLE_H
+explayer/dive2 BUBBLE_L
+
+$random explayer/dive { explayer/dive1 explayer/dive2 }
+
+explayer/scuba JON_SCUB
+
+explayer/pain1 JON_HIT1
+explayer/pain2 JON_HIT2
+explayer/pain3 JON-HIT3
+explayer/pain4 JON_PUSH
+
+$random explayer/pain { explayer/pain1 explayer/pain1 explayer/pain1 explayer/pain2 explayer/pain2 explayer/pain2 explayer/pain3 explayer/pain4 explayer/pain4 explayer/pain4 }
+
+
+explayer/death1 JON_DIE1
+explayer/death2 JON_DIE2
+explayer/death3 JON_DIE3
+
+$random explayer/death { explayer/death1 explayer/death2 explayer/death3 }
+
+
+explayer/fall1 JON_FALL
+explayer/fall2 JONDETH1
+
+$random explayer/fall { explayer/fall1 explayer/fall2 }
+
+explayer/laugh  JON_LAF1
+
+explayer/taunt1 JON-T-1
+explayer/taunt2 JON-T-2
+explayer/taunt3 JON-T-3
+explayer/taunt4 JON-T-4
+explayer/taunt5 JON-T-5
+explayer/taunt6 JON-T-6
+explayer/taunt7 JON-T-7
+
+$random explayer/taunt { explayer/laugh explayer/taunt1 explayer/taunt2 explayer/taunt3 explayer/taunt4 explayer/taunt5 explayer/taunt6 explayer/taunt7 }
+
+//footsteps
+explayer/footsteps/sand1      FOOT_DL
+explayer/footsteps/sand2      FOOT_DR
+$random explayer/footsteps/sand { explayer/footsteps/sand1 explayer/footsteps/sand2 }
+
+explayer/footsteps/stone1     FOOT_SL
+explayer/footsteps/stone2     FOOT_SR
+$random explayer/footsteps/stone { explayer/footsteps/stone1 explayer/footsteps/stone2 }
+
+explayer/footsteps/lava       FOOT_LAV
+$volume explayer/footsteps/lava 0.6
+
+explayer/footsteps/water     JON_WADE
+
+explayer/footsteps/land_sand  FOOT_LND
+$volume explayer/footsteps/land_sand 0.7
+
+explayer/footsteps/land_stone FOOT_LNS
+$volume explayer/footsteps/land_stone 0.3
+
+explayer/footsteps/land_water SPL_BIG
+$volume explayer/footsteps/land_water 0.7
+
+//ALIASES
+$playeralias    john male *death   explayer/death
+$playeralias    john male *xdeath  explayer/xdeath
+$playeralias    john male *splat   explayer/xdeath
+$playeralias    john male *falling explayer/fall
+//$playeralias    john male *land    explayer/land //this is assigned via TERRAIN
+$playeralias    john male *jump    explayer/jump
+$playeralias    john male *dive    explayer/dive
+$playeralias    john male *surface explayer/surface
+$playeralias    john male *gasp    explayer/gasp
+$playeralias    john male *pain100 explayer/pain
+$playeralias    john male *usefail explayer/usefail
+$playersounddup	john male *pain75  *pain100
+$playersounddup	john male *pain50  *pain100
+$playersounddup	john male *pain25  *pain100
+
+
+//UNDERWATER PLAYER
+explayeruw/airplant JON_BNST
+explayeruw/death    JON_DRWN
+
+explayeruw/drown1 JON_AIR1
+explayeruw/drown2 JON_AIR2
+
+$random explayeruw/drown { explayeruw/drown1 explayeruw/drown1 }
+
+explayeruw/bubble1 BUBBLE_H
+explayeruw/bubble2 BUBBLE_L
+
+$random explayeruw/bubble { explayeruw/bubble1 explayeruw/bubble2 }
+
+explayeruw/swim1 J_SWIM1
+explayeruw/swim2 J_SWIM2
+explayeruw/swim3 J_SWIM3
+explayeruw/swim4 J_SWIM4
+
+$random explayeruw/swim { explayeruw/swim1 explayeruw/swim2 explayeruw/swim3 explayeruw/swim4 }
+
+//ALIASES
+/*$playeralias    johnuw male *death   explayeruw/death
+$playeralias    johnuw male *xdeath  explayeruw/death
+$playeralias    johnuw male *splat   explayeruw/death
+$playeralias    johnuw male *pain100 explayeruw/drown
+$playeralias    johnuw male *usefail misc/silence
+$playersounddup	johnuw male *pain75  *pain100
+$playersounddup	johnuw male *pain50  *pain100
+$playersounddup	johnuw male *pain25  *pain100*/

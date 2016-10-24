@@ -1,0 +1,61 @@
+//pottery
+pottery/break  POT_POW
+pottery/chunk1 POT_PC1
+pottery/chunk2 POT_PC2
+pottery/chunk3 POT_PC3
+
+$random pottery/chunk { pottery/chunk1 pottery/chunk2 pottery/chunk3 }
+
+//bubbles
+bubbles/bubble1 BLOOD_1
+bubbles/bubble2 BLOOD_2
+bubbles/bubble3 BLOOD_3
+bubbles/bubble4 BLOOD_4
+
+$random bubbles/bubble { bubbles/bubble1 bubbles/bubble2 bubbles/bubble3 bubbles/bubble4 }
+
+//gore
+gore/splat1 SPLAT1
+gore/splat2 SPLAT2
+gore/splat3 SPLAT3
+gore/splat4 SPLAT4
+gore/splat5 SPLAT5
+gore/splat6 SPLAT6
+gore/splat7 SPLAT7
+gore/splat8 SPLAT8
+gore/splat9 SPLAT9
+gore/splat10 SPLAT10
+
+$random gore/splat { gore/splat1 gore/splat2 gore/splat3 gore/splat4 gore/splat5 gore/splat6 gore/splat7 gore/splat8 gore/splat9 gore/splat10 }
+$limit gore/splat 3
+
+//water
+water/splash_small SPL_SMAL
+
+//water drips
+water/drip1 w_drip1
+water/drip2 w_drip2
+water/drip3 w_drip3
+water/drip4 w_drip4
+water/drip5 w_drip5
+
+$random water/drip { water/drip1 water/drip2 water/drip3 water/drip4 water/drip5 }
+$rolloff water/drip 96 400
+
+//stones
+stone/break CAT_BRAK
+$limit stone/break 3
+$volume stone/break 0.2
+
+stone/break_loud
+$limit stone/break_loud 3
+$volume stone/break_loud 0.4
+
+//SPECIAL USE
+sfx/lid_bang fx_bang //http://freesound.org/people/bareform/sounds/218723/
+sfx/rumble fx_rmbl //http://freesound.org/people/SoundsExciting/sounds/204517/
+sfx/lid_impact fx_impct //http://www.freesound.org/people/Northern_Monkey/sounds/177242/
+
+//CUTSCENES
+cutscenes/map01 cs_map01 //Track 03 on Poweslave CD
+$pitchshift cutscenes/map01 0

@@ -1,0 +1,27 @@
+pickups/berries1         JON_GLP1
+pickups/berries2         JON_GLP2
+pickups/mana1            MANA1
+pickups/mana2            MANA2
+pickups/health_vial      JON_BBWL
+pickups/poison_vial      JON_POIS
+pickups/ammo             AMMO
+pickups/weapon           WEAPON
+pickups/key              ITEM_KEY
+pickups/powerup          ITEM_SPE
+pickups/weapon_power_use WPOWER
+pickups/powerup_use      ITEM_USE
+pickups/powerup_use_fail ITEM_REG
+pickups/powerup_expired  SAW_ON
+
+$pitchshift pickups/powerup_use 0
+$pitchshift pickups/powerup_use_fail 0
+$pitchshift pickups/powerup_expired 0
+$pitchshift pickups/weapon_power_use 0
+
+$random pickups/berries { pickups/berries1 pickups/berries2 }
+$random pickups/mana { pickups/mana1 pickups/mana2 }
+
+//powerups
+pickups/torch_loop TORCH
+pickups/torch_use  TORCH_ON
+pickups/heart      AMB_HART

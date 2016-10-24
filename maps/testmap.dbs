@@ -1,0 +1,89 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "GZDoom_ExhumedUDMF.cfg";
+strictpatches = 0;
+
+maps
+{
+	
+	MAP01
+	{
+		
+		resources
+		{
+			
+			resource0
+			{
+				type = 0;
+				location = "D:\\dev\\PowerslaveTC\\game\\fakeiwad.wad";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 0;
+			}
+			
+		}
+		
+		
+		grid
+		{
+			background = "";
+			backsource = 0;
+			backoffsetx = 0;
+			backoffsety = 0;
+			backscalex = 100;
+			backscaley = 100;
+			gridsize = 16;
+		}
+		
+		defaultfloortexture = "ART178";
+		defaultceiltexture = "F_SKY";
+		defaulttoptexture = "ART5";
+		defaultwalltexture = "ART5";
+		defaultbottomtexture = "ART5";
+		custombrightness = 196;
+		customfloorheight = 0;
+		customceilheight = 128;
+		overridefloortexture = false;
+		overrideceiltexture = false;
+		overridetoptexture = false;
+		overridemiddletexture = false;
+		overridebottomtexture = false;
+		overridefloorheight = false;
+		overrideceilheight = false;
+		overridebrightness = false;
+		scriptcompiler = "zdoom_acs.cfg";
+		uselongtexturenames = false;
+		
+		fieldtypes
+		{
+			
+			linedef
+			{
+				arg0str = 2;
+			}
+			
+			
+			sidedef
+			{
+				offsetx_mid = 1;
+				offsety_mid = 1;
+				offsetx_bottom = 1;
+				offsety_bottom = 1;
+				scalex_bottom = 1;
+				scaley_bottom = 1;
+				offsetx_top = 1;
+				offsety_top = 1;
+			}
+			
+			
+			sector
+			{
+				xscalefloor = 1;
+				yscalefloor = 1;
+			}
+			
+		}
+		
+	}
+	
+}
+

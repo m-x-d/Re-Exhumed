@@ -1,0 +1,162 @@
+actor ExGrenade : ExWeapon 878 
+{
+	//$Category Weapons
+	//$Title Handy Grenade
+	
+	Radius 16
+	Height 16
+
+	Weapon.SlotNumber 5
+	Weapon.Ammotype "ExGrenadeAmmo"
+	Weapon.Ammouse 1
+	Weapon.Ammogive 1
+	Weapon.SisterWeapon ExGrenadePowered
+	Scale 0.4
+	Inventory.Pickupmessage "Grenade"
+	DamageType Explosive
+	
+	+WEAPON.NOAUTOFIRE
+	+WEAPON.NOALERT
+	+WEAPON.EXPLOSIVE
+	+WEAPON.NO_AUTO_SWITCH
+	+EXTREMEDEATH
+	-COUNTITEM
+
+	States
+	{
+		Spawn:
+			AGRN A -1
+			stop
+			
+		Ready:
+			GRNS H 0 A_SetCrosshair(8)
+			GRNS H 1 A_WeaponReady
+			loop
+			
+		ReadyNoAmmo:
+			NULL A 1 A_JumpIfInventory("ExGrenadeAmmo", 1, "FakeSelect")
+			NULL A 1 A_WeaponReady
+			loop
+			
+		Select:
+			GRNS A 0 A_SetCrosshair(8)
+			GRNS ABCDEFGH 1 Offset(0, 32)
+			GRNS H 0 A_Raise
+			wait
+			
+		FakeSelect:
+			GRNS ABCDEFGH 1
+			goto Ready
+			
+		Deselect:
+			NULL A 0 A_JumpIfNoAmmo("DeselectNoAmmo")
+			GR4F HGFEDCBA 1
+			GR4F A 0 A_Lower
+			wait
+			
+		DeselectNoAmmo:
+			NULL A 1 A_Lower
+			loop
+			
+		Fire:
+			NULL A 0 A_SetArg(0, 4)
+			GR1F ABCDEFG 1
+			GR1F H 2
+			GR1F IJKL 1
+			GR1F M 2
+			GR1F N 1
+			GR1F O 1 A_PlayWeaponSound("grenade/pin")
+			GR1F PQRSTUVWX 1
+			goto Hold
+
+		Hold:
+			NULL A 4 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_Refire
+			GR2F ABCD 1
+			GR2F E 1 ACS_NamedExecute("ExThrowGrenade", 0, args[0], false)
+			GR2F F 1 A_PlayWeaponSound("grenade/toss")
+			GR2F G 1
+			GR2F H 7
+			NULL A 0 A_Jump(40, "TossQuote")
+			goto HoldFinish
+
+		HoldFinish:
+			GR2F IJKLMNOPQRSTUVWXYZ 1
+			NULL A 0 A_JumpIfNoAmmo("ReadyNoAmmo")
+			GR3F ABCDEFGHIJKLMNO 1
+			NULL A 14
+			GR4F ABCDEFGH 1
+			goto Ready
+			
+		TossQuote:
+			NULL A 0 A_PlayWeaponSound("grenade/quote")
+			goto HoldFinish
+	}
+}
+
+//$gzdb_skip
+actor ExThrownGrenade
+{
+	Radius 4
+	Height 8
+	Mass 35
+	Damage 0
+	BounceType "Grenade"
+	DamageType "Explosive"
+	BounceFactor 0.5
+	MaxStepHeight 4
+	ReactionTime 25
+	Scale 0.15
+	
+	DeathSound "grenade/explosion"
+	BounceSound "grenade/drop"
+
+	Projectile
+	
+	-NOGRAVITY
+	+BOUNCEONACTORS
+	+ALLOWBOUNCEONACTORS
+	+CANBOUNCEWATER
+	+BOUNCEAUTOOFF
+	+MOVEWITHSECTOR
+	+DONTSPLASH
+
+	States
+	{
+		Spawn:
+			GRNP A 0
+			goto FlyLoop
+		
+		FlyLoop:
+			"####" "A" 0 A_JumpIf(waterlevel == 3, "AdjustMass")
+			"####" "ABCDEFG" 3 A_Countdown
+			"####" "A" 0 A_ScaleVelocity(0.85)
+			"####" "A" 0 A_JumpIf((velx < 13 && vely < 13 && velz < 3 && z - floorz < 6 && waterlevel < 3), "PreRoll")
+			loop
+
+		PreRoll:
+			"####" "A" 0 A_ChangeFlag("NOBOUNCESOUND", 1)
+			"####" "A" 0 A_ChangeVelocity(velx, vely, 0.0, CVF_REPLACE)
+			"####" "A" 0 A_SetMass(2000) //stop bouncing around!
+			goto Roll
+
+		Roll:
+			"####" "G" 3 A_PlaySound("grenade/roll", CHAN_AUTO, 0.7, true, 2)
+			"####" "#" 0 A_ScaleVelocity(0.65) //0.9
+			"####" "#" 0 A_Countdown
+			loop
+			
+		AdjustMass:
+			"####" "#" 0 A_SetMass(400)
+			"####" "#" 0 A_ScaleVelocity(0.7)
+			goto FlyLoop + 1	
+
+		Death:
+			"####" "G" 1 A_Scream
+			"####" "G" 0 A_AlertMonsters(2048)
+			NULL A 0 A_Explode(200, 190)
+			NULL A 1 A_SpawnItemEx("ExGrenadeExplosion", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			NULL AAA 0 A_SpawnItemEx("ExSmoke", Random(10, 30), Random(10, 30), Random(10, 30), 0, 0, 0, 0, SXF_NOCHECKPOSITION, 200)
+			stop
+	}
+}

@@ -1,0 +1,10 @@
+#include light_defs/brightmaps_enemies.gl
+#include light_defs/brightmaps_pickups.gl
+#include light_defs/brightmaps_weapons.gl
+#include light_defs/brightmaps_textures.gl
+#include light_defs/glowing_flats.gl
+#include light_defs/lights.gl
+#include light_defs/lights_powerups.gl
+#include light_defs/projectiles.gl
+#include light_defs/sfx.gl
+#include light_defs/shadows.gl

@@ -1,0 +1,82 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "GZDoom_ExhumedUDMF.cfg";
+strictpatches = 0;
+
+maps
+{
+	
+	MAP01
+	{
+		
+		resources
+		{
+		}
+		
+		
+		grid
+		{
+			background = "";
+			backsource = 0;
+			backoffsetx = 0;
+			backoffsety = 0;
+			backscalex = 100;
+			backscaley = 100;
+			gridsize = 16;
+		}
+		
+	}
+	
+	
+	TITLEMAP
+	{
+		
+		grid
+		{
+			backoffsety = 0;
+			backoffsetx = 0;
+			backscalex = 100;
+			gridsize = 16;
+			background = "";
+			backsource = 0;
+			backscaley = 100;
+		}
+		
+		
+		resources
+		{
+		}
+		
+		defaultfloortexture = "ART5";
+		defaultceiltexture = "ART5";
+		defaulttoptexture = "ART5";
+		defaultwalltexture = "ART5";
+		defaultbottomtexture = "ART5";
+		custombrightness = 196;
+		customfloorheight = 0;
+		customceilheight = 128;
+		overridefloortexture = false;
+		overrideceiltexture = false;
+		overridetoptexture = false;
+		overridemiddletexture = false;
+		overridebottomtexture = false;
+		overridefloorheight = false;
+		overrideceilheight = false;
+		overridebrightness = false;
+		uselongtexturenames = false;
+		scriptcompiler = "zdoom_acs.cfg";
+		
+		fieldtypes
+		{
+			
+			sidedef
+			{
+				offsetx_mid = 1;
+				offsety_mid = 1;
+			}
+			
+		}
+		
+	}
+	
+}
+

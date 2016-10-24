@@ -1,0 +1,65 @@
+actor ExRedPillow1 : ExDecoration 2083
+{
+	//$Category Decoration
+	//$Title Red pillow
+		
+	radius 14
+	height 25
+
+	States
+	{
+		Spawn:
+			PLW1 A -1
+			stop
+	}
+}
+
+actor ExRedPillow2 : ExDecoration 2084
+{
+	//$Category Decoration
+	//$Title Red pillow with fringe
+	
+	radius 14
+	height 25
+
+	States
+	{
+		Spawn:
+			PLW2 A -1
+			stop
+	}
+}
+
+actor ExGreenPillow : ExDecoration 2085
+{
+	//$Category Decoration
+	//$Title Green pillow
+	
+	radius 14
+	height 10
+
+	States
+	{
+		Spawn:
+			PLW3 A -1
+			stop
+	}
+}
+
+actor ExBluePillow : ExDecoration 2089
+{
+	//$Category Decoration
+	//$Title Blue pillow
+	
+	radius 14
+	height 25
+
+	States
+	{
+		Spawn:
+			PLW4 A -1
+			stop
+	}
+}
+
+

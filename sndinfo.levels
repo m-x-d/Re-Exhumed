@@ -1,0 +1,34 @@
+//map sounds
+
+//doors
+door/start      MOVESTRT
+door/stop       MOVESTOP
+door/stone/move STONEMOV
+$alias crusher/stone/move door/stone/move
+$alias crusher/stop door/stop
+$rolloff crusher/stone/move 128 600
+$rolloff crusher/stop 128 600
+
+//pillar
+pillar/start VATR_ON
+pillar/stop  VATR_OFF
+pillar/move  TR_TUMBL
+$volume pillar/start 0.6
+$volume pillar/stop 0.6
+$volume pillar/move 0.2
+$rolloff pillar/start 128 720
+$rolloff pillar/stop 128 720
+$rolloff pillar/move 128 720
+
+//switches
+switches/switch1 SWI_FOOT
+switches/switch2 SWI_TUT
+
+//traps
+traps/fireball     TR_FIRE
+traps/arrow        TR_ARROW
+fireball/fly       ON_FIRE
+fireball/explosion fb_explo //made from http://www.freesound.org/people/harpoyume/sounds/86032/
+arrow/fly          arr_fly  //made from http://freesound.org/people/Yap_Audio_Production/sounds/218463/
+arrow/hit          arr_hit  //made from http://freesound.org/people/Yap_Audio_Production/sounds/218463/
+$rolloff arrow/hit 200 700

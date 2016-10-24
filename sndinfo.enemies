@@ -1,0 +1,88 @@
+//rat
+rat/wander BATSRATS
+rat/death  SPISPLAT
+$volume rat/death 0.8
+
+$rolloff rat/wander 32 320
+
+//spider
+spider/see    SPI_JUMP
+spider/attack SPI_ATAK
+spider/pain   SPI-HURT
+spider/death1 SPI_DETH
+spider/death2 SPI_NEWD
+spider/walk   SPI_WALK
+
+$random spider/death { spider/death1 spider/death2 }
+
+//anubis
+anubis/see        ANU_ICU
+anubis/attack     ANU_FIRE
+anubis/pain       ANU_HIT
+anubis/death1     ANU_DETH
+//anubis/death2     ANU_DIE3 //broken
+anubis/death3     ANU_DIED
+anubis/death4     ANU_DIES
+anubis/walk       ANU_WALK
+anubis/proj_hit   CO_FIRES
+anubis/proj_fly   ANU_PROJ //made from http://www.freesound.org/people/NOISE.INC/sounds/45388/ 
+
+//made from http://freesound.org/people/mmaruska/sounds/180650/
+anubis/step1      anu_stp1
+anubis/step2      anu_stp2
+
+$random anubis/death  { anubis/death1 /*anubis/death2*/ anubis/death3 anubis/death4 }
+$random anubis/wander { anubis/walk anubis/see  }
+$random anubis/step   { anubis/step1 anubis/step2 }
+
+//bastet
+bastet/stonebreak CAT_BRAK
+$volume stone/break 0.7
+
+//piranha
+piranha/see        FISH_SEE
+piranha/attack1    FISHBITE
+piranha/attack2    FISHBIT2
+piranha/death1     FISHDETH
+piranha/death2     FISHDIES
+piranha/jumpsplash SPL_BIG
+//$volume piranha/jumpsplash 0.7
+
+$random piranha/death  { piranha/death1 piranha/death2 }
+$random piranha/attack { piranha/attack1 piranha/attack2}
+
+//mummy
+mummy/chant1 M_CHANT0
+mummy/chant2 M_CHANT1
+mummy/chant3 M_CHANT2
+mummy/chant4 M_MUMBLE
+mummy/chant5 M_NESHEE
+mummy/chant6 M_RESCH2
+mummy/chant7 M_WATHA
+mummy/chant8 M_YMOTOB
+
+$random mummy/chant { mummy/chant1 mummy/chant2 mummy/chant3 mummy/chant4 mummy/chant5 mummy/chant6 mummy/chant7 mummy/chant8 }
+
+mummy/death1 M_DETH1
+mummy/death2 M_DETH2
+
+$random mummy/death { mummy/death1 mummy/death2 }
+
+mummy/morph   M_MORPH
+mummy/unmorph M_MORPH3
+mummy/crack   M_CRACKL
+mummy/unwrap  M_UNWRAP
+
+mummy/hit          M_HITS_U
+mummy/staff_attack M_NSTAFF
+mummy/staff_walk   M_HIT
+mummy/staff_fall   M_STAFF
+
+mummy/poj_spawn1 M_RSKULL
+mummy/poj_spawn2 M_SKULL
+mummy/poj_spawn3 M_SKULL2
+
+$random mummy/poj_spawn { poj_spawn1 poj_spawn2 poj_spawn3 }
+
+mummy/poj_fly M_SKUL41
+mummy/poj_hit M_SKUL_W

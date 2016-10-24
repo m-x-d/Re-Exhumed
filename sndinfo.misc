@@ -1,0 +1,39 @@
+misc/silence    SILENCE
+misc/savescarab MENU_UP2
+misc/secret     SECRET
+$volume misc/secret 0.6
+
+//titlemap
+title/quote1 JON_LAF2
+title/quote2 WIJAF1
+title/quote3 SPACE
+$pitchshift title/quote1 0
+$pitchshift title/quote2 0
+$pitchshift title/quote3 0
+
+//intro cast - made from http://www.freesound.org/people/Guitarz1970/sounds/30208/
+title/cast1 TM_CAST1
+title/cast2 TM_CAST2
+title/cast3 TM_CAST3
+title/cast4 TM_CAST4
+$pitchshift title/cast1 0
+$pitchshift title/cast2 0
+$pitchshift title/cast3 0
+$pitchshift title/cast4 0
+
+//menu sounds
+//TODO: use aliases here 
+menu/activate MOVESTRT  // Activate a new menu //MOVESTRT == SWI_FOOT!
+menu/choose   SWI_WTR1
+menu/dismiss  SWI_WTR1
+menu/cursor   MOVESTRT  // Move cursor up/down
+$alias menu/change  magnum/click
+$alias menu/backup  misc/savescarab
+
+/*menu/backup			dsswtchn	// Backup to previous menu
+menu/prompt			dsswtchn	// Activate a prompt "menu"
+menu/change			dsstnmov	// Select new value for option
+menu/invalid			dsoof		// Menu not available
+menu/dismiss			dsswtchx	// Dismiss a prompt message
+menu/choose			dspistol	// Choose a menu item
+menu/clear			dsswtchx	// Close top menu*/

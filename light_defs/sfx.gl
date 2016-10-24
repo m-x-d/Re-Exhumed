@@ -1,0 +1,114 @@
+//$gzdb_skip
+//bullet puff
+pointlight BPUFF1
+{
+	color 1.0 0.93 0.76
+	size 18
+	offset 0 0 0
+}
+
+pointlight BPUFF2
+{
+	color 0.68 0.64 0.52
+	size 12
+	offset 0 0 0
+}
+
+object ExBulletPuff
+{
+	frame BPUFA { light BPUFF1 }
+	frame BPUFB { light BPUFF2 }
+}
+
+object ExMachetePuff
+{
+	frame BPUFA  { light BPUFF1 }
+	frame BPUFB  { light BPUFF2 }
+}
+
+//grenade explosion
+pointlight EXPLOSION1_1
+{
+	color 1.0 0.74 0.4
+	size 99
+	offset 0 16 0
+}
+
+pointlight EXPLOSION1_2
+{
+	color 0.89 0.44 0.0
+	size 90
+	offset 0 16 0
+}
+
+pointlight EXPLOSION1_3
+{
+	color 0.69 0.44 0.22
+	size 81
+	offset 0 16 0
+}
+
+pointlight EXPLOSION1_4
+{
+	color 0.39 0.25 0.13
+	size 76
+	offset 0 16 0
+}
+
+pointlight EXPLOSION1_5
+{
+	color 0.25 0.16 0.08
+	size 62
+	offset 0 16 0
+}
+
+pointlight EXPLOSION1_6 
+{
+	color 0.09 0.06 0.03
+	size 53
+	offset 0 16 0
+}
+
+object ExExplosionTop
+{
+  frame NXPLA { light EXPLOSION1_1 }
+	frame NXPLB { light EXPLOSION1_1 }
+	frame NXPLC { light EXPLOSION1_1 }
+	frame NXPLD { light EXPLOSION1_2 }
+	frame NXPLE { light EXPLOSION1_2 }
+	frame NXPLF { light EXPLOSION1_2 }
+	frame NXPLG { light EXPLOSION1_3 }
+	frame NXPLH { light EXPLOSION1_3 }
+	frame NXPLI { light EXPLOSION1_3 }
+	frame NXPLJ { light EXPLOSION1_4 }
+	frame NXPLK { light EXPLOSION1_4 }
+	frame NXPLL { light EXPLOSION1_5 }
+	frame NXPLM { light EXPLOSION1_5 }
+	frame NXPLN { light EXPLOSION1_6 }
+}
+
+//powered grenade
+pointlight GRENADELIGHT
+{
+	color 0.49 0.04 0.00
+	size 40 //16
+	offset 0 6 0
+}
+
+object ExThrownGrenadePowered
+{
+	frame PRNP { light GRENADELIGHT }
+}
+
+//mummy player staff attack
+pointlight MSTAFFFIRE
+{
+	color 0.9 0.8 0.7
+	size 256
+	offset 0 50 0
+}
+
+object ExMummyStaff
+{
+	frame WSTFR { light MSTAFFFIRE }
+}

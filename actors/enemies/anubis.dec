@@ -1,0 +1,220 @@
+actor ExAnubis : ExEnemy 2331
+{
+	//$Category Monsters
+	//$Title Anubis zombie
+	
+	Radius 16
+	Height 66
+	XScale 0.52
+	YScale 0.55
+
+	Speed 1
+	Health 58
+	MeleeRange 48
+	MaxDropOffHeight 96 //256
+	MinMissileChance 480
+	PainChance 80 //100 in PT 1.1
+	Accuracy 100
+	
+	DamageFactor "ExMummyAttack", 0.0
+
+	SeeSound "anubis/see"
+	PainSound "anubis/pain"
+	DeathSound "anubis/death"
+	
+	+JUMPDOWN
+
+	States
+	{
+		Spawn:
+			NUBI A 0 NoDelay A_SetScale(ScaleX + frandom(-0.05, 0.1), ScaleY + frandom(-0.02, 0.05))
+			goto Idle
+		
+		Idle:
+			NUBI A 2 A_LookEx(0, 0, 0, 1024)
+			loop	
+			
+		See:
+			NUBW AAAAAA 1 A_Chase
+			NULL A 0 A_PlaySound("anubis/step", CHAN_AUTO, 2.0, false, ATTN_NORM)
+			NULL A 0 ThrustThing(angle*256/360, 1, 0, 0)
+			NUBW BBBBBB 1 A_Chase
+			NULL A 0 ThrustThing(angle*256/360, 1, 0, 0)
+			NUBW CCCCCC 1 A_Chase
+			NULL A 0 A_PlaySound("anubis/step", CHAN_AUTO, 2.0, false, ATTN_NORM)
+			NULL A 0 ThrustThing(angle*256/360, 1, 0, 0)
+			NUBW BBBBBB 1 A_Chase
+			NULL A 0 ThrustThing(angle*256/360, 1, 0, 0)
+			NULL A 0 A_JumpIf(Random(1, 8) == 1, "Growl")
+			loop
+			
+		Growl: 
+			NULL A 0 A_PlaySound("anubis/wander", CHAN_AUTO, 0.5)
+			goto See
+			
+		Missile:
+			NULL A 0 A_FaceTarget
+			NUBA ABC 3
+			NULL A 0 A_PlaySound("anubis/attack", CHAN_AUTO, 0.5)
+			NULL A 0 A_Jump(128, "MultiMissile", "MultiMissile", "MultiMissile", "TripleMissile", "TripleMissile")
+			NUBA D 3 A_CustomMissile("ExAnubisMissile", 48, 0)
+			NUBA ED 4
+			goto See
+
+		TripleMissile:
+			NULL A 0 A_CustomMissile("ExAnubisMissile", 48, 0, -5)
+			NULL A 0 A_CustomMissile("ExAnubisMissile", 48, 0)
+			NULL A 0 A_CustomMissile("ExAnubisMissile", 48, 0, 5)
+			NUBA DED 3
+			goto See
+			
+		MultiMissile:
+			NUBA DDD 2 A_CustomMissile("ExAnubisMissile", 48, 0)
+			NUBA ED 4
+			goto See
+
+		Melee:
+			NULL A 0 A_FaceTarget
+			NUBA D 4
+			NUBA E 4 A_CustomMeleeAttack(5)
+			NULL A 0 A_PlaySound("mummy/hit", CHAN_AUTO, 0.5)
+			NUBA DF 4
+			NUBA G 4
+			NUBA H 4 A_CustomMeleeAttack(5)
+			NUBA G 4 A_PlaySound("mummy/hit", CHAN_AUTO, 0.5)
+			goto See
+
+		Pain:
+			NUBP A 12 A_Pain
+			goto See
+
+		Death:
+			NUBD A 0 A_SetScale(ScaleX * RandomPick(1, -1), ScaleY)
+			NUBD A 5 A_ScreamAndUnblock
+			NULL A 0 A_GiveToTarget("ExScoreMarker", 100)
+			NUBD BCDEF 5
+			NULL A 0 A_SpawnItemEx("ExMana")
+			NUBD G -1
+			stop
+
+		XDeath:
+			NUBD A 0 A_SetScale(ScaleX * RandomPick(1, -1), ScaleY)
+			NUBX A 5 A_ScreamAndUnblock
+			NULL A 0 A_GiveToTarget("ExScoreMarker", 250)
+			NUBX BC 5
+			NULL A 0 A_SpawnItemEx("ExGore1", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore2", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore3", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore4", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore5", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore7", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGoreRibcage", 0, 0, 35, Random(-5, 5), Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExBloodCloud", 0, 0, 35)
+			NUBX D 5
+			NULL A 0 A_SpawnItemEx("ExAnubisGoreHead", 0, 0, 50, Random(-4, 4), Random(-4, 4), Random(0, 2), Random(0, 256), 0, 0)
+			NULL A 0 A_SpawnItemEx("ExAnubisGoreTorso", 0, 0, 30, Random(-4, 4), Random(-4, 4), Random(0, 2), Random(0, 256), 0, 0)
+			NULL A 0 A_SpawnItemEx("ExGoreGuts", 0, 0, 30, Random(-4, 4), Random(-4, 4), Random(0, 2), Random(0, 256), 0, 0)
+			NULL AA 0 A_SpawnItemEx("ExAnubisGoreHand", 0, 0, 44, Random(-4, 4), Random(-4, 4), Random(0, 2), Random(0, 256), 0, 0)
+			NUBX E 5
+			NULL A 0 A_SpawnItemEx("ExMana")
+			NUBX F -1
+			stop
+	}
+}
+
+actor ExAnubisMissileSmoke : ExSmoke
+{
+	RenderStyle Stencil
+	StencilColor "3e 75 8c"
+	Scale 0.25
+	Alpha 0.4
+}
+
+actor ExAnubisMissile
+{
+	Health 1000
+	Speed 15
+	Radius 8
+	Height 16
+	Damage (random(12, 16)) //was 2 in Public Test 1 
+	Scale 0.4
+	Decal "ExAnubisMissileScorch"
+	RenderStyle Add
+	DeathSound "anubis/proj_hit"
+	
+	Projectile
+	+FLOORCLIP
+	+NOEXTREMEDEATH
+	+FORCEXYBILLBOARD
+
+	States
+	{
+		Spawn:
+			NPRJ A 0 NoDelay A_PlaySound("anubis/proj_fly", CHAN_AUTO, 1.0, true, ATTN_IDLE)
+			goto Fly
+		  
+		Fly:	
+			NPRJ A 0 A_ScaleVelocity(1.05)
+			NPRJ AAAA 1 A_SpawnItemEx("ExAnubisMissileSmoke", 0, 0, 0, velx * 0.1, vely * 0.1, velz * 0.1 + FRandom(0.1, 0.5), angle, SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM)
+			NPRJ B 0 A_ScaleVelocity(1.05)
+			NPRJ BBBB 1 A_SpawnItemEx("ExAnubisMissileSmoke", 0, 0, 0, velx * 0.1, vely * 0.1, velz * 0.1 + FRandom(0.1, 0.5), angle, SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM)
+			NPRJ C 0 A_ScaleVelocity(1.05)
+			NPRJ CCCC 1 A_SpawnItemEx("ExAnubisMissileSmoke", 0, 0, 0, velx * 0.1, vely * 0.1, velz * 0.1 + FRandom(0.1, 0.5), angle, SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM)
+			loop
+
+		Death:
+			NPRX ABC 8
+			stop
+	}
+}
+
+//GORE
+actor ExAnubisGoreHead : ExAbstractGoreChunk
+{
+	States
+	{
+		Fly:
+			AGOR AAAAAAAAAAAAAA 1 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), 0)
+			loop
+			
+		Death:
+			NULL A 0 A_JumpIf(CallACS("ExActivatorIsOnLava") == 1, "LavaDeath")
+			NULL A 0 A_SpawnItemEx("ExBloodSplash")
+			AGOR A Random(1, 40)
+			AGOR B 8
+			AGOR C 6
+			AGOR D 3
+			AGOR YZ 1 //eyes fade out
+			goto Lay
+	 }
+}
+
+actor ExAnubisGoreTorso : ExAbstractGoreChunk
+{
+	States
+	{
+		Fly:
+			AGOR EEEEFFFFGGGGHHHHEEEEFFFFGGGGHHHH 2 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), 0)
+			loop
+
+		Lay:
+			AGOR I 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExAnubisGoreHand : ExAbstractGoreChunk
+{
+	States
+	{
+		Fly:
+			AGOR OPQROPQROPQR 3 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), 0)
+			loop
+
+		Lay:
+			AGOR S 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}

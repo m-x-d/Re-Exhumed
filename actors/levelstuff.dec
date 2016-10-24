@@ -1,0 +1,173 @@
+//level specific stuff
+
+//MAP00
+//args[0] is index of previous positions bank
+actor Ex00LavaMover 6000 
+{
+	//$Category Level stuff
+	//$Title M00 Lava Mover
+	//$arg0 Reserved!
+	
+	Radius 56
+	Height 16
+
+	+SOLID
+	+CANPASS
+	+ACTLIKEBRIDGE
+	-BLOCKEDBYSOLIDACTORS
+	+NOGRAVITY
+	
+	States
+	{
+		Spawn:
+			MODE L 1 
+			NULL A 0 ACS_NamedExecute("ExResetMover", 0, args[0])
+			goto Look
+		 
+		Look:
+			MODE L 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 56, 0, 360) 
+			loop
+		
+		See:
+			MODE L 1 ACS_NamedExecute("ExCarryPlayerAlongY", 0, TID, args[0])
+			NULL A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 56, 0, 360)
+			goto Spawn
+	}
+}
+
+//MAP01
+actor Ex01PushBlock 6001 
+{
+	//$Category Level stuff
+	//$Title Pushable Block
+	
+	Radius 32
+	Height 52
+	Mass 50000000
+	MaxStepHeight 0
+
+	+PUSHABLE
+	+NOBLOOD
+	+SHOOTABLE
+	+CANPASS
+	+ACTLIKEBRIDGE
+	+SOLID
+	+NODAMAGE
+	
+	States
+	{
+		Spawn:
+			MODE L 1
+			goto Look
+		
+		Look:
+			MODE L 8 A_LookEx(LOF_NOSOUNDCHECK, 0, 64, 0, 360) 
+			loop
+		
+		See:
+			MODE L 0 A_JumpIf((velx != 0 || vely != 0), "Moving")
+			goto Spawn
+		
+		Moving:
+			MODE L 0 A_SpawnItemEx("ExSmokeLowAlpha", Random(0, Radius) * RandomPick(-1, 1), Random(0, Radius) * RandomPick(-1, 1), 6, 
+																						 0, 0, 0.1, 
+																						 0, SXF_NOCHECKPOSITION)
+			MODE L 35 A_PlaySound("door/stone/move", CHAN_AUTO, 0.65)
+			goto Spawn
+	}
+}
+
+actor ExAnubisStatue : ExBlockingDecoration 23310
+{
+	//$Category Level stuff
+	//$Title M01 Anubis Statue
+	
+	Radius 16
+	Height 66
+	XScale 0.52
+	YScale 0.55
+	Health 10000
+	DeathSound "stone/break_loud"
+
+	//+SHOOTABLE
+	+SOLID
+	+NOBLOOD
+	-NODAMAGE
+	
+	States
+	{
+		Spawn:
+			NUBS A 0 NoDelay A_SetScale(ScaleX + frandom(-0.1, 0.1), ScaleY + frandom(-0.02, 0.05))
+			goto Idle
+		
+		Idle:
+			NUBS A -1
+			stop
+			
+		Death:
+			NULL A 0 A_ScreamAndUnblock
+			NULL AAA 0 A_SpawnItemEx("ExSmoke", Random(-10, 10), Random(-10, 10), Random(28, 48))
+			NULL A 0 A_SpawnItemEx("ExSmokeLowAlpha", Random(-30, 30), Random(-30, 30), Random(60, 100))
+			NULL AAA 0 A_SpawnItemEx("ExSpawnedSmallRock", Random(-10, 10), Random(-10, 10), Random(28, 35), Random(2, 4), Random(2, 4), Random(2, 5))
+			NULL AAA 0 A_SpawnItemEx("ExSpawnedSmallRock", Random(-10, 10), Random(-10, 10), Random(28, 35), Random(2, 4), Random(2, 4), Random(2, 5))
+			NULL AAA 0 A_SpawnItemEx("ExSpawnedSmallRock", Random(-10, 10), Random(-10, 10), Random(28, 35), Random(2, 4), Random(2, 4), Random(2, 5))
+			NULL A -1
+			stop
+	}
+}
+
+actor ExM01PharaohHead : SwitchableDecoration
+{
+	Alpha 0
+	Activation THINGSPEC_Switch
+	
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	
+	States
+	{
+		Spawn:
+			NULL A 0 NoDelay A_FadeTo(0.2, 0.2)
+			PHDA AAAAAAA 1 Bright A_SetScale(ScaleX + 0.01)
+			NULL A 0 A_FadeTo(0.4, 0.2)
+			PHDA BBBBBBB 1 Bright A_SetScale(ScaleX + 0.01)
+			NULL A 0 A_FadeTo(0.6, 0.2)
+			PHDA CCCCCCC 1 Bright A_SetScale(ScaleX + 0.01)
+			NULL A 0 A_FadeTo(0.8, 0.2)
+			PHDA DDDDDDD 1 Bright A_SetScale(ScaleX + 0.01)
+			NULL A 0 A_SetScale(1.0)
+			PHDA E 6 Bright A_FadeTo(1.0, 0.2)
+			PHDA FGHIJK 6 Bright
+			goto Stare1
+		
+		Active: //speaking animations
+			NULL A 0 A_Jump(256, "Speak1", "Speak2")
+			stop
+			
+		Speak1:
+		  PHED EIEIEIAEIEAEIFIEIEIEIAEIEF Random(4, 8) Bright
+      NULL A 0 A_Jump(96, "Speak2")
+			loop
+			
+		Speak2:
+		  PHED GKGKLGKGCKGKGGKGKGCKHGKGKGKD Random(4, 8) Bright
+      NULL A 0 A_Jump(96, "Speak1")
+			loop			
+			
+		Inactive: //silent animations
+			NULL A 0 A_Jump(256, "Stare1", "Stare2")
+			stop
+			
+		Stare1:
+			PHED A Random(50, 120) Bright
+			PHED B 8 Bright
+			PHED A Random(50, 120) Bright A_Jump(96, "Stare2")
+			loop
+		
+		Stare2:
+			PHED C Random(50, 120) Bright
+			PHED D 8 Bright
+			PHED C Random(50, 120) Bright A_Jump(96, "Stare1")
+			loop		
+	}
+}

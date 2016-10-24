@@ -1,0 +1,148 @@
+//abstract
+#include "actors/abstract.dec"
+#include "actors/decorations/abstract_decoration.dec"
+#include "actors/weapons/abstract_weapon.dec"
+#include "actors/enemies/abstract_enemy.dec"
+
+//misc
+#include "actors/sfx.dec"
+#include "actors/splashes.dec"
+#include "actors/gore.dec"
+#include "actors/pickups.dec"
+#include "actors/powerups.dec"
+#include "actors/keys.dec"
+#include "actors/utility.dec"
+#include "actors/skies.dec"
+#include "actors/levelstuff.dec"
+
+//player
+#include "actors/player.dec"
+
+//decorations
+#include "actors/decorations/columns.dec"
+#include "actors/decorations/dancers.dec"
+#include "actors/decorations/deco_misc.dec"
+#include "actors/decorations/gore.dec"
+#include "actors/decorations/lightsources.dec"
+#include "actors/decorations/pottery.dec"
+#include "actors/decorations/pillows.dec"
+#include "actors/decorations/rocks_and_bricks.dec"
+#include "actors/decorations/statues.dec"
+#include "actors/decorations/vegetation.dec"
+
+//weapons
+#include "actors/weapons/grenade.dec"
+#include "actors/weapons/m60.dec"
+#include "actors/weapons/machete.dec"
+#include "actors/weapons/machete_uw.dec"
+#include "actors/weapons/magnum.dec"
+#include "actors/weapons/mummy_staff.dec"
+
+#include "actors/weapons/grenade_powered.dec"
+#include "actors/weapons/m60_powered.dec"
+#include "actors/weapons/machete_powered.dec"
+#include "actors/weapons/magnum_powered.dec"
+
+//enemies
+#include "actors/enemies/anubis.dec"
+#include "actors/enemies/mummy.dec"
+#include "actors/enemies/piranha.dec"
+#include "actors/enemies/rat.dec"
+#include "actors/enemies/spider.dec"
+#include "actors/enemies/scorpion.dec"
+
+//traps
+#include "actors/traps/arrowtrap.dec"
+#include "actors/traps/fireballtrap.dec"
+
+//TEST REMOVE ME NAO!!!!
+actor ExTestSpawner 19000
+{
+	//$Category TEST REMOVE ME NAO!!!!
+	//$Title Test Actor
+	
+	Radius 16
+	Height 66
+	XScale 0.52
+	YScale 0.55 
+	
+	+DONTSPLASH
+	
+	States
+	{
+		Spawn:
+			//TELE U 32 NoDelay A_SpawnItemEx("ExWaterFoam", 0, 0, height / 2) 
+			TELE U 60 NoDelay A_SpawnItemEx("ExGore7", 0, 0, 0, random(-3, 3), random(-3, 3), 12, 0, SXF_NOCHECKPOSITION)
+			"####" "#" 0 A_RadiusThrust(-800, 300, RTF_NOIMPACTDAMAGE | RTF_NOTMISSILE)
+			//TELE U 32 NoDelay A_CustomMissile("ExFireball", height / 2) 
+			//TELE U 32 A_SpawnItemEx("ExSmokeDark", 0, 0, 64)
+			//TELE U 0 A_Quake(1, 20, 0, 450)
+			//TELE U 120
+			loop
+	}
+}
+
+actor ExTestSpawner2 19001
+{
+	//$Category TEST REMOVE ME NAO!!!!
+	//$Title Test Spawner MK2
+	
+	Radius 32
+	Height 66
+	//RenderStyle "Stencil"
+	//StencilColor "00 6a 96"
+	//Scale 0.3
+	//YScale 0.55
+	
+	+DONTSPLASH
+	
+	States
+	{
+		Spawn:
+			//TELE U 16 A_SpawnItemEx("ExUnderwaterBloodCloud", Random(-radius, radius), Random(-radius, radius), 32)
+			//TELE UUUUUU 2 A_SpawnItemEx("ExUnderwaterBloodParticle", Random(-radius, radius), Random(-radius, radius), 32)
+			//TELE UUUUUU 2 A_SpawnItemEx("ExUnderwaterBloodBubble", Random(-radius, radius), Random(-radius, radius), 32)
+			//RATD A 0 NoDelay A_SpawnItemEx("ExRatHead", 0, 0, 4, Random(-1, 1), Random(-1, 1), Random(3, 4), Random(0, 256))
+			//RATD A 0 A_SpawnItemEx("ExRatMeat", 0, 0, 4, Random(-1, 1), Random(-1, 1), Random(3, 4), Random(0, 256))
+			//RATD AAAAABBBBB 1 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), Random(1, 2))
+			//RATD C 5
+			TELE U 64 A_SetArg(0, 0) //NoDelay A_SpawnItemEx("ExGrenadeExplosion", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			//NSMK ABCDEFGHIJKL 8 A_FadeOut(0.02)
+			goto Thrust
+			
+		Thrust:
+			"####" "#" 0 A_JumpIf(args[0] > 35, "Spawn")
+			"####" "#" 1 A_RadiusThrust(-600, 300, RTF_NOIMPACTDAMAGE)
+			"####" "######" 0 A_SpawnItemEx("ExSandParticle", random(-170, 170), random(-170, 170), random(0, 110))
+			"####" "#" 0 A_SetArg(0, args[0] + 1)
+			loop	
+	}
+}
+
+actor TestPuller 19002
+{
+	+NOGRAVITY
+	
+	States 
+	{
+		Spawn:
+		 	TELE U 64
+			//TELE U 0 A_ThrowGrenade("ExJumpingPiranha", 0, 10, 16)
+			//TELE U 0 A_SpawnItemEx("ExJumpingPiranha")
+			/*TELE U 0 A_JumpIf(args[0] > 25, "ThrustOnly")
+			TELE U 1 A_RadiusThrust(-200, 300, RTF_NOIMPACTDAMAGE)
+			TELE UUUUUUUUUUUU 0 A_SpawnItemEx("ExSandParticle", random(-170, 170), random(-170, 170), random(0, 110))
+			TELE U 0 A_SetArg(0, args[0] + 1)*/
+			loop
+			
+		/*ThrustOnly:
+			TELE U 0 A_JumpIf(args[0] > 35, "Explode")
+			TELE U 1 A_RadiusThrust(-200, 300, RTF_NOIMPACTDAMAGE)
+			TELE U 0 A_SetArg(0, args[0] + 1)
+			loop	
+			
+		Explode:
+			TELE U 80 A_SetArg(0, 0)
+			goto Spawn  */
+	}
+}

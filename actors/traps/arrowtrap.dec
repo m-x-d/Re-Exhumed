@@ -1,0 +1,37 @@
+actor ExArrowTrap : ExAbstractTrap 1580
+{
+	//$Category Traps
+	//$Title Arrow trap
+
+	States
+	{
+		Active:
+			TRAP A 1 A_PlaySound("traps/arrow", CHAN_AUTO, 1.0, false, ATTN_NORM)
+			TRAP A 48 A_SpawnItemEx("ExArrow", 0, 0, height / 2, 11)
+			TRAP A 0 A_SpawnItemEx("ExSmokeSmallFastFade", 0, 0, height / 2, 0, 0, 0.1, 0, SXF_NOCHECKPOSITION)
+			loop
+	}
+}
+
+actor ExArrow
+{
+  Height 6
+	Radius 6
+	Speed 12
+	Damage (random(25, 30))
+	DeathSound "arrow/hit"
+	
+	Projectile
+	+FLOORCLIP
+  
+	States
+	{
+		Spawn:
+			MODE L -1 NoDelay A_PlaySound("arrow/fly", CHAN_AUTO, 0.1, true, 4)
+			stop
+			
+		Death:
+			MODE L 0 A_SpawnItemEx("ExSmokeSmallFastFade", 0, 0, 0, 0, 0, 0.1, 0, SXF_NOCHECKPOSITION)
+			stop	
+	}
+}

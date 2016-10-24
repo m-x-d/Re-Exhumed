@@ -1,0 +1,13 @@
+actor ExWeapon : Weapon 
+{
+	Inventory.PickupSound "pickups/weapon"
+	
+	Weapon.BobRangeX 0.5
+	Weapon.BobRangeY 0.5
+	Weapon.BobSpeed  0.5
+	Weapon.BobStyle Smooth
+	
+	+WEAPON.NOAUTOAIM
+	+COUNTITEM
+	+IGNORESKILL
+}

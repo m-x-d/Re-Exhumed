@@ -1,0 +1,265 @@
+actor ExTorchSmoke : ExSmoke
+{
+	Scale 0.5
+	Alpha 0.3
+	
+	States
+	{
+		Spawn:
+			NSMK A 0 NoDelay
+			goto Setup
+		
+		Setup:
+			"####" "A" 0 A_SetScale(ScaleX + FRandom(-0.2, 0.2))
+			"####" "A" 0 A_SetTranslucent(Alpha + FRandom(-0.1, 0.05))
+			"####" "A" 0 A_ChangeVelocity(0, 0, FRandom(0.6, 0.9))
+			goto Float
+	}
+}
+
+actor ExBrazier1 : ExBlockingDecoration 350
+{
+	//$Category Light sources
+	//$Title Tall brazier
+	
+	Radius 4
+	Height 76
+
+	States
+	{
+		Spawn:
+			BRZ1 A 0 NoDelay A_PlaySound("newambiance/fire1", CHAN_AUTO, 0.4, true, 6)
+			goto Frame1
+
+		Frame1:
+			BRZ1 A 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 20, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 15, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+		
+		Frame2:
+			BRZ1 B 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 20, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 15, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+		
+		Frame3:
+			BRZ1 C 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 20, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 15, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+		
+		Frame4:
+			BRZ1 D 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 20, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 15, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+	}
+}
+
+actor ExBrazier2 : ExBlockingDecoration 3512
+{
+	//$Category Light sources
+	//$Title Brazier
+	
+	Scale 0.65
+	Radius 14
+	Height 30
+	
+	States
+	{
+		Spawn:
+			BRZ2 A 0 NoDelay A_PlaySound("newambiance/fire1", CHAN_AUTO, 0.4, true, 6)
+			goto Frame1
+
+		Frame1:
+			BRZ2 A 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-8, 8), Random(-8, 8), Height + 5, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+		
+		Frame2:
+			BRZ2 B 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-8, 8), Random(-8, 8), Height + 5, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+		
+		Frame3:
+			BRZ2 C 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-8, 8), Random(-8, 8), Height + 5, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+		
+		Frame4:
+			BRZ2 D 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-8, 8), Random(-8, 8), Height + 5, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+	}
+}
+
+actor ExCeilLamp : ExBlockingDecoration 342
+{
+	//$Category Light sources
+	//$Title Ceiling lamp
+	
+	Radius 14
+	Height 54
+	
+	+SPAWNCEILING
+	+NOGRAVITY
+	
+	States
+	{
+		Spawn:
+			CLMP A 0 NoDelay A_PlaySound("ambiance/torch", CHAN_AUTO, 0.7, true, 6)
+			goto Frame1
+
+		Frame1:
+			CLMP A 4 Bright
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+		
+		Frame2:
+			CLMP B 4 Bright
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+		
+		Frame3:
+			CLMP C 4 Bright
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+		
+		Frame4:
+			CLMP D 4 Bright
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+	}
+}
+
+actor ExWallTorch : SwitchableDecoration 338
+{
+	//$Category Light sources
+	//$Title Torch (switchable)
+	
+	Radius 8
+	Height 28
+	Scale 0.6
+	Activation THINGSPEC_Switch | THINGSPEC_Deactivate
+	
+	+NOGRAVITY
+	+SOLID
+	+FORCEYBILLBOARD
+
+	States
+	{
+		Spawn:
+			TRCH A 0
+			goto Active
+			
+		Active:
+			TRCH A 1 A_PlaySound("pickups/torch_use", CHAN_AUTO, 1.0, false, 3)
+			TRCH A 0 A_PlaySound("newambiance/firesmall", CHAN_BODY, 1.0, true, 6)
+			goto Frame1
+		
+		Inactive:
+		  TRCH A 0 A_StopSound(CHAN_BODY)
+			TRCI A 0 A_PlaySound("pickups/torch_use", CHAN_AUTO, 1.0, false, 3)
+			TRCI A 0 A_SpawnItemEx("ExSmokeDarkSmall", 0, 0, Height + 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			TRCI A -1
+			stop
+
+		Frame1:
+			TRCH A 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 42, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 17, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+		
+		Frame2:
+			TRCH B 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 42, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 17, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+		
+		Frame3:
+			TRCH C 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 42, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 17, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+		
+		Frame4:
+			TRCH D 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 42, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 17, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+	}
+}
+
+actor ExExplosiveBrazier : ExBlockingDecoration 346
+{
+	//$Category Obstacles
+	//$Title Explosive Brazier
+	
+	Radius 16
+	Height 32
+	Health 20
+	Scale 0.7
+	DeathSound "grenade/explosion"
+	
+	+NOBLOOD
+	+DONTGIB
+	+NOICEDEATH
+	-NODAMAGE
+	
+	States
+	{
+		Spawn:
+			XBRZ A 0 NoDelay A_PlaySound("newambiance/fire1", CHAN_AUTO, 0.4, true, 6)
+			goto Frame1
+
+		Frame1:
+			XBRZ A 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 40, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 35, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+		
+		Frame2:
+			XBRZ B 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 40, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 35, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+		
+		Frame3:
+			XBRZ C 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 40, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 35, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+		
+		Frame4:
+			XBRZ D 4 A_SpawnItemEx("ExTorchSmoke", 0, 0, Height + 40, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 210)
+			NULL A 0 A_SpawnItemEx("ExFireEmber", Random(-4, 4), Random(-4, 4), Height + 35, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 240)
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+			
+		Death:
+			XBRZ A 1 A_Scream
+			XBRZ A 0 A_AlertMonsters(2048)
+			XBRZ A 0 A_Explode(200, 180)
+			NULL A 1 A_SpawnItemEx("ExGrenadeExplosion", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(0, 64),	 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedBrick",		 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(64, 128), 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedBrick",		 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(128, 255),0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedBrick",		 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(0, 64),	 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(64, 128), 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(128, 255),0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(0, 64),	 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedBrick",		 0, 0, 0, Random(4, 8), Random(4, 8), Random(5, 10), Random(64, 128), 0, 100)
+			Stop
+	}
+}
+
+actor ExUnlitExplosiveBrazier : ExExplosiveBrazier 5346 
+{
+	//$Category Obstacles
+	//$Title Explosive Brazier (no dynlights)
+}

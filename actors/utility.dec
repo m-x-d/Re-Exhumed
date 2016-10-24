@@ -1,0 +1,169 @@
+//teleports player if he's in sight and below actor
+actor ExTeleportIfPlayerBelow 5998
+{
+	//$Category Teleports
+	//$Title Teleport (player below)
+	//$Sprite TELED0
+	//$arg0 Destination Tag
+
+	Radius 16
+	Height 16
+	RenderStyle None
+
+	+NOGRAVITY
+	
+	States
+	{
+		Spawn:
+			TELE D 2
+			TELE D 4 A_LookEx(LOF_NOSOUNDCHECK, 0, 152, 0, 360)
+			loop
+
+		See:
+			TELE D 4 A_CheckSight("Spawn")
+			TELE D 0 A_JumpIf(CallACS("ExGetPlayerZ") < z, "Teleport")
+			loop
+
+		Teleport:
+			TELE D 0 ACS_NamedExecute("ExTeleportPlayer", 0, TID, args[0])
+			TELE D 8
+			goto Spawn
+	}
+}
+
+//teleports player if he's in sight and above actor
+actor ExTeleportIfPlayerAbove : ExTeleportIfPlayerBelow 5999
+{
+	//$Category Teleports
+	//$Title Teleport (player above)
+	//$Sprite TELEU0
+	//$arg0 Destination Tag
+	
+	States
+	{
+		See:
+			TELE U 4 A_CheckSight("Spawn")
+			TELE U 0 A_JumpIf(CallACS("ExGetPlayerZ") > z, "Teleport")
+			loop
+	}
+}
+
+//MARKERS
+//most of these markers are managed by "excommon.acs"
+actor ExAbstractMarker : Inventory
+{
+	Inventory.PickupMessage ""
+	Inventory.PickupSound ""
+	-COUNTITEM
+	-INVENTORY.INVBAR
+	+INVENTORY.UNTOSSABLE
+
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			fail //FIAL!!!11
+	}
+}
+
+//HUD is not drawn when player has this item
+actor ExCutsceneMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+}
+
+//tracks underwater air supply underwater
+actor ExUnderwaterAirSupplyMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 12
+}
+
+actor ExUnderwaterBubbleMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 99
+}
+
+//used to draw HUD health level
+actor ExHealthMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 33
+}
+
+//used to draw HUD compass
+actor ExDirectionMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 7
+}
+
+actor ExScoreMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 2000
+}
+
+actor ExTorchActiveMarker : ExAbstractMarker
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+}
+
+//EXHUMED EFFECTS MARKERS
+actor ExUnusedMarker1 71
+{
+	//$Category Unused
+	//$Title Exhumed Marker (UW?)
+	
+	Radius 8
+	Height 4
+	
+	+NOINTERACTION
+	+NOBLOCKMAP
+	+NOGRAVITY
+
+	States
+	{
+		Spawn:
+			ERRO R 1
+			Fail
+	}
+}
+
+actor ExUnusedMarker2 : ExUnusedMarker1 547
+{
+	//$Category Unused
+	//$Title Replace with ART547
+}
+
+actor ExUnusedMarker3 : ExUnusedMarker1 67
+{
+	//$Category Unused
+	//$Title Exhumed Marker (Sector light animation?)
+}
+
+actor ExUnusedMarker4 : ExUnusedMarker1 70
+{
+	//$Category Unused
+	//$Title Exhumed Marker (Another sector light animation?)
+}
+
+//Required by q-tilt library by Nash (http://forum.zdoom.org/viewtopic.php?f=19&t=47811) 
+actor Z_FloorCheck
+{
+	Radius 8
+	Height 4
+	+SOLID
+	+NOTIMEFREEZE
+	+DONTSPLASH //mxd
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			Stop
+	}
+}

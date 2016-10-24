@@ -1,0 +1,94 @@
+actor ExMagnum : ExWeapon 488 
+{
+	//$Category Weapons
+	//$Title .357 Magnum
+
+	Weapon.Ammotype "ExMagnumClip"
+	Weapon.Ammouse 1
+	Weapon.Ammogive 6
+	Weapon.SisterWeapon ExMagnumPowered
+	Weapon.SelectionOrder 6
+	Scale 0.4
+	AttackSound "magnum/fire"
+	Inventory.Pickupmessage ".357 Magnum"
+
+	+WEAPON.WIMPY_WEAPON
+	+NOEXTREMEDEATH
+
+	States 
+	{
+		Spawn:
+			WMAG A -1
+			stop
+
+		Ready:
+			MAG_ A 0 A_SetCrosshair(8)
+			MAG_ A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			loop
+
+		Select:
+			MAG_ A 0 A_SetCrosshair(8)
+			NULL A 0 A_ChangeFlag("FRIENDLY", 0) //cause we aint have no working uservars on weapons... 
+			MAGR EDCBA 1 Offset(0, 32)
+			MAG_ A 0 A_Raise
+    	wait
+
+		Deselect:
+			NULL A 0 A_CheckFlag("FRIENDLY", 6) //cause we aint have no working uservars on weapons... 
+			NULL A 0 A_JumpIf(!CallACS("ExFireButtonPressed"), 5)
+			NULL A 0 A_PlayWeaponSound("magnum/click")
+			NULL A 0 A_ChangeFlag("FRIENDLY", 1) //cause we aint have no working uservars on weapons...
+			MAG_ CD 1
+			MAGD ABCD 1
+			MAG_ A 0 A_Lower
+			wait 
+
+		Fire:
+			NULL A 0 A_JumpIfNoAmmo("Ready")
+			MAG_ B 2 A_FireBullets(0, 0, 1, 10, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			MAG_ C 1 A_SetPitch(pitch - 0.25)
+			MAG_ D 1
+			MAG_ E 1 A_SetPitch(pitch + 0.25)
+			MAG_ FGHIJKLM 1
+			MAG_ A 3
+			MAG_ A 0 A_JumpIf(args[0] == 5, "Reload")
+			MAG_ A 0 A_SetArg(0, args[0] + 1)
+			goto Ready
+
+		Reload:
+			NULL A 0 A_JumpIfNoAmmo("Ready")
+			NULL A 0 A_JumpIf(args[0] == 0, "Ready") //no need to reload
+			NULL A 0 A_SetArg(1, 0)
+			MAGR B 2
+			MAGR C 2 A_PlayWeaponSound("magnum/reload")
+			MAGR DE 2
+			goto SpawnCases
+
+		SpawnCases:
+			NULL A 0 A_JumpIf(args[1] == args[0], "ReloadFinish")
+			NULL A 0 A_SetArg(1, args[1] + 1)
+			NULL A 1 A_CustomMissile("ExMagnumBulletCase", 30, 0, random(100, -100), CMF_AIMDIRECTION, random(-40, -80))
+			loop
+
+		ReloadFinish:
+			NULL A 1 A_SetArg(0, 0)
+			MAGR ED 2
+			MAGR C 2 A_PlayWeaponSound("magnum/reload")
+			MAGR B 2
+			goto Ready
+	}
+}
+
+actor ExMagnumBulletCase : ExM60BulletCase 
+{
+	Scale 0.2
+	BounceSound "magnum/casing"
+	
+	States 
+	{
+		Spawn:
+			MCAS ABCDEFGH 3 A_Countdown
+			NULL A 0 A_ScaleVelocity(0.85)
+			loop
+	}
+}

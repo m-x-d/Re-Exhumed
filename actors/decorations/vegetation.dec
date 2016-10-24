@@ -1,0 +1,197 @@
+actor ExEmptyBerryTwigs : ExDecoration 719 
+{
+	//$Category Vegetation
+	//$Title Empty Berry Twigs
+	radius 14
+	height 35
+
+	States 
+	{
+		Spawn:
+			HBSH B 0 NoDelay A_SetScale(frandom(0.5, 0.8), frandom(0.5, 0.8))
+			HBSH B -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExGrass2 : ExCeilingDecoration 23 
+{
+	//$Category Vegetation
+	//$Title Hanging moss
+	radius 14
+	height 22 //37
+	
+	States 
+	{
+		Spawn:
+			GRS1 A -1 NoDelay A_SetScale(frandom(0.5, 0.8), ScaleY)
+			stop
+	}
+}
+
+actor ExGrass3 : ExDecoration 1491 
+{
+	//$Category Vegetation
+	//$Title Grass 3
+	radius 14
+	height 14
+	
+	States 
+	{
+		Spawn:
+			GRS3 A 0 NoDelay A_SetScale(frandom(0.8, 1.2), frandom(0.8, 1.2))
+			GRS3 A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExPlant1 : ExDecoration 335 
+{
+	//$Category Vegetation
+	//$Title Plant in a pot
+	radius 14
+	height 14
+
+	States 
+	{
+		Spawn:
+			PPOT A 0 NoDelay A_SetScale(frandom(0.9, 1.1))
+			PPOT A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExBush1 : ExDecoration 523 
+{
+	//$Category Vegetation
+	//$Title Bush
+	radius 14
+	height 14
+
+	States 
+	{
+		Spawn:
+			BSH1 A 0 NoDelay A_SetScale(frandom(0.8, 1.2), frandom(0.8, 1.2))
+			BSH1 A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExBush2 : ExCeilingDecoration 526 
+{
+	//$Category Vegetation
+	//$Title Water plant 3
+	radius 14
+	height 41 //69
+
+	States 
+	{
+		Spawn:
+			WPT3 A 0 NoDelay A_SetScale(frandom(0.8, 1.2), ScaleY)
+			WPT3 A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExFern : ExDecoration 527 
+{
+	//$Category Vegetation
+	//$Title Fern
+	radius 14
+	height 14
+
+	States 
+	{
+		Spawn:
+			FERN A 0 NoDelay A_SetScale(frandom(0.7, 1.1), frandom(0.7, 1.1))
+			FERN A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExGrass4 : ExDecoration 5528 
+{
+	//$Category Vegetation
+	//$Title Grass 4
+	radius 14
+	height 14
+
+	States 
+	{
+		Spawn:
+			FRN2 A 0 NoDelay A_SetScale(frandom(0.5, 0.8), frandom(0.5, 0.8))
+			FRN2 A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExPalmTree1 : ExBlockingDecoration 540 
+{
+	//$Category Vegetation
+	//$Title Palm tree
+	radius 14
+	height 128
+	scale 1.7
+
+	States 
+	{
+		Spawn:
+			PALM A -1
+			stop
+	}
+}
+
+actor ExPalmTree2 : ExPalmTree1 541 
+{
+	//$Category Vegetation
+	//$Title Palm tree (curved)
+}
+
+actor ExPalmTree3 : ExPalmTree1 542 
+{
+	//$Category Vegetation
+	//$Title Palm tree (bent)
+}
+
+actor ExWaterPlant1 : ExCeilingDecoration 558 
+{
+	//$Category Vegetation
+	//$Title Water plant 1
+	radius 14
+	height 30
+
+	States 
+	{
+		Spawn:
+			WPT1 A 0 NoDelay A_SetScale(frandom(0.5, 0.8), ScaleY)
+			WPT1 A -1 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			stop
+	}
+}
+
+actor ExWaterPlant2 : ExDecoration 562 
+{
+	//$Category Vegetation
+	//$Title Water plant 2 (animated)
+	radius 14
+	height 14
+
+	States 
+	{
+		Spawn:
+			WPT2 A 0 NoDelay A_SetScale(frandom(0.8, 1.2))
+			WPT2 A 0 A_SetScale(ScaleX * RandomPick(-1.0, 1.0), ScaleY)
+			goto Idle
+		
+		Idle:
+			WPT2 AB 16
+			NULL A 0 A_CheckSight("Spawn")
+			NULL A 0 A_Jump(50, "SpawnBubbles")
+			loop
+			
+		SpawnBubbles:
+			WPT2 AAAAAAA 4 A_SpawnItemEx("ExUnderwaterBubble", Random(-4, 4), Random(-4, 4), Random(10, 14), 0, 0, 0, 0, 0, 128)
+			NULL A 0 A_Jump(32, "SpawnBubbles")
+			goto Spawn
+	}
+}

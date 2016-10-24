@@ -1,0 +1,28 @@
+//Powerslave ambient sounds
+ambiance/cave1      AMB_CAV1
+ambiance/cave2      AMB_CAV2
+ambiance/cave3      AMB_CAV3
+ambiance/fire       AMB_FIRE
+ambiance/fly        AMB_FLY
+ambiance/heart      AMB_HART
+ambiance/heartbeat1 AMB_HRT1
+ambiance/heartbeat2 AMB_HRT2
+ambiance/lava1      AMB_LAVA
+ambiance/lava2      AMB_LAV1
+ambiance/lava3      AMB_LAV2
+ambiance/rats       AMB_RATS
+ambiance/stone      AMB_STON
+ambiance/storm      AMB_STRM
+ambiance/torch      AMB_TRCH
+ambiance/water      AMB_WATR
+ambiance/wind       AMB_WIND
+
+//New ambient sounds
+newambiance/wind1       a_wind1
+newambiance/waterdrips1 a_drips1
+newambiance/lava1       a_lava1
+newambiance/cave1       a_cave1
+newambiance/fire1       a_fire1
+newambiance/firesmall   a_fire2
+newambiance/chains      a_chains
+newambiance/tomb1       a_tomb1

@@ -1,0 +1,76 @@
+#library "exmaputils"
+#include "zcommon.acs"
+
+//ALL MANNER OF MAP ALTERATION SCRIPTS
+script "ExChangeBrightnessTo" (int tag, int targetbrightness, int stepdelay) 
+{
+	int curbrightness = GetSectorLightLevel(tag);
+	int mod = 1;
+	if(curbrightness > targetbrightness) mod = -1;
+	
+	for(int i = 0; i < MathAbs(curbrightness - targetbrightness); i++)
+	{
+		Light_ChangeToValue(tag, curbrightness + i * mod);
+		Delay(stepdelay);
+	}
+}
+
+script "ExCrusher" (int tag, int speed)
+{
+	int x = GetActorX(tag) >> 16;
+	int y = GetActorY(tag) >> 16;
+	int initialheight = GetSectorCeilingZ(tag, x, y) >> 16;
+	if(speed <= 0) speed = 32;
+	
+	while(true)
+	{
+		Ceiling_LowerAndCrushDist(tag, speed, 100, 2);
+		TagWait(tag);
+		QuakeEx(tag, 1, 1, 2, 16, 0, 240, "crusher/stop", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2);
+		Ceiling_MoveToValue(tag, speed, initialheight);
+		TagWait(tag);
+	}
+}
+
+/*script "ShowSongTitle" (int name)
+{
+	int bgincrement = 0.04;
+	int bgalpha = 0.0;
+	int titleincrement = 0.05;
+	int titlealpha = 0.0;
+	
+	// Setup HUD
+	SetHudSize(640, 480, false); 
+	
+	for(int i = 0; i < 146; i++)
+	{
+		if(i < 20)
+		{
+		  bgalpha += bgincrement;
+			titlealpha += titleincrement;
+		}
+		else if(i > 125)
+		{
+			bgalpha -= bgincrement;
+			titlealpha -= titleincrement;	
+		}
+	
+		//draw bg
+		SetFont(StrParam(s:"SNGBG", i:i));
+		HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_NOTWITHFULLMAP | HUDMSG_ALPHA, 999, 0, 320.0, 0.1, 0.1, bgalpha);  
+	
+		//draw title 
+		SetFont(name);
+		HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_NOWRAP | HUDMSG_NOTWITHFULLMAP | HUDMSG_ALPHA, 998, 0, 320.0, 0.1, 0.1, titlealpha);
+		
+		Delay(2);
+	}
+}*/
+
+//HELPER FUNCTIONS
+function int MathAbs(int a) 
+{
+	if(a < 0) return -a;
+	return a;
+}
+

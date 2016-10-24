@@ -1,0 +1,329 @@
+//////
+//AIR
+//////
+actor ExBreathPlant 974 
+{
+	//$Category Health and Armor
+	//$Title Breath plant (restores air)
+	
+	scale 0.6
+	radius 16
+	height 40
+
+	+NOGRAVITY
+
+	States
+	{
+		Spawn:
+			BPNT A 0
+			NULL A 0 A_SetArg(0, 0)
+			goto Rest
+
+		Rest:
+			BPNT A 8
+			NULL A 0 A_LookEx(LOF_NOSOUNDCHECK | LOF_NOSEESOUND, 0, 64, 0, 360, "TryToGiveAir")
+			BPNT B 8
+			NULL A 0 A_LookEx(LOF_NOSOUNDCHECK | LOF_NOSEESOUND, 0, 64, 0, 360, "TryToGiveAir")
+			NULL A 0 A_CheckSight("Rest")
+			NULL A 0 A_Jump(32, "SpawnBubbles")
+			loop
+
+		TryToGiveAir:
+			NULL A 0 A_JumpIf(CallACS("ExPlayerInRangeZ", z, 64), "GiveAir")
+			goto Rest
+
+		GiveAir:
+			NULL A 0 ACS_NamedExecute("ExRefillAirSupply")
+			NULL A 0 A_PlaySound("explayeruw/airplant", CHAN_AUTO | CHAN_UI, 0.6)
+			goto Empty
+
+		SpawnBubbles:
+			BPNT ABC 8 A_LookEx(LOF_NOSOUNDCHECK | LOF_NOSEESOUND, 0, 64, 0, 360, "TryToGiveAir")
+			NULL AAAAAAAAAAA 0 A_SpawnItemEx("ExUnderwaterBubble", Random(-10, 10), Random(-10, 10), Random(20, 36), 0, 0, 0, 0, 0, 32)
+			BPNT B 8 A_LookEx(LOF_NOSOUNDCHECK | LOF_NOSEESOUND, 0, 64, 0, 360, "TryToGiveAir")
+			goto Rest
+
+		Empty:
+			BPNT C 35 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_JumpIf(args[0] > 10, "Spawn")
+			loop
+	}
+}
+
+/////////
+//HEALTH
+/////////
+actor ExHealthVial : Health 326 
+{
+	//$Category Health and Armor
+	//$Title Health Vial
+	
+	scale 0.6
+	radius 16
+	height 40
+	 
+	inventory.amount 20
+	inventory.maxamount 100
+	inventory.pickupsound "pickups/health_vial"
+	inventory.pickupmessage "Life blood"
+	
+	+FLOATBOB
+
+	States 
+	{
+		Spawn:
+			HCLC ABCDEF 6
+			loop
+	}
+}
+
+actor ExPoisonVial : CustomInventory 332 
+{
+	//$Category Health and Armor
+	//$Title Poison Vial
+	
+	scale 0.6
+	radius 16
+	height 40
+	
+	inventory.pickupsound "pickups/poison_vial"
+	inventory.pickupmessage "Pesky Poison!"
+	
+	+FLOATBOB
+
+	States
+	{
+		Spawn:
+			PCLC ABCDEF 6
+			loop
+			
+		Pickup:
+		  NULL A -1 ACS_NamedExecute("ExChangePlayerHealthBy", 0, -15)
+			stop	
+	}
+}
+
+actor ExBerryTwigs : CustomInventory 718 
+{
+	//$Category Health and Armor
+	//$Title Berry Twigs
+	
+	radius 8
+	height 35
+	
+	inventory.pickupsound "pickups/berries"
+	inventory.pickupmessage "OM NOM NOM!"
+
+	States
+	{
+		Spawn:
+ 			HBSH A 0 NoDelay A_SetScale(frandom(0.5, 0.8), frandom(0.5, 0.8))
+			HBSH A -1 A_SpawnItemEx("ExUsedBerryTwigs", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERSCALE)
+			stop
+
+		Pickup:
+			HBSH B 1 A_GiveInventory ("ExBerries", 1)
+			stop
+	}
+}
+
+actor ExUsedBerryTwigs : ExDecoration 
+{
+	radius 14
+	height 35
+
+	States 
+	{
+		Spawn:
+			HBSH B -1
+			stop
+	}
+}
+
+actor ExBerries : Health 
+{
+	inventory.amount 5
+	inventory.maxamount 100
+}
+
+////////
+//MANA//
+////////
+
+//created as CustomInventory to be able to call ASC when picked up
+actor ExMana : CustomInventory 2098
+{
+	//$Category Ammunition
+	//$Title Mana
+	
+	scale 0.5
+	radius 12
+	height 10
+
+	renderstyle Translucent
+	alpha 0.0
+	
+	Inventory.MaxAmount 0
+	Inventory.PickupSound "pickups/mana1"
+	Inventory.PickupMessage "Mana"
+	
+	+INVENTORY.FANCYPICKUPSOUND
+	+INVENTORY.AUTOACTIVATE
+	+IGNORESKILL
+	
+	States
+	{
+		Spawn:
+			MNAS ABCDEFGH 3 A_FadeIn(0.1)
+			NULL A 0 A_ChangeFlag("FLOATBOB", 1)
+			goto Frame1
+			
+		Frame1:
+			MANA A 2
+			NULL A 0 A_Jump(64, "Frame3")
+			goto Frame2
+
+		Frame2:
+			MANA B 2
+			NULL A 0 A_Jump(64, "Frame4")
+			goto Frame3
+
+		Frame3:
+			MANA C 2
+			NULL A 0 A_Jump(64, "Frame1")
+			goto Frame4
+
+		Frame4:
+			MANA D 2
+			NULL A 0 A_Jump(64, "Frame2")
+			goto Frame1
+
+		Pickup:
+			NULL A 0 A_JumpIf(CallACS("ExGetManaAmmount") == 30, "PickupFail")
+			NULL A 0 A_GiveInventory("ExManaAmmo", 2)
+			NULL A 0 ACS_NamedExecute("ExUpdatePowerups")
+			stop
+			
+		PickupFail: //don't pick up if mana is full
+			NULL A 0
+			fail
+	}
+}
+
+//created as CustomInventory to be able to call ASC when picked up
+actor ExManaVial : CustomInventory 3502 
+{
+	//$Category Ammunition
+	//$Title Mana Vial
+	
+	scale 0.6
+	radius 16
+	height 40
+
+	Inventory.MaxAmount 0
+	Inventory.PickupMessage "Mana vial"
+	Inventory.PickupSound "pickups/health_vial"
+
+	+INVENTORY.FANCYPICKUPSOUND
+	+INVENTORY.AUTOACTIVATE
+	-INVENTORY.INVBAR
+	+FLOATBOB
+
+	States
+	{
+		Spawn:
+			MCLC ABCDEF 6
+			loop
+
+		Pickup:
+			NULL A 0 A_JumpIf(CallACS("ExGetManaAmmount") == 30, "PickupFail")
+			NULL A 0 A_GiveInventory("ExManaAmmo", 5)
+			NULL A 0 ACS_NamedExecute("ExUpdatePowerups")
+			stop
+
+		PickupFail:
+			NULL A 0
+			fail
+	}
+}
+
+actor ExManaAmmo : Ammo 
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 30
+	+IGNORESKILL
+}
+
+///////////
+//AMMO/////
+///////////
+actor ExMagnumClip : Ammo 877 
+{
+	//$Category Ammunition
+	//$Title Speed loader
+	
+	scale 0.4
+	radius 16
+	height 14
+	
+	Inventory.Amount 6
+	Inventory.MaxAmount 300
+	Inventory.PickupSound "pickups/ammo"
+	Inventory.Pickupmessage "Speed loader"
+	
+	+IGNORESKILL
+	
+	States
+	{
+		Spawn:
+			AMAG A -1
+			Stop
+	}
+}
+
+actor ExM60Bullets : Ammo 881 
+{
+	//$Category Ammunition
+	//$Title M60 Bullets
+	
+	scale 0.4
+	radius 16
+	height 12
+	
+	Inventory.Amount 63
+	Inventory.MaxAmount 300
+	Inventory.PickupSound "pickups/ammo"
+	Inventory.Pickupmessage "Ammo"
+	
+	+IGNORESKILL
+	
+	States
+	{
+		Spawn:
+			A60S A -1
+			Stop
+	}
+}
+
+actor ExM60BulletsBig : ExM60Bullets 882 
+{
+	//$Category Ammunition
+	//$Title M60 Bullets (big)
+	
+	Inventory.Amount 129
+	
+	States
+	{
+		Spawn:
+			A60B A -1
+			Stop
+	}
+}
+
+//never placed in a map
+actor ExGrenadeAmmo : Ammo 
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 12
+	+IGNORESKILL
+}

@@ -1,0 +1,111 @@
+//PROTOTYPES
+actor ExAbstractChunk 
+{
+	Radius 8
+	Height 8
+	Scale 0.7
+	Mass 50
+
+	+NOBLOCKMAP
+	+NOTRIGGER
+	+DONTSPLASH
+	-SOLID
+	
+	States 
+	{
+		Vanish:
+			NULL A 0
+			stop
+	}
+}
+
+actor ExAbstractGoreChunk 
+{
+	Radius 4
+	Height 8
+	Mass 20
+	Damage 0
+	BounceType "Doom"
+	BounceCount 1
+	Scale 0.6
+	Gravity 0.6
+	
+	DeathSound "gore/splat"
+
+	Projectile
+	
+	-NOGRAVITY
+	-SOLID
+	//+BOUNCEONACTORS
+	//+ALLOWBOUNCEONACTORS
+	+CANBOUNCEWATER
+	+BOUNCEAUTOOFF
+	+MOVEWITHSECTOR
+	+FORCEXYBILLBOARD
+	+DONTSPLASH
+	+SLIDESONWALLS
+
+	States 
+	{
+		Spawn:
+			"----" "#" 0 NoDelay A_SetScale(frandompick(-ScaleX, ScaleX) + (ScaleX * frandompick(-0.1, 0.1)), ScaleY + (ScaleY * frandompick(-0.1, 0.1)))
+			"----" "#" 0 A_Jump(256, "Fly") //this way we can jump to a child's state
+			stop
+			
+		/*Fly:
+			"----" "#" 250
+			loop*/
+		
+		Death:
+			"----" "#" 0 A_JumpIf(CallACS("ExActivatorIsOnLava") == 1, "LavaDeath")
+			"----" "#" 0 A_SpawnItemEx("ExBloodSplash", 0, 0)
+			"----" "#" 0 A_Jump(256, "Lay") //this way we can jump to a child's state
+			stop
+
+		Lay:
+			"----" "#" 250 A_CheckSight("Vanish")
+			loop
+		
+		LavaDeath:
+			NULL A 0 A_SpawnItemEx("ExSmokeSmall")
+			NULL A 0 A_SpawnItemEx("ExFlameSmall")
+			NULL A 0 A_PlaySound("explayer/footsteps/lava", CHAN_AUTO, 0.2)
+			stop
+		
+		Vanish:
+			NULL A 0
+			stop
+	}
+}
+
+actor ExAbstractParticle 
+{
+	Speed 9
+	Radius 1
+	Height 1
+	Gravity 0.2
+	RenderStyle Add
+	BounceType "Grenade"
+
+	+FORCEXYBILLBOARD
+	+NOBOUNCESOUND
+	-SOLID
+	+DONTSPLASH
+	+BOUNCEAUTOOFF
+	+MOVEWITHSECTOR
+	
+	States 
+	{
+		Vanish:
+			NULL A 0
+			stop
+	}
+}
+
+actor ExAbstractSpawner
+{
+  RenderStyle None
+	
+	+NOGRAVITY
+	+NOBLOCKMAP
+}

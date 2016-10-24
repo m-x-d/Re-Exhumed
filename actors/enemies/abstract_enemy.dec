@@ -1,0 +1,10 @@
+actor ExEnemy
+{
+	BloodType "ExBloodHit", "ExBloodSplatter"
+	
+	Monster
+	+FLOORCLIP
+	+LOOKALLAROUND
+	+DONTMORPH
+	+NOTRIGGER
+}

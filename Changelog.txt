@@ -1,0 +1,59 @@
+============ Public Test 2 (??.??.2015): ==========================================================================
+DECORATE:
+Removed hacky select/deselect logic from all weapons.
+Machete now has custom deselect animation (much faster than the old one).
+Magnum now has custom select and deselect animations (much faster than the old ones).
+M-60 now fires slightly faster.
+Actors now have simple shadows.
+...And a lot more small tweaks I've forgot about.
+
+MAPS:
+Added MAP02 ("Dendur").
+
+============ Public Test 1.2 (20.02.2015): ========================================================================
+DECORATE:
+Added: mummies can now resurrect fallen mummies (just like in the original version).
+Added FORCEXYBILLBOARD flag to all projectiles.
+Added: player now has "usefail" sound.
+Anubis Zombie: changed projectile damage (1 -> (random(12, 16))).
+Anubis Zombie: changed PainChance (100 -> 80).
+Mummy: changed projectile damage (5 -> (random(15, 20))).
+Mummy: changed projectile speed (4 -> 8).
+Mummy: increased projectile acceleration (1.03 -> 1.08).
+Spider: slightly increased movement speed (3 -> 3.2).
+Magnum: changed the maximum ammo ammount to match the original version (99 -> 300). 
+M-60: changed the maximum ammo ammount to match the original version (200 -> 300).
+Grenades can now be thrown underwater (hotkey only). 
+Fixed: Blocking Decorations could be moved by projectiles and explosions.
+Fixed: When player stood on a thing, his sprite was stuck in "jumping" mode.
+Fixed: lowered falling damage recieved by player (1.0 -> 0.6), so it works more like in the original version.
+Cosmetic decorate changes here and there to make stuff look a bit more random.
+...And more small tweaks I've forgot about.
+
+ACS:
+Added Serious Sam-style underwater camera swaying (see qtilt.acs).
+
+MAPS:
+Fixed NODES error in MAP01.
+Cosmetic changes in MAP01.
+
+MISC:
+Changed status bar type from Fullscreen to Normal.
+Replaced some sounds which had cracking noises with better recoded ones.
+
+============ Public Test 1.1 (13.02.2015): ======================================================================
+DECORATE:
+Anubis Zombie: lowered projectile damage (2 -> 1).
+Spider: decreased speed (3.5 -> 3).
+Spider: increased actor height (18 -> 24).
+Pushable Block: added NODAMAGE flag.
+Fixed, Torch powerup: ExTorchActiveMarker was not properly removed from the player's inventory.
+Added "replaces" properties to ExUnusedMarker1, ExUnusedMarker3, ExUnusedMarker4 and ExGrass2 to reduce GZDoom. complaining about them.
+
+ACS:
+Changed underwater player status update logic from using inventory items to direct player class checks.
+Random view rotation when player takes damage is now twice weaker.
+
+MAPS:
+Cosmetic changes in MAP01 (mostly texture alignment).
+Training map's movement input hint now displays real keys instead of WASD. 

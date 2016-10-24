@@ -1,0 +1,12 @@
+//KARNAK
+/*music/karnak_peace  KarnakP
+music/karnak_medium KarnakM
+
+$limit music/karnak_peace 1
+$limit music/karnak_medium 1
+
+$rolloff music/karnak_peace 32 32
+$rolloff music/karnak_medium 32 32
+
+$pitchshift music/karnak_peace 0
+$pitchshift music/karnak_medium 0*/

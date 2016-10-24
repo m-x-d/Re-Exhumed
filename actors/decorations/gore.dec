@@ -1,0 +1,281 @@
+actor ExDecoGore1 : ExDecoration 598
+{
+	//$Category Gore
+	//$Title Pile of guts
+	
+	States
+	{
+		Spawn:
+			DGR1 A -1
+			stop
+	}
+}
+
+actor ExDecoGore2 : ExDecoration 630
+{
+	//$Category Gore
+	//$Title Sitting corpse (no head)
+	
+	States
+	{
+		Spawn:
+			DGR2 A -1
+			stop
+	}
+}
+
+actor ExDecoGore3 : ExDecoration 632
+{
+	//$Category Gore
+	//$Title Severed head
+	
+	States
+	{
+		Spawn:
+			DGR3 A -1
+			stop
+	}
+}
+
+actor ExDecoGore4 : ExCeilingDecoration 633
+{
+	//$Category Gore
+	//$Title Hanging head
+	
+	Height 50
+	
+	States
+	{
+		Spawn:
+			DGR4 A -1
+			stop
+	}
+}
+
+actor ExDecoGore5 : ExDecoration 634
+{
+	//$Category Gore
+	//$Title Shull
+	
+	States
+	{
+		Spawn:
+			DGR5 A -1
+			stop
+	}
+}
+
+actor ExDecoGore6 : ExBlockingDecoration 635
+{
+	//$Category Gore
+	//$Title Impaled head
+	
+	Radius 16
+	Height 40
+	BloodColor "Red"
+	
+	-NOBLOODDECALS
+	
+	States
+	{
+		Spawn:
+			DGR6 A 64 A_Jump(32, "Stare")
+			stop
+				
+		Stare:
+			DGR6 B 16
+			goto Spawn
+	}
+}
+
+actor ExDecoGore7 : ExBlockingCeilingDecoration 637
+{
+	//$Category Gore
+	//$Title Hanging corpse
+	
+	Height 96
+	BloodColor "Red"
+	
+	-NOBLOODDECALS
+	
+	States
+	{
+		Spawn:
+			DGR7 A -1
+			stop
+	}
+}
+
+actor ExDecoGore8 : ExBlockingCeilingDecoration 638
+{
+	//$Category Gore
+	//$Title Hanging body parts
+	
+	Height 73
+	BloodColor "Red"
+	
+	-NOBLOODDECALS
+	
+	States
+	{
+		Spawn:
+			DGR8 A -1
+			stop
+	}
+}
+
+actor ExDecoGore9 : ExCeilingDecoration 639
+{
+	//$Category Gore
+	//$Title Bloody Hook
+	
+	Height 45
+	 
+	States
+	{
+		Spawn:
+			DGR9 A -1
+			stop
+	}
+}
+
+actor ExDecoGore10 : ExDecoration 641
+{
+	//$Category Gore
+	//$Title Pile of remains
+	
+	States
+	{
+		Spawn:
+			DGRA A -1
+			stop
+	}
+}
+
+actor ExDecoGore11 : ExCeilingDecoration 642
+{
+	//$Category Gore
+	//$Title Head on a hook
+	
+	Height 74
+	 
+	States
+	{
+		Spawn:
+			DGRB A -1
+			stop
+	}
+}
+
+actor ExDecoGore12 : ExBlockingCeilingDecoration 643
+{
+	//$Category Gore
+	//$Title Hanging torso
+	
+	Height 48
+	BloodColor "Red"
+	
+	-NOBLOODDECALS
+	
+	States
+	{
+		Spawn:
+			DGRC A -1
+			stop
+	}
+}
+
+actor ExDecoGore13 : ExDecoration 644
+{
+	//$Category Gore
+	//$Title Rotten head
+	
+	States
+	{
+		Spawn:
+			DGRD A -1
+			stop
+	}
+}
+
+actor ExDecoGore14 : ExCeilingDecoration 645
+{
+	//$Category Gore
+	//$Title Hanging chest
+	
+	Height 41
+	
+	States
+	{
+		Spawn:
+			DGRE A -1
+			stop
+	}
+}
+
+actor ExDecoGore15 : ExBlockingDecoration 646
+{
+	//$Category Gore
+	//$Title Impaled chest
+	
+	Height 50
+	BloodColor "Red"
+	
+	-NOBLOODDECALS
+	
+	States
+	{
+		Spawn:
+			DGRF A -1
+			stop
+	}
+}
+
+actor ExDecoGoreFoot : ExDecoration 2822
+{
+	//$Category Gore
+	//$Title Bloody boot (left)
+	
+	States
+	{
+		Spawn:
+			PRG1 A -1
+			stop
+	}
+}
+
+actor ExDecoGoreFootFlipped : ExDecoGoreFoot 7822
+{
+	//$Category Gore
+	//$Title Bloody boot (right)
+	
+	XScale -0.6
+}
+
+actor ExDecoGoreHook : ExCeilingDecoration 1114
+{
+	//$Category Gore
+	//$Title Hook
+	
+	Height 57
+	
+	States
+	{
+		Spawn:
+			HOOK A -1
+			stop
+	}
+}
+
+actor ExDecoGoreSwingingHook : ExDecoGoreHook 1112
+{
+	//$Category Gore
+	//$Title Hook (animated)
+	
+	States
+	{
+		Spawn:
+			HOOK ABAC 12
+			loop
+	}
+}

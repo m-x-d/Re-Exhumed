@@ -1,0 +1,47 @@
+actor ExEgyptianColumn : ExBlockingDecoration 528
+{
+	//$Category Obstacles
+	//$Title Egyptian Column
+	 
+	radius 8
+	height 80
+	
+	States
+	{
+		Spawn:
+			CLM1 A -1
+			stop
+	}
+}
+
+actor ExUnderwaterColumn1 : ExBlockingDecoration 539
+{
+	//$Category Obstacles
+	//$Title Underwater Column 1
+	
+	radius 8
+	height 80
+	
+	States
+	{
+		Spawn:
+			CLM2 A -1
+			stop
+	}
+}
+
+actor ExUnderwaterColumn2 : ExBlockingDecoration 559
+{
+	//$Category Obstacles
+	//$Title Underwater Column 2
+	
+	radius 8
+	height 80
+	
+	States
+	{
+		Spawn:
+			CLM3 A -1
+			stop
+	}
+}

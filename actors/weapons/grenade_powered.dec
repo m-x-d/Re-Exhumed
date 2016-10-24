@@ -1,0 +1,165 @@
+//$gzdb_skip
+actor ExGrenadePowered : ExWeapon 
+{
+	Weapon.SlotNumber 5
+	Weapon.Ammotype "ExGrenadeAmmo"
+	Weapon.Ammouse 1
+	Weapon.Ammogive 1
+	Weapon.SisterWeapon ExGrenade
+	DamageType Explosive
+	
+	+WEAPON.NOAUTOFIRE
+	+WEAPON.NOALERT
+	+WEAPON.EXPLOSIVE
+	+WEAPON.NO_AUTO_SWITCH
+	+EXTREMEDEATH
+	+POWERED_UP
+
+	States
+	{
+		Ready:
+			PRNS H 0 A_SetCrosshair(8)
+			PRNS H 1 A_WeaponReady
+			goto Ready1
+			
+		Ready1:
+			PRNO A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready3")
+			goto Ready2
+			
+		Ready2:
+			PRNO B 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready4")
+			goto Ready3
+			
+		Ready3:
+			PRNO C 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready1")
+			goto Ready4
+			
+		Ready4:
+			PRNO D 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready2")
+			goto Ready1	
+			
+		ReadyNoAmmo:
+			NULL A 1 A_JumpIfInventory("ExGrenadeAmmo", 1, "FakeSelect")
+			NULL A 1 A_WeaponReady
+			loop
+			
+		Select:
+			PRNS A 0 A_SetCrosshair(8)
+			PRNS ABCDEFGH 1 Offset(0, 32)
+			PRNS H 0 A_Raise
+			wait
+			
+		FakeSelect:
+			PRNS ABCDEFGH 1
+			goto Ready
+			
+		Deselect:
+			NULL A 0 A_JumpIfNoAmmo("DeselectNoAmmo")
+			PR4F HGFEDCBA 1
+			PR4F A 0 A_Lower
+			wait
+			
+		DeselectNoAmmo:
+			NULL A 1 A_Lower
+			loop
+			
+		Fire:
+			NULL A 0 A_SetArg(0, 0)
+			PR1F ABCDEFG 1
+			PR1F H 2
+			PR1F IJKL 1
+			PR1F M 2
+			PR1F N 1
+			PR1F O 1 A_PlayWeaponSound("grenade/pin")
+			PR1F PQRSTUVWX 1
+			goto Hold
+
+		Hold:
+			NULL A 4 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_Refire
+			PR2F ABCD 1
+			PR2F E 1 ACS_NamedExecute("ExThrowGrenade", 0, args[0], false)
+			PR2F F 1 A_PlayWeaponSound("grenade/toss")
+			PR2F G 1
+			PR2F H 7
+			NULL A 0 A_Jump(40, "TossQuote")
+			goto HoldFinish
+
+		HoldFinish:
+			PR2F IJKLMNOPQRSTUVWXYZ 1
+			NULL A 0 A_JumpIfNoAmmo("ReadyNoAmmo")
+			PR3F ABCDEFGHIJKLMNO 1
+			NULL A 14
+			PR4F ABCDEFGH 1
+			goto Ready
+			
+		TossQuote:
+			NULL A 0 A_PlayWeaponSound("grenade/quote")
+			goto HoldFinish
+	}
+}
+
+actor ExThrownGrenadePowered : ExThrownGrenade
+{
+	DeathSound ""
+
+	States
+	{
+		Spawn:
+			PRNP A 0
+			goto FlyLoop
+
+		Death:
+			"####" "#" 0 A_JumpIf(args[0] > 25, "ThrustOnly")
+			"####" "#" 1 A_RadiusThrust(-200, 300, RTF_NOIMPACTDAMAGE | RTF_NOTMISSILE)
+			"####" "######" 0 A_SpawnItemEx("ExSandParticle", random(-170, 170), random(-170, 170), random(0, 110))
+			"####" "#" 0 A_SetArg(0, args[0] + 1)
+			loop
+			
+		ThrustOnly:
+			"####" "#" 0 A_JumpIf(args[0] > 35, "Explode")
+			"####" "#" 1 A_RadiusThrust(-200, 300, RTF_NOIMPACTDAMAGE | RTF_NOTMISSILE)
+			"####" "#" 0 A_SetArg(0, args[0] + 1)
+			loop	
+			
+		Explode:
+			"####" "G" 1 A_Scream
+			"####" "G" 0 A_AlertMonsters(2048)
+			NULL A 0 A_Explode(400, 200)
+			NULL A 0 A_PlaySound("grenade/explosion_powered")
+			NULL A 1 A_SpawnItemEx("ExGrenadeExplosion", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			NULL AAA 0 A_SpawnItemEx("ExSmoke", Random(10, 30), Random(10, 30), Random(10, 30), 0, 0, 0, 0, SXF_NOCHECKPOSITION, 200)
+			stop	
+	}
+}
+
+actor ExSandParticle 
+{
+	Mass 20
+	Gravity 2.0
+	Alpha 0.0
+	RenderStyle Add
+	
+	+NOTELEPORT
+	+CANNOTPUSH
+	+DONTSPLASH
+	+FORCEXYBILLBOARD
+	+SHOOTABLE //otherwise it won't be affected by A_RadiusThrust...
+	+SPECTRAL  //...but we don't want it to be shootable
+
+	States 
+	{
+		Spawn:
+			NULL A 0 NoDelay A_SetScale(FRandom(0.1, 0.2))
+			DSPR TTTTTTTTTTTTTTTTTTTTTTTTTTTT 1 Bright A_FadeIn(0.1)
+			goto FadeAway
+			
+		FadeAway:	
+			DSPR T 1 Bright A_FadeOut(0.025)
+			loop
+	}
+}

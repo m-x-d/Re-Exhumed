@@ -1,0 +1,86 @@
+//ricochetes
+bullet/ricochete1 RICHO_1
+bullet/ricochete2 RICHO_2
+bullet/ricochete3 RICHO_3
+bullet/ricochete4 RICHO_4
+bullet/ricochete5 RICHO_5
+bullet/ricochete7 RICHO_6
+bullet/ricochete7 RICHO_7
+bullet/ricochete8 RICHO_8
+bullet/ricochete9 RICHO_9
+bullet/ricochete10 RICHO_10
+bullet/ricochete11 RICHO_11
+bullet/ricochete12 RICHO_12
+bullet/ricochete13 RICHO_13
+$random bullet/ricochete { bullet/ricochete1 bullet/ricochete2 bullet/ricochete3 bullet/ricochete4 bullet/ricochete5 bullet/ricochete6 bullet/ricochete7 bullet/ricochete8 bullet/ricochete9 bullet/ricochete10 bullet/ricochete11 bullet/ricochete12 bullet/ricochete13 }
+$volume bullet/ricochete 0.8
+
+//bullet hits
+bullet/hit1 FLSHHIT1
+bullet/hit2 FLSHHIT2
+bullet/hit3 FLSHHIT3
+bullet/hit4 FLSHHIT4
+bullet/hit5 FLSHHIT5
+bullet/hit6 FLSHHIT6
+bullet/hit7 FLSHHIT7
+bullet/hit8 FLSHHIT8
+bullet/hit9 FLSHHIT9
+$random bullet/hit { bullet/hit1 bullet/hit2 bullet/hit3 bullet/hit4 bullet/hit5 bullet/hit6 bullet/hit7 bullet/hit8 bullet/hit9 }
+$volume bullet/hit 0.8
+
+//bullet casings
+//magnum
+magnum/casing1 CASINGS1
+magnum/casing2 CASINGS2
+magnum/casing3 CASINGS3
+magnum/casing4 CASINGS4
+magnum/casing5 CASINGS5
+$random magnum/casing { magnum/casing1 magnum/casing2 magnum/casing3 magnum/casing4 magnum/casing5 }
+$volume magnum/casing 0.7
+
+//m60
+m60/casing1 CASINGL1
+m60/casing2 CASINGL2
+m60/casing3 CASINGL3
+m60/casing4 CASINGL4
+m60/casing5 CASINGL5
+$random m60/casing { m60/casing1 m60/casing2 m60/casing3 m60/casing4 m60/casing5 }
+$volume m60/casing 0.4
+
+//WEAPONS
+//machete
+machete/out       SW_OUT
+machete/deselect  SW_AWAY
+machete/hit       SW_SLASH
+machete/hit_water SW_WATER
+machete/hitwall   SW_HIT
+machete/swing     SW_SWIPE
+$limit machete/hitwall 0
+
+//magnum
+magnum/reload       P_LOAD
+magnum/fire         P_FIRE
+magnum/fire_powered PP_FIRE
+magnum/click        P_CLICK
+$volume magnum/fire_powered 0.4
+
+//m60
+m60/fire1  MG_BANG
+m60/fire2  MG_SHOT2
+m60/fire3  MG_SHOOT
+m60/fire4  MG_SHOT3
+m60/reload MG_LOAD
+m60/reload_powered MGLOAD2
+m60/click  SG_CLICK
+$random m60/fire { m60/fire1 m60/fire2 }
+$random m60/fire_powered { m60/fire3 m60/fire4 }
+
+//grenade
+grenade/explosion           GRN_BOOM
+grenade/explosion_powered   GRNBOOMP
+grenade/drop                GRN_DROP
+grenade/pin                 GRN_PIN
+grenade/roll                GRN_ROLL
+grenade/toss                GRN_TOSS
+grenade/quote               JON_FNGR
+$volume grenade/explosion_powered 0.7

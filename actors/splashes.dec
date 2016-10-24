@@ -1,0 +1,124 @@
+//WATER SPLASHES
+actor ExWaterSplash 
+{
+	Scale 0.4
+	RenderStyle Translucent
+	Alpha 0.6
+	
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	+DONTBLAST
+	
+	States 
+	{
+		Spawn:
+			WSPL A 4
+			NULL AAAAAAAA 0 A_SpawnItemEx("ExWaterDrop", Random(-16, 16), Random(-16, 16), 1, Random(-3, 3), Random(-3, 3), Random(3, 6), 0, 0, 64)
+			WSPL BC 4
+			WSPL DEF 4 A_FadeOut(0.2)
+			stop
+	}
+}
+
+actor ExWaterSplashSmall : ExWaterSplash 
+{
+	Scale 0.2
+}
+
+actor ExWaterDrop 
+{
+	Radius 2
+	Height 4
+	Scale 0.3
+	RenderStyle Translucent
+	Alpha 0.6
+	
+	+NOBLOCKMAP
+	+THRUACTORS 
+	+MISSILE 
+	+DROPOFF
+	+NOTELEPORT
+	+CANNOTPUSH
+	+DONTSPLASH
+	+DONTBLAST
+	+FORCEXYBILLBOARD
+	
+	States 
+	{
+		Spawn:
+			WDRP AB 6
+			goto Fly
+			
+		Fly:
+			WDRP C 3 A_JumpIf(waterlevel > 0, "Vanish")
+			loop	
+			
+		Death:
+			WDRP D 6
+			stop
+			
+		Vanish:
+			NULL A 0
+			stop		
+	}
+}
+
+//WATER DRIPS
+actor ExWaterDripSpawner 5606
+{
+	//$Category SFX
+	//$Title Water Drip Spawner
+	//$Sprite DRIPB0
+	//$arg0 Drip delay
+	
+	Radius 4
+	Height 1
+	Scale 0.4
+	RenderStyle Translucent
+	Alpha 0.6
+	
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+SPAWNCEILING
+	
+	States
+	{
+		Spawn:
+			NULL A 0 A_SetTics((args[0] + 1) * Random(1, 2))
+			DRIP ABCDE 3
+			DRIP B 3 A_SpawnItemEx("ExWaterDrip", 0, 0, -8)
+			DRIP A 3 
+			loop
+	}
+}
+
+actor ExWaterDrip : ExWaterDrop
+{
+	Scale 0.4
+	
+	+EXPLODEONWATER
+	
+	States
+	{
+	  Spawn:
+			DRIP F 3 NoDelay A_JumpIf(waterlevel > 0, "WaterSplash")
+			loop
+			
+		Death:
+			NULL A 0 A_JumpIf(waterlevel > 0, "WaterSplash")
+			NULL AAAA 0 A_SpawnItemEx("ExWaterDrop", Random(-3, 3), Random(-3, 3), 1, Random(-2, 2), Random(-2, 2), Random(2, 4), 0, 0, 64)
+			NULL A 0 A_PlaySound("water/drip", CHAN_AUTO, 1.0, false, ATTN_NORM)
+			DRIP LMNMO 3
+			stop
+			
+		WaterSplash:
+			NULL AAAA 0 A_SpawnItemEx("ExWaterDrop", Random(-3, 3), Random(-3, 3), 1, Random(-2, 2), Random(-2, 2), Random(2, 4), 0, 0, 64)
+			NULL A 0 A_PlaySound("water/drip", CHAN_AUTO, 1.0, false, ATTN_NORM)
+			NULL A 0 A_ScaleVelocity(0)
+			NULL A 0 A_NoGravity
+			DRIP GHGIJI 3 A_FadeOut(0.05)
+		  stop
+	}
+}

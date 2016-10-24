@@ -1,0 +1,63 @@
+actor ExStatue1 : ExBlockingDecoration 570
+{
+	//$Category Decoration
+	//$Title Pharaoh statue
+	
+	radius 8
+	height 70
+	
+	States
+	{
+		Spawn:
+			STA1 A -1
+			stop
+	}
+}
+
+actor ExStatue2 : ExBlockingDecoration 571
+{
+	//$Category Decoration
+	//$Title Toth statue
+	
+	radius 8
+	height 70
+	
+	States
+	{
+		Spawn:
+			STA2 A -1
+			stop
+	}
+}
+
+actor ExStatue3 : ExBlockingDecoration 486
+{
+	//$Category Decoration
+	//$Title 3 Lions with Treasure Bowl
+	
+	radius 20
+	height 40
+	
+	States
+	{
+		Spawn:
+			LBWL A -1
+			stop
+	}
+}
+
+actor ExStatueGoat : ExBlockingDecoration 572
+{
+	//$Category Decoration
+	//$Title Golden Goat Statue
+	
+	radius 20
+	height 40
+	
+	States
+	{
+		Spawn:
+			GOAT A -1
+			stop
+	}
+}

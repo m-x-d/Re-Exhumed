@@ -1,0 +1,63 @@
+actor ExFireballTrap : ExAbstractTrap 1579
+{
+	//$Category Traps
+	//$Title Fireball trap
+
+	States
+	{
+		Active:
+			TRAP A 1 A_PlaySound("traps/fireball", CHAN_AUTO, 1.0, false, ATTN_NORM)
+			TRAP A 48 A_SpawnItemEx("ExFireball", 0, 0, height / 2, 12)
+			loop
+	}
+}
+
+actor ExFireball
+{
+	Height 16
+	Radius 12
+	Scale 0.6
+	Alpha 0.8
+	Speed 12
+	Damage (random(45, 60))
+	DeathSound "fireball/explosion"
+	Decal "ExFireballScorch"
+	
+	Projectile
+	+FLOORCLIP
+  +EXTREMEDEATH
+	+RANDOMIZE
+	+FORCEXYBILLBOARD
+	
+	States
+	{
+		Spawn:
+			FBAL A 0 NoDelay A_PlaySound("fireball/fly", CHAN_AUTO, 0.6, true, ATTN_IDLE)
+			goto Fly
+		  
+		Fly:	
+			FBAL ABC 3 Bright A_SpawnItemEx("ExFireCrackerTrail", 0, 0, 0, velx * 0.1, vely * 0.1, velz * 0.1 + FRandom(0.1, 0.5), angle, SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM)
+			loop
+
+		Death:
+			FBAL A 0 A_SpawnItemEx("ExSmokeLowAlpha", 0, 0, 0, 0, 0, 0.1, 0, SXF_NOCHECKPOSITION)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 6), Random(4, 6), Random(0, 2), Random(64, 128), 0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 6), Random(4, 6), Random(0, 2), Random(128, 255),0, 100)
+			NULL A 0 A_SpawnItemEx("ExSpawnedSmallRock", 0, 0, 0, Random(4, 6), Random(4, 6), Random(0, 2), Random(0, 64),	 0, 100)																						
+			NXPL A 0 A_QuakeEx(1, 1, 1, 16, 0, 450, "", QF_SCALEDOWN | QF_WAVE)
+			NXPL A 0 A_SetScale(0.4)
+			goto Disappear
+		
+		Disappear:
+			FBAL D 2 Bright Light("FIREBALLLIGHTFADE1") A_SetScale(ScaleX + 0.1) 
+			FBAL D 0 A_FadeOut(0.15)
+			FBAL D 2 Bright Light("FIREBALLLIGHTFADE2") A_SetScale(ScaleX + 0.1) 
+			FBAL D 0 A_FadeOut(0.15)
+			FBAL D 2 Bright Light("FIREBALLLIGHTFADE3") A_SetScale(ScaleX + 0.1) 
+			FBAL D 0 A_FadeOut(0.15)
+			FBAL D 2 Bright Light("FIREBALLLIGHTFADE4") A_SetScale(ScaleX + 0.1) 
+			FBAL D 0 A_FadeOut(0.15)
+			NULL A 8 //sit here a bit to quake some more...
+			stop
+	}
+}

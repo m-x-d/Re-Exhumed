@@ -1,0 +1,306 @@
+//$gzdb_skip
+actor ExM60Powered : ExWeapon 
+{
+	Weapon.Ammotype "ExM60Bullets"
+	Weapon.Ammouse 1
+	Weapon.Ammogive 0
+	Weapon.SlotNumber 3
+	Weapon.SelectionOrder 1
+	Weapon.SisterWeapon ExM60
+	//Scale 0.4
+	AttackSound "m60/fire_powered"
+	
+	+BLOODSPLATTER
+	+EXTREMEDEATH
+	+POWERED_UP
+	
+	States 
+	{
+		Ready:
+			X60_ A 0 A_JumpIf(args[1] == 66, "Ready6")
+			X60_ A 0 A_JumpIf(args[1] == 69, "Ready3")
+			X60_ A 0 A_JumpIfInventory("ExM60Bullets", 9, "Ready99")
+			X60_ A 0 A_JumpIf(CallACS("ExGetM60AmmoCount") == 6, "Ready6")
+			X60_ A 0 A_JumpIf(CallACS("ExGetM60AmmoCount") == 3, "Ready3")
+			X60_ A 1 A_WeaponReady(WRF_ALLOWRELOAD) //failsafe
+			loop
+    
+//Ready normal		
+		Ready99:
+			X60_ A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready99B")
+			goto Ready99A
+			
+		Ready99A:
+			X60O A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready99C")
+			goto Ready99B
+			
+		Ready99B:
+			X60O B 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready99")
+			goto Ready99C
+			
+		Ready99C:
+			X60O C 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready99A")
+			goto Ready99			
+
+//Ready when 6 bullets left DEF
+		Ready6:
+			X60_ B 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready6B")
+			goto Ready6A
+			
+		Ready6A:
+			X60O D 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready6C")
+			goto Ready6B
+			
+		Ready6B:
+			X60O E 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready6")
+			goto Ready6C
+			
+		Ready6C:
+			X60O F 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready6A")
+			goto Ready6	
+    
+//Ready when 3 bullets left	JHI	
+		Ready3:
+			X60_ C 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready3B")
+			goto Ready3A
+			
+		Ready3A:
+			X60O G 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready3C")
+			goto Ready3B
+			
+		Ready3B:
+			X60O H 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready3")
+			goto Ready3C
+			
+		Ready3C:
+			X60O I 1 A_WeaponReady(WRF_ALLOWRELOAD)
+			NULL A 0 A_Jump(128, "Ready3A")
+			goto Ready3	
+
+///////////////////////////////		
+		Select:
+			X60_ A 0 A_SetCrosshair(8)
+			X60S ABCDEFGHIJK 1 Offset(0, 32)
+			X60_ A 0 A_Raise
+			wait
+
+		Deselect:
+			NULL A 0 A_JumpIf(CallACS("ExGetM60AmmoCount") == 0, "DeselectEmpty")
+			X60D ABCDEF 1
+			X60_ A 0 A_Lower
+			wait
+			
+		DeselectEmpty:
+			X60E ABCD 1
+			X60D EF 1
+			X60_ A 0 A_Lower
+			wait	
+
+		Fire:
+			NULL A 0 A_JumpIfNoAmmo("FireNoAmmo")
+			NULL A 0 A_SetArg(0, 0) //used to fire 3 bullets
+			NULL A 0 A_SetArg(2, CallACS("ExGetM60AmmoCount"))
+			NULL A 0 A_JumpIf(args[2] == 9, "Fire9Left")
+			NULL A 0 A_JumpIf(args[2] == 6, "Fire6Left")
+			NULL A 0 A_JumpIf(args[2] == 3, "Fire3Left")
+			NULL A 0 A_JumpIf(args[1] == 63, "Fire9Left")
+			NULL A 0 A_JumpIf(args[1] == 66, "Fire6Left")
+			NULL A 0 A_JumpIf(args[1] == 69, "Fire3Left")
+			NULL A 0 A_Jump(85, "Fire1")
+			NULL A 0 A_Jump(85, "Fire2")
+			goto Fire3
+		
+		FireNoAmmo:
+			NULL A 0 A_PlayWeaponSound("m60/click")
+			goto Ready	
+
+		Fire1:
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F A 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F B 1 A_SetPitch(pitch + 0.15)
+			X60F C 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_SetArg(1, args[1] + 1)
+			NULL A 0 A_JumpIf(args[0] == 3, "DoRefire")
+			NULL A 0 A_Jump(128, "Fire2")
+			goto Fire3
+
+		Fire2:
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+		  NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F E 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F F 1 A_SetPitch(pitch + 0.15)
+			X60F G 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_SetArg(1, args[1] + 1)
+			NULL A 0 A_JumpIf(args[0] == 3, "DoRefire")
+			NULL A 0 A_Jump(128, "Fire1")
+			goto Fire3
+		
+		Fire3:
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F I 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F J 1 A_SetPitch(pitch + 0.15)
+			X60F K 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_SetArg(1, args[1] + 1)
+			NULL A 0 A_JumpIf(args[0] == 3, "DoRefire")
+			NULL A 0 A_Jump(128, "Fire2")
+			goto Fire1
+
+		//when 9 bullets left  
+		Fire9Left: 
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F A 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F B 1 A_SetPitch(pitch + 0.15)
+			X60F C 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F E 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F F 1 A_SetPitch(pitch + 0.15)
+			X60F G 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F M 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F N 1 A_SetPitch(pitch + 0.15)
+			X60F O 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(1, args[1] + 3)
+			goto DoRefire
+
+		//when 6 bullets left
+		Fire6Left:
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F Q 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F R 1 A_SetPitch(pitch + 0.15)
+			X60F S 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F Q 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F R 1 A_SetPitch(pitch + 0.15)
+			X60F S 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F Q 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F R 1 A_SetPitch(pitch + 0.15)
+			X60F S 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(1, args[1] + 3)
+			goto DoRefire
+
+		//when 3 bullets left
+		Fire3Left:
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F U 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F V 1 A_SetPitch(pitch + 0.15)
+			X60F W 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F U 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F V 1 A_SetPitch(pitch + 0.15)
+			X60F W 1 A_SetPitch(pitch + 0.3)
+			
+			NULL A 0 A_QuakeEx(1, 1, 1, 6, 0, 450, "", QF_SCALEDOWN | QF_WAVE, 0.2, 0.2, 0.2)
+			NULL A 0 A_SetPitch(pitch - 1.0)
+			X60F U 1 A_FireBullets(1, 1, 1, 6, "ExBulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+			NULL A 0 A_Recoil(0.1 * cos(pitch))
+			NULL A 0 A_SetAngle(angle + frandom(-0.6, 0.6))
+			NULL A 0 A_CustomMissile("ExM60PoweredCaseSpawner", 32, 0, 0, CMF_AIMDIRECTION, -pitch)
+			X60F V 1 A_SetPitch(pitch + 0.15)
+			X60F W 1 A_SetPitch(pitch + 0.3)
+			NULL A 0 A_SetArg(1, args[1] + 3)
+			goto DoRefire
+
+		DoRefire:
+			NULL A 0 A_JumpIf(args[1] == 72, "Reload") //reload after 72 bullets
+			NULL A 0 A_Refire
+			goto Ready
+
+		Reload:
+			NULL A 0 A_JumpIfNoAmmo("Ready")
+			NULL A 0 A_JumpIf(args[1] == 0, "Ready") //no need to reload
+			NULL A 0 A_SetArg(1, 0) //reset clip counter
+			NULL A 0 A_PlayWeaponSound("m60/reload_powered")
+			X60R ABCDEFGHI 1
+			X60R J 14
+			X60R KLM 2
+			X60R N 8
+			X60R OPQRSTUVWXYZ 1
+			X61R ABCD 1
+			goto Ready
+	}
+}
+
+actor ExM60PoweredCaseSpawner : ExM60CaseSpawner 
+{
+	States 
+	{
+		Spawn:
+			NULL A 0
+			NULL A 1 A_CustomMissile("ExM60PoweredBulletCase", 16, 30, random(-80, -100), CMF_AIMDIRECTION, random(40, 80))
+			stop
+	}
+}
+
+actor ExM60PoweredBulletCase : ExM60BulletCase 
+{
+	States 
+	{
+		Spawn:
+			PASE ABCDEFGH 3 A_Countdown
+			NULL A 0 A_ScaleVelocity(0.85)
+			loop
+	}
+}

@@ -1,0 +1,462 @@
+actor ExBreakablePottery : ExBlockingDecoration
+{
+	Health 2
+	DeathSound "pottery/break"
+
+	+SOLID
+	+NOBLOOD
+	-NODAMAGE
+
+	States
+	{
+		Death:
+			NULL A 0 A_ScreamAndUnblock
+			NULL AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("ExPotChunkSpawner", Random(-10, 10), Random(-10, 10), Random(4, 36), Random(-3, 3), Random(-3, 3), Random(2, 3), Random(0, 256), 0, 64)
+			NULL A 0 A_SpawnItemEx("ExSmokeLowAlpha", 0, 0, 10, 0, 0, 0, 0, 0, 0)
+			NULL A 0 A_Jump(128, "SpawnSpider", "SpawnAmmo", "SpawnAmmo", "SpawnAmmo", "SpawnScorpion", "SpawnRat", "SpawnMana", "SpawnHealth")
+			stop
+		
+		SpawnSpider:
+			NULL A 0 A_SpawnItemEx("ExSpider", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop
+			
+		SpawnScorpion:
+			NULL A 0 A_SpawnItemEx("ExScorpion", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop
+			
+		SpawnRat:
+			NULL A 0 A_SpawnItemEx("ExRat", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop		
+		
+		SpawnAmmo:
+			NULL A 0 A_SpawnItemEx("ExMagnumClip", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop
+
+		SpawnMana:
+			NULL A 0 A_SpawnItemEx("ExMana", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop
+			
+		SpawnHealth:
+			NULL A 0 A_SpawnItemEx("ExHealthVial", Random(-4, 4), Random(-4, 4), 4, Random(-2, 2), Random(-2, 2), Random(5, 10), Random(0, 256))
+			stop	
+	}
+}
+
+actor ExAbstractPotChunk : ExAbstractGoreChunk
+{
+	DeathSound "pottery/chunk"
+	BounceSound "pottery/chunk"
+	BounceCount 2
+	BounceFactor 0.5
+	Gravity 0.8
+	Scale 0.8
+	Mass 10
+}
+
+actor ExPotChunkSpawner : ExAbstractSpawner
+{
+	States
+	{
+		Spawn:
+			NULL A 1
+			NULL A 0 A_Jump(256, "Chunk1", "Chunk2", "Chunk3", "Chunk4", "Chunk5", "Chunk6", "Chunk7", "Chunk8", "Chunk9", "Chunk10")
+			stop
+
+		Chunk1:
+			NULL A 0 A_SpawnItemEx("ExPotChunk1", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+
+		Chunk2:
+			NULL A 0 A_SpawnItemEx("ExPotChunk2", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+
+		Chunk3:
+			NULL A 0 A_SpawnItemEx("ExPotChunk3", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+
+		Chunk4:
+			NULL A 0 A_SpawnItemEx("ExPotChunk4", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk5:
+			NULL A 0 A_SpawnItemEx("ExPotChunk5", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk6:
+			NULL A 0 A_SpawnItemEx("ExPotChunk6", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk7:
+			NULL A 0 A_SpawnItemEx("ExPotChunk7", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk8:
+			NULL A 0 A_SpawnItemEx("ExPotChunk8", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk9:
+			NULL A 0 A_SpawnItemEx("ExPotChunk9", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+			
+		Chunk10:
+			NULL A 0 A_SpawnItemEx("ExPotChunk10", 0, 0, 0, velx, vely, velz, angle, 0, 0)
+			stop
+	}
+}
+
+actor ExPotChunk1 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C ABCD 2
+			loop
+
+		Death:
+			PT1L A 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk2 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C EFGH 3
+			loop
+
+		Death:
+			PT1L E 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk3 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C JKLM 2
+			loop
+
+		Death:
+			PT1L J 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk4 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C OPQR 3
+			loop
+
+		Death:
+			PT1L O 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk5 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C TUVW 2
+			loop
+
+		Death:
+			PT1L T 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk6 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C DCBA 3
+			loop
+
+		Death:
+			PT1L A 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk7 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C HGFE 2
+			loop
+
+		Death:
+			PT1L E 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk8 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C MLKJ 3
+			loop
+
+		Death:
+			PT1L J 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk9 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C RQPO 2
+			loop
+
+		Death:
+			PT1L O 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPotChunk10 : ExAbstractPotChunk
+{
+	States
+	{
+		Fly:
+			PT1C WVUT 3
+			loop
+
+		Death:
+			PT1L E 250
+			NULL T 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+///////////
+//POTTERY//
+///////////
+actor ExPot1 : ExBreakablePottery 484
+{
+	//$Category Decoration
+	//$Title Big pot
+	
+	radius 14
+	height 50
+	scale 0.7
+
+	States
+	{
+		Spawn:
+			POT1 A -1
+			stop
+	}
+}
+
+actor ExPot2 : ExBlockingDecoration 513
+{
+	//$Category Decoration
+	//$Title Tall gold vase
+	
+	radius 8
+	height 28
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT2 A -1
+			stop
+	}
+}
+
+actor ExPot3 : ExBlockingDecoration 514
+{
+	//$Category Decoration
+	//$Title Bronze cup
+	
+	radius 8
+	height 16
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT3 A -1
+			stop
+	}
+}
+
+actor ExPot4 : ExBlockingDecoration 515
+{
+	//$Category Decoration
+	//$Title Tall bronze vase
+	
+	radius 12
+	height 32
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT4 A -1
+			stop
+	}
+}
+
+actor ExPot5 : ExBlockingDecoration 516
+{
+	//$Category Decoration
+	//$Title Tall bronze vase 2
+	
+	radius 8
+	height 32
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT5 A -1
+			stop
+	}
+}
+
+actor ExPot6 : ExBreakablePottery 518
+{
+	//$Category Decoration
+	//$Title Big pot 2
+	
+	radius 14
+	height 50
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT6 A -1
+			stop
+	}
+}
+
+actor ExPot7 : ExBlockingDecoration 529
+{
+	//$Category Decoration
+	//$Title Big vase
+	
+	radius 14
+	height 45
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT7 A -1
+			stop
+	}
+}
+
+actor ExPot8 : ExBlockingDecoration 531
+{
+	//$Category Decoration
+	//$Title Golden pincher
+	
+	radius 8
+	height 24
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT8 A -1
+			stop
+	}
+}
+
+actor ExPot9 : ExBlockingDecoration 532
+{
+	//$Category Decoration
+	//$Title Short golden vase (laying)
+	
+	radius 16
+	height 20
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POT9 A -1
+			stop
+	}
+}
+
+actor ExPot10 : ExBlockingDecoration 533
+{
+	//$Category Decoration
+	//$Title Short golden vase
+	
+	radius 12
+	height 28
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POTA A -1
+			stop
+	}
+}
+
+actor ExPot11 : ExBlockingDecoration 1250
+{
+	//$Category Decoration
+	//$Title Dark pincher
+	
+	radius 14
+	height 42
+	scale 0.7    
+	
+	States
+	{
+		Spawn:
+			POTB A -1
+			stop
+	}
+}
+
+actor ExPot12 : ExBlockingDecoration 1284
+{
+	//$Category Decoration
+	//$Title Alabemic
+	
+	radius 14
+	height 38
+	scale 0.7
+	
+	States
+	{
+		Spawn:
+			POTC A -1
+			stop
+	}
+}

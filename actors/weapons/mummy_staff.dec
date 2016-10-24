@@ -1,0 +1,99 @@
+//$gzdb_skip
+actor ExMummyStaff : ExWeapon
+{
+	DamageType "ExMummyPlayerAttack"
+	Inventory.RestrictedTo "ExMummyPlayer"
+	
+	+WEAPON.NOAUTOFIRE
+	+WEAPON.EXPLOSIVE
+	-COUNTITEM
+
+	States
+	{
+		Ready:
+			WSTI A 0 A_SetCrosshair(8)
+			NULL A 0 A_JumpIf(args[0] == 0, "FakeSelect")
+			NULL A 0 A_SetArg(0, args[0] + 1)
+			NULL A 0 A_JumpIf(args[0] >= 262, "FakeDeselect") //unmorph after aprox. 15 seconds
+			WSTI A 2 A_WeaponReady
+			loop
+			
+		Select: //never actually used
+			WSTI A 0 A_Raise
+			wait
+			
+		FakeSelect:
+			WSTS A 1 A_PlayWeaponSound("mummy/morph")
+			WSTS BCSEF 1
+			WSTS G 2
+			WSTS HIJKLMNOPQRS 1
+			WSTS T 2
+			WSTS UVW 1
+			WSTS X 3
+			WSTS YZ 1
+			WS1S ABCDE 1
+			WS1S F 3
+			WS1S G 4
+			WS1S H 2
+			WS1S I 14
+			WS1S J 2
+			WS1S KLMNOPQRSTUVWX 1
+			NULL A 0 A_SetArg(0, 1)
+			goto Ready
+			
+		Deselect: //called only if player is killed during morph
+			WSTI A 0 A_Lower
+			loop
+
+		FakeDeselect:
+			WSTD ABCDE 1
+			goto Unmorph
+
+		Fire:
+			WSTF ABCDEFGHIJKL 1
+			NULL A 12
+			WSTF MNOP 1
+			WSTF Q 4
+			WSTF R 2 A_SpawnItemEx("ExMummyStaffAttackFlash", 0, 0, 32)//fire
+			NULL A 0 A_PlayWeaponSound("mummy/staff_attack")
+			NULL AAAAAAAA 0 A_SpawnItemEx("ExSmokeLowAlpha", Random(20, 50) * RandomPick(-1, 1), Random(20, 50) * RandomPick(-1, 1), 10, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+			NXPL A 0 A_QuakeEx(1, 1, 6, 16, 0, 194, "", QF_SCALEDOWN | QF_WAVE, 1.0, 1.0, 2.0)
+			NULL A 0 A_Explode(150, 300, XF_NOTMISSILE)
+			WSTF STUVW 1
+			WSTF X 2
+			WSTF Y 1 A_SetArg(1, 1)
+			WSTF Z 5
+			WS1F A 1
+			WS1F B 4
+			WS1F C 4 //fall-through here!
+			
+		Unmorph:
+			WSTD F 2 A_PlayWeaponSound("mummy/unmorph")
+			WSTD G 4
+			WSTD H 8
+			WSTD I 4
+			WSTD J 6
+			WSTD K 2
+			WSTD LM 4
+			WSTD NOPQRSTUVW 2
+			NULL A 0 ACS_NamedExecute("ExUnMorphPlayer")
+			NULL A 0 A_JumpIf(args[1] == 1 && random(1, 7) == 1, "Laugh") //14% chance, only after firing staff
+			goto Ready
+			
+		Laugh:
+			NULL A 0 A_PlaySound("explayer/laugh", CHAN_VOICE)
+			goto Ready
+	}
+}
+
+actor ExMummyStaffAttackFlash
+{
+	+NOGRAVITY
+	
+	States
+	{
+		Spawn:
+			STFF ABCD 2
+			stop
+	}
+}

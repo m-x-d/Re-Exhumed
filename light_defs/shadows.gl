@@ -1,0 +1,337 @@
+//$gzdb_skip
+//That's where you saw this first :)
+
+//////////
+//PLAYER
+//////////
+pointlight PLAYERSHADOW
+{
+	color 0.7 0.7 0.7
+	size 9
+	subtractive 1
+	dontlightself 1
+}
+
+object ExPlayer
+{
+	frame PLYR { light PLAYERSHADOW }
+	//frame PLRD { light PLAYERSHADOW }
+	//frame PLRX { light PLAYERSHADOW }
+}
+
+object ExMummyPlayer
+{
+	frame MUMW { light PLAYERSHADOW }
+	frame MUMA { light PLAYERSHADOW }
+	//frame MUMD { light PLAYERSHADOW }
+}
+
+//////////
+//ENEMIES
+//////////
+
+//ANUBIS
+pointlight NUBSHADOW
+{
+	color 0.7 0.7 0.7
+	size 8
+	subtractive 1
+	dontlightself 1
+}
+
+object ExAnubis
+{
+	frame NUBI { light NUBSHADOW }
+	frame NUBW { light NUBSHADOW }
+	frame NUBA { light NUBSHADOW }
+	frame NUBP { light NUBSHADOW }
+	frame NUBD { light NUBSHADOW }
+	frame NUBX { light NUBSHADOW }
+}
+
+//MUMMY
+object ExMummy
+{
+	frame MUMW { light PLAYERSHADOW }
+	frame MUMA { light PLAYERSHADOW }
+	frame MUMD { light PLAYERSHADOW }
+}
+
+//SPIDER
+pointlight SPIDERSHADOW
+{
+	color 0.7 0.7 0.7
+	size 10
+	subtractive 1
+	dontlightself 1
+}
+
+object ExSpider
+{
+	frame SPII { light SPIDERSHADOW }
+	frame SPIW { light SPIDERSHADOW }
+	frame SPIA { light SPIDERSHADOW }
+	frame SPIJ { light SPIDERSHADOW }
+	frame SPID { light SPIDERSHADOW }
+}
+
+//RAT
+pointlight RATSHADOW
+{
+	color 0.9 0.9 0.9
+	size 5
+	subtractive 1
+	dontlightself 1
+}
+
+object ExRat
+{
+	frame RAT_ { light RATSHADOW }
+	frame RATF { light RATSHADOW }
+	frame RATD { light RATSHADOW }
+}
+
+object ExRatIdle
+{
+	frame RAT_ { light RATSHADOW }
+}
+
+//SCORPION
+object ExScorpion
+{
+	frame SCRP { light RATSHADOW }
+}
+
+//PIRANJECTILE :)
+object ExJumpingPiranha
+{
+  frame PRA1 { light SPIDERSHADOW }
+	frame PIRX { light SPIDERSHADOW }
+	frame PRD2 { light SPIDERSHADOW }
+}
+
+//////////////
+//DECORATIONS
+//////////////
+
+//VEGETATION
+pointlight PALMSHADOW
+{
+	color 1.0 1.0 1.0
+	size 16
+	subtractive 1
+	dontlightself 1
+}
+
+pointlight BIGPLANTSHADOW
+{
+	color 1.0 1.0 1.0
+	size 12
+	subtractive 1
+	dontlightself 1
+}
+
+object ExPalmTree1
+{
+	frame PALM { light PALMSHADOW }
+}
+
+object ExPalmTree2
+{
+	frame PALM { light PALMSHADOW }
+}
+
+object ExPalmTree3
+{
+	frame PALM { light PALMSHADOW }
+}
+
+object ExPlant1
+{
+	frame PPOT { light BIGPLANTSHADOW }
+}
+
+//POTTERY
+pointlight SMALLPOTSHADOW
+{
+	color 1.0 1.0 1.0
+	size 3
+	subtractive 1
+	dontlightself 1
+}
+
+object ExPot1
+{
+	frame POT1 { light SPIDERSHADOW }
+}
+
+object ExPot2
+{
+	frame POT2 { light SMALLPOTSHADOW }
+}
+
+object ExPot3
+{
+	frame POT3 { light SMALLPOTSHADOW }
+}
+
+object ExPot4
+{
+	frame POT4 { light RATSHADOW }
+}
+
+object ExPot5
+{
+	frame POT5 { light RATSHADOW }
+}
+
+object ExPot6
+{
+	frame POT6 { light SPIDERSHADOW }
+}
+
+object ExPot7
+{
+	frame POT7 { light SPIDERSHADOW }
+}
+
+object ExPot8
+{
+	frame POT8 { light SMALLPOTSHADOW }
+}
+
+object ExPot9
+{
+	frame POT9 { light SPIDERSHADOW }
+}
+
+object ExPot10
+{
+	frame POTA { light RATSHADOW }
+}
+
+object ExPot11
+{
+	frame POTB { light SPIDERSHADOW }
+}
+
+object ExPot12
+{
+	frame POTC { light SPIDERSHADOW }
+}
+
+//STATUES
+object ExStatue1
+{
+	frame STA1 { light RATSHADOW }
+}
+
+object ExStatue2
+{
+	frame STA2 { light RATSHADOW }
+}
+
+object ExStatueGoat
+{
+	frame GOAT { light SPIDERSHADOW }
+}
+
+//GORE
+object ExDecoGore2
+{
+	frame DGR2 { light BIGPLANTSHADOW }
+}
+
+object ExDecoGore15
+{
+	frame DGRF { light RATSHADOW }
+}
+
+//DANCERS
+object ExDancer1
+{
+	frame DNC1 { light RATSHADOW }
+}
+
+object ExDancer2
+{
+	frame DNC2 { light RATSHADOW }
+}
+
+object ExDancer3
+{
+	frame DNC3 { light SPIDERSHADOW }
+}
+
+//MISC
+object ExEndLevelPillar
+{
+	frame PEND { light SPIDERSHADOW }
+}
+
+object ExCamel
+{
+	frame CMEL { light PALMSHADOW }
+}
+
+object ExFountain1
+{
+	frame FNTN { light SPIDERSHADOW }
+}
+
+//////////
+//PICKUPS
+//////////
+pointlight M60SHADOW
+{
+	color 1.0 1.0 1.0
+	size 12
+	subtractive 1
+	dontlightself 1
+}
+
+pointlight GRENADESHADOW
+{
+	color 0.9 0.9 0.9
+	size 3
+	subtractive 1
+	dontlightself 1
+}
+
+pointlight M60BULLETSSHADOW
+{
+	color 0.8 0.8 0.8
+	size 8
+	subtractive 1
+	dontlightself 1
+}
+
+object ExGrenade
+{
+	frame AGRN { light GRENADESHADOW }
+}
+
+object ExThrownGrenade
+{
+	frame GRNP { light GRENADESHADOW }
+}
+
+object ExM60
+{
+	frame WM60 { light M60SHADOW }
+}
+
+object ExM60Bullets
+{
+	frame A60S { light M60BULLETSSHADOW }
+}
+
+object ExM60BulletsBig
+{
+	frame A60B { light M60BULLETSSHADOW }
+}
+
+object ExMagnumClip
+{
+	frame AMAG { light GRENADESHADOW }
+}

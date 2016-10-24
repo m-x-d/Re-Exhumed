@@ -1,0 +1,304 @@
+//$gzdb_skip
+actor ExPlayer : PlayerPawn
+{
+	Speed 0.8
+	Health 100
+	Radius 14
+	Height 60
+	PainChance 255
+	DamageFactor "Falling", 0.6
+	Scale 0.6
+	BloodType "ExBloodHit", "ExBloodSplatter"
+	
+	Player.WeaponSlot 1, ExMachete
+	Player.WeaponSlot 2, ExMagnum
+	Player.WeaponSlot 3, ExM60
+	//Player.WeaponSlot 4, ExFlamethrower
+	Player.WeaponSlot 5, ExGrenade
+	//Player.WeaponSlot 6, ExCobraStaff
+	//Player.WeaponSlot 7, ExEyeOfRah
+
+	Player.DisplayName "John"
+	Player.CrouchSprite "PLRC"
+	Player.StartItem "ExMachete"
+	Player.ViewHeight 56
+	Player.AttackZOffset 29
+	Player.SoundClass "john"
+	Player.ColorRange 0, 0
+	Player.JumpZ 8.44 //default = 8.0
+	//Player.FallingScreamSpeed 35.0, 40.0
+	Player.DamageScreenColor "AE1010", 1.0
+	
+	+NOSKIN
+
+	States 
+	{
+		Spawn:
+			PLYR A 1
+			goto Stand
+			
+		Stand:
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 0 || vely > 0, "See")
+			PLYR A 6
+			NULL A 0 A_Jump(15, "LookAround")
+			loop
+
+		LookAround:
+			PLYR B 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 1 || vely > 1, "See")
+			PLYR B 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 1 || vely > 1, "See")
+			PLYR C 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 1 || vely > 1, "See")
+			PLYR C 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 1 || vely > 1, "See")
+			PLYR B 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx > 1 || vely > 1, "See")
+			PLYR B 6
+			goto Stand
+
+		See:
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx == 0 && vely == 0, "Stand")
+			PLYR D 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx == 0 && vely == 0, "Stand")
+			PLYR E 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx == 0 && vely == 0, "Stand")
+			PLYR F 6
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			NULL A 0 A_JumpIf(velx == 0 && vely == 0, "Stand")
+			PLYR G 6
+			loop
+
+		Jump:
+			PLYR M 4
+			NULL A 0 A_JumpIf(z > floorz && velz != 0, "Jump")
+			goto Stand
+
+		Missile:
+			PLYR HI 6
+			goto Spawn
+	
+		Melee:
+			PLYR HI 6
+			Goto Missile
+	
+		Pain:
+			PLYR J 4 A_Pain
+			PLYR K 4
+			PLYR L 4 
+			goto Spawn
+	
+		Death:
+			NULL A 0 ACS_NamedExecute("ExOnPlayerDeath")
+			PLRD A 0 A_PlayerSkinCheck("AltSkinDeath")
+		Death1:
+			PLRD A 4 A_PlayerScream
+			PLRD B 4 A_NoBlocking
+			PLRD C 4
+			PLRD DE 4
+			PLRD F -1
+			stop
+			
+		AltSkinDeath:
+			PLRD A 4 A_PlayerScream
+			PLRD B 4 A_NoBlocking
+			PLRD CDE 4
+			PLRD F -1
+			stop
+			
+		XDeath:
+			//NULL A 0 A_GiveInventory("ExShowStopper") //dbg
+			NULL A 0 ACS_NamedExecute("ExOnPlayerXDeath")
+			PLRX A 0 A_PlayerSkinCheck("AltSkinXDeath")
+		XDeath1:
+			PLRX A 4 A_XScream
+			PLRX B 4 A_NoBlocking
+			PLRX C 4
+			NULL A 0 A_SpawnItemEx("ExGore1", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore2", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore3", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore4", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore5", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGore7", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGoreRibcage", 0, 0, 35, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 128)
+			NULL A 0 A_SpawnItemEx("ExGoreGuts", 0, 0, 30, velx + Random(-4, 4), vely + Random(-4, 4), Random(0, 2), Random(0, 256), 0, 0)
+			NULL A 0 A_SpawnItemEx("ExBloodCloud", 0, 0, 35)
+			NULL A 0 A_SpawnItemEx("ExPlayerGoreHead", 0, 0, 45, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 0)
+			NULL A 0 A_SpawnItemEx("ExPlayerGoreFootLeft", 0, 0, 25, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 0)
+			NULL A 0 A_SpawnItemEx("ExPlayerGoreFootRight", 0, 0, 25, velx + Random(-5, 5), vely + Random(-5, 5), Random(2, 5), Random(0, 256), 0, 0)
+			PLRX DE 4
+			NULL A -1
+			stop
+			
+		AltSkinXDeath: //GZDoom crashes without this state
+			PLRX A 4 A_XScream
+			PLRX B 4 A_NoBlocking
+			PLRX CDE 4
+			NULL A -1
+			stop
+	}
+}
+
+actor ExMummyPlayer : PlayerPawn 
+{
+	Health 75
+	ReactionTime 0
+	PainChance 0
+	Radius 16
+	Height 60
+	Speed 0.3
+	Scale 0.65
+
+	DeathSound "mummy/death"
+	Player.JumpZ 0
+	Player.Viewheight 56
+	//Player.SpawnClass "ExMummyPlayer"
+	Player.SoundClass "mummyplayer"
+	Player.DisplayName "John the Mummy"
+	Player.MorphWeapon "ExMummyStaff"
+	Player.DamageScreenColor "AE1010", 1.0
+	DamageFactor "Falling", 0.6
+	DamageFactor "ExMummyPlayerAttack", 0.0
+
+	+NOEXTREMEDEATH
+	+NOSKIN
+	-PICKUP
+
+	States 
+	{
+		Spawn:
+			MUMW A -1
+			stop
+
+		See:
+			MUMW AAAABBBBCCCCDDDDEE 1
+			NULL A 0 A_PlaySound("mummy/staff_walk", CHAN_AUTO, 0.2)
+			MUMW EEFFFFBBBB 1
+			loop
+
+		Melee:
+		Missile:
+			MUMA AC 6
+			MUMA B 5
+			MUMA C 4
+			MUMA D 4
+			MUMA EFG 8
+			goto Spawn
+	
+		Death:
+			NULL A 0 ACS_NamedExecute("ExOnMorphedPlayerDeath")
+			MUMD A 4 A_PlayerScream
+			MUMD B 4 A_NoBlocking
+			MUMD C 4
+			NULL A 0 A_PlaySound("mummy/unwrap", CHAN_AUTO, 0.4)
+			MUMD DEFGH 4
+			NULL A 0 A_PlaySound("mummy/staff_fall", CHAN_AUTO, 0.3)
+			MUMD I -1
+			stop
+	}
+}
+
+actor ExUnderwaterPlayer : PlayerPawn 
+{
+	Health 100
+	ReactionTime 0
+	PainChance 255
+	Radius 16
+	Height 60
+	Speed 0.5
+	Scale 0.6
+	BloodType "ExBloodHit", "ExBloodSplat"
+
+	Player.JumpZ 0
+	Player.Viewheight 56
+	Player.AttackZOffset 29
+	//Player.SpawnClass "ExSwimmingPlayer"
+	Player.DisplayName "John"
+	Player.ColorRange 0, 0
+	Player.DamageScreenColor "AE1010", 1.0
+	Player.MorphWeapon "ExUnderwaterMachete"
+
+	+NOSKIN
+	
+	States 
+	{
+		Spawn:
+			PLRS ABC 20
+			loop
+
+		See:
+			NULL A 0 A_PlaySound("explayeruw/swim", CHAN_AUTO | CHAN_UI, 0.25)
+			NULL A 0 ACS_NamedExecute("ExThrustUnderwaterPlayer")
+			PLRS ABC 16
+			loop
+
+		Pain:
+			PRSP A 16 A_PlaySound("explayeruw/drown", CHAN_AUTO | CHAN_UI, 0.75)
+			goto Spawn
+
+		Melee:
+		Missile:
+			PRSF AB 6
+			goto Spawn
+	
+		Death:
+			NULL A 0 ACS_NamedExecute("ExOnMorphedPlayerDeath")
+			NULL AAAAAAAAAAAAAA 0 A_SpawnItemEx("ExUnderwaterBloodBubble", Random(-24, 24), Random(-24, 24), Random(30, 60), 0, 0, 64)
+			PLRS A 4 A_PlaySound("explayeruw/death", CHAN_AUTO | CHAN_UI, 0.75)
+			PLRS A 1 A_NoBlocking
+			PLRS A -1
+			stop
+	}
+}
+
+//GORE
+actor ExPlayerGoreHead : ExAbstractGoreChunk 
+{
+	Gravity 0.8
+
+	States 
+	{
+		Fly:
+			PRG2 AAAAAAAAAAAAAA 1 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), 0)
+			loop
+
+		Lay:
+			PRG2 B 250
+			NULL A 0 A_CheckSight("Vanish")
+			loop
+	}
+}
+
+actor ExPlayerGoreFootLeft : ExAbstractGoreChunk 
+{
+	Gravity 0.85
+
+	States 
+	{
+		//Spawn:
+			//goto Fly
+		
+		Fly:
+			PRG1 AAAAAAAAAAAAAA 1 A_SpawnItemEx("ExBloodParticle", Random(-1, 1), Random(-1, 1), 0)
+			loop
+	}
+}
+
+actor ExPlayerGoreFootRight : ExPlayerGoreFootLeft
+{
+  States 
+	{
+		Fly:
+			PRG1 A 0 A_SetScale(-ScaleX, ScaleY)
+			goto super::Fly
+	}
+}

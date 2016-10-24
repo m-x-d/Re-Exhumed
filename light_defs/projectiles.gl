@@ -1,0 +1,199 @@
+//$gzdb_skip
+//anubis projectile
+pointlight ANUBISPROJ 
+{
+	color 0.43 0.54 1.0
+	size 49
+}
+
+pointlight ANUBISPROJDIE1 
+{
+	color 0.43 0.54 1.0
+	size 62
+}
+
+pointlight ANUBISPROJDIE2 
+{
+	color 0.29 0.45 0.82
+	size 49
+}
+
+pointlight ANUBISPROJDIE3 
+{
+	color 0.2 0.32 0.58
+	size 36
+}
+
+object ExAnubisMissile 
+{
+	frame NPRJ  { light ANUBISPROJ }
+	frame NPRXA { light ANUBISPROJDIE1 }
+	frame NPRXB { light ANUBISPROJDIE2 }
+	frame NPRXC { light ANUBISPROJDIE3 }
+}
+
+//mummy normal projectile
+pointlight MUMMYPROJS1 
+{
+	color 0.36 0.59 0.94
+	size 64
+}
+
+pointlight MUMMYPROJS2 
+{
+	color 0.34 0.54 0.88
+	size 56
+}
+
+pointlight MUMMYPROJ 
+{
+	color 0.34 0.54 0.88
+	size 48
+}
+
+pointlight MUMMYPROJDIE1 
+{
+	color 0.28 0.45 0.74
+	size 44
+}
+
+pointlight MUMMYPROJDIE2 
+{
+	color 0.25 0.4 0.65
+	size 40
+}
+
+pointlight MUMMYPROJDIE3 
+{
+	color 0.21 0.33 0.55
+	size 32
+}
+
+pointlight MUMMYPROJDIE4 
+{
+	color 0.18 0.29 0.47
+	size 26
+}
+
+object ExMummyMissile 
+{
+	frame MPRJ  { light MUMMYPROJ }
+	frame MPRJA { light MUMMYPROJS1 }
+	frame MPRJB { light MUMMYPROJS2 }
+	frame MPRDA { light MUMMYPROJDIE1 }
+	frame MPRDB { light MUMMYPROJDIE2 }
+	frame MPRDC { light MUMMYPROJDIE3 }
+	frame MPRDD { light MUMMYPROJDIE4 }
+}
+
+//mummy morphing projectile
+pointlight MUMMYMPROJS1 
+{
+	color 0.95 0.38 0.47
+	size 64
+}
+
+pointlight MUMMYMPROJS2 
+{
+	color 0.88 0.36 0.42
+	size 56
+}
+
+pointlight MUMMYMPROJ 
+{
+	color 0.88 0.36 0.42
+	size 48
+}
+
+pointlight MUMMYMPROJDIE1 
+{
+	color 0.83 0.34 0.41
+	size 44
+}
+
+pointlight MUMMYMPROJDIE2 
+{
+	color 0.68 0.27 0.33
+	size 40
+}
+
+pointlight MUMMYMPROJDIE3 
+{
+	color 0.55 0.22 0.27
+	size 32
+}
+
+pointlight MUMMYMPROJDIE4 
+{
+	color 0.46 0.19 0.22
+	size 26
+}
+
+object ExMummyMorphingMissile 
+{
+	frame MMPR  { light MUMMYMPROJ }
+	frame MMPRA { light MUMMYMPROJS1 }
+	frame MMPRB { light MUMMYMPROJS2 }
+	frame MMPDA { light MUMMYMPROJDIE1 }
+	frame MMPDB { light MUMMYMPROJDIE2 }
+	frame MMPDC { light MUMMYMPROJDIE3 }
+	frame MMPDD { light MUMMYMPROJDIE4 }
+}
+
+//ExFireball
+pointlight FIREBALLLIGHT1
+{
+	color 1.0 0.77 0.4
+	size 55
+}
+
+pointlight FIREBALLLIGHT2
+{
+	color 1.0 0.71 0.56
+	size 56
+}
+
+pointlight FIREBALLLIGHT3
+{
+	color 1.0 0.91 0.45
+	size 57
+}
+
+//Fade animation
+pointlight FIREBALLLIGHTFADE1
+{
+	color 1.0 0.77 0.4
+	size 56
+}
+
+pointlight FIREBALLLIGHTFADE2
+{
+	color 1.0 0.71 0.56
+	size 47
+}
+
+pointlight FIREBALLLIGHTFADE3
+{
+	color 1.0 0.91 0.45
+	size 39
+}
+
+pointlight FIREBALLLIGHTFADE4
+{
+	color 1.0 0.54 0.29
+	size 20
+}
+
+pointlight FIREBALLLIGHTAMB
+{
+	color 0.49 0.45 0.39
+	size 100
+}
+
+object ExFireball
+{
+	frame FBALA { light FIREBALLLIGHT1 }
+	frame FBALB { light FIREBALLLIGHT2 }
+	frame FBALC { light FIREBALLLIGHT3 }
+	frame FBAL  { light FIREBALLLIGHTAMB }
+} 

@@ -1,0 +1,57 @@
+//$gzdb_skip
+actor ExMachete : ExWeapon 
+{
+	Weapon.SlotNumber 1
+	Weapon.SelectionOrder 7
+	Weapon.SisterWeapon ExMachetePowered
+	Weapon.KickBack 10
+	
+	+WEAPON.WIMPY_WEAPON
+	+WEAPON.MELEEWEAPON
+	+WEAPON.NOALERT
+	+NOEXTREMEDEATH
+	+BLOODSPLATTER
+
+	States 
+	{
+		Ready:
+			MH_L A 0 A_SetCrosshair(8)
+			MH_L A 0 A_ChangeFlag("FRIENDLY", 0) //cause we aint have no working uservars on weapons... 
+			MH_L A 1 A_WeaponReady
+			loop
+
+		Deselect:
+			MHD_ ABCD 1 
+			MHD_ E 1 A_PlayWeaponSound("machete/deselect")
+			MHD_ F 1
+			MH_L A 0 A_Lower
+			wait
+
+		Select:
+			MH_L A 0 A_SetCrosshair(8)
+			NULL A 0 A_ChangeFlag("FRIENDLY", 0) //cause we aint have no working uservars on weapons... 
+			MHR_ ABCDEFG 1 Offset(0, 32)
+			MHR_ H 1 Offset(0, 32) A_PlayWeaponSound("machete/out")
+			MHR_ IJKLMNOPQRS 1 Offset(0, 32)
+			NULL A 4 
+			MHR_ TUVWXYZ 1 Offset(0, 32)
+			MHR_ A 0 A_Raise
+			wait 
+			
+		Fire:
+			NULL A 0 A_CheckFlag("FRIENDLY", "SwingRight")
+			NULL A 0 A_ChangeFlag("FRIENDLY", 1) //cause we aint have no working uservars on weapons... 
+			MH_L BCDEF 1
+			MH_L G 1 A_CustomPunch(3, false, CPF_NOTURN, "ExMachetePuff")
+			MH_L HIJK 1
+			MH_L L 1 A_ReFire
+			goto Ready
+		
+		SwingRight:
+			NULL A 0 A_ChangeFlag("FRIENDLY", 0) //cause we aint have no working uservars on weapons... 
+			MH_R ABCDEFG 1
+			MH_R H 1 A_CustomPunch(3, false, CPF_NOTURN, "ExMachetePuff")
+			MH_R IJKL 1
+			goto Ready
+	}
+}

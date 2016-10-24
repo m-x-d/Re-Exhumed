@@ -1,0 +1,38 @@
+actor ExDecoration 
+{
+	Scale 0.6
+	
+	+FORCEYBILLBOARD
+	+NOINTERACTION
+	+DONTSPLASH
+}
+
+actor ExBlockingDecoration : ExDecoration 
+{
+	BloodColor "97 84 64"
+	Mass 0x7FFFFFFF
+	
+	+SOLID
+	-NOINTERACTION
+	+SHOOTABLE
+	+NODAMAGE
+	+NOBLOODDECALS
+}
+
+actor ExCeilingDecoration : ExDecoration 
+{
+	+SPAWNCEILING
+	+NOGRAVITY
+}
+
+actor ExBlockingCeilingDecoration : ExCeilingDecoration 
+{
+	BloodColor "97 84 64"
+	Mass 0x7FFFFFFF
+	
+	+SOLID
+	-NOINTERACTION
+	+SHOOTABLE
+	+NODAMAGE
+	+NOBLOODDECALS
+}

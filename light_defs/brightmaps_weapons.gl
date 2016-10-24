@@ -1,0 +1,255 @@
+//$gzdb_skip
+//machete select
+brightmap sprite MHR_I0 { map "brightmaps/weapons/machete/MHR_I0.png" }
+brightmap sprite MHR_J0 { map "brightmaps/weapons/machete/MHR_J0.png" }
+brightmap sprite MHR_K0 { map "brightmaps/weapons/machete/MHR_K0.png" }
+brightmap sprite MHR_L0 { map "brightmaps/weapons/machete/MHR_L0.png" }
+brightmap sprite MHR_M0 { map "brightmaps/weapons/machete/MHR_M0.png" }
+brightmap sprite MHR_N0 { map "brightmaps/weapons/machete/MHR_N0.png" }
+brightmap sprite MHR_V0 { map "brightmaps/weapons/machete/MHR_V0.png" }
+brightmap sprite MHR_W0 { map "brightmaps/weapons/machete/MHR_W0.png" }
+
+//machete deselect
+brightmap sprite MHD_C0 { map "brightmaps/weapons/machete/MHD_C0.png" }
+brightmap sprite MHD_D0 { map "brightmaps/weapons/machete/MHD_D0.png" }
+brightmap sprite MHD_E0 { map "brightmaps/weapons/machete/MHD_E0.png" }
+
+//magnum shot
+brightmap sprite MAG_B0 { map "brightmaps/weapons/magnum/MGNMB0.png" }
+
+//m60
+brightmap sprite W60FA0 { map W60FA0 }
+brightmap sprite W60FB0 { map W60FB0 }
+brightmap sprite W60FC0 { map W60FC0 }
+
+brightmap sprite W60FE0 { map W60FE0 }
+brightmap sprite W60FF0 { map W60FF0 }
+brightmap sprite W60FG0 { map W60FG0 }
+
+brightmap sprite W60FI0 { map W60FI0 }
+brightmap sprite W60FJ0 { map W60FJ0 }
+brightmap sprite W60FK0 { map W60FK0 }
+
+brightmap sprite W60FM0 { map W60FM0 }
+brightmap sprite W60FN0 { map W60FN0 }
+brightmap sprite W60FO0 { map W60FO0 }
+
+brightmap sprite W60FQ0 { map W60FQ0 }
+brightmap sprite W60FR0 { map W60FR0 }
+brightmap sprite W60FS0 { map W60FS0 }
+
+brightmap sprite W60FU0 { map W60FU0 }
+brightmap sprite W60FV0 { map W60FV0 }
+brightmap sprite W60FW0 { map W60FW0 }
+
+//////////
+//POWERED
+//////////
+
+//machete
+brightmap sprite PH_LA0 { map PH_LA0 }
+brightmap sprite PH_LB0 { map PH_LB0 }
+brightmap sprite PH_LC0 { map PH_LC0 }
+brightmap sprite PH_LD0 { map PH_LD0 }
+brightmap sprite PH_LE0 { map PH_LE0 }
+brightmap sprite PH_LF0 { map PH_LF0 }
+brightmap sprite PH_LG0 { map PH_LG0 }
+//brightmap sprite PH_RC0 { map PH_RC0 }
+brightmap sprite PH_RD0 { map PH_RD0 }
+brightmap sprite PH_RE0 { map PH_RE0 }
+brightmap sprite PH_RF0 { map PH_RF0 }
+brightmap sprite PHD_A0 { map PHD_A0 }
+brightmap sprite PHD_B0 { map PHD_B0 }
+brightmap sprite PHD_C0 { map PHD_C0 }
+brightmap sprite PHD_D0 { map PHD_D0 }
+brightmap sprite PHD_E0 { map PHD_E0 }
+brightmap sprite PHD_F0 { map PHD_F0 }
+brightmap sprite PH_OA0 { map PH_OA0 }
+brightmap sprite PH_OB0 { map PH_OB0 }
+brightmap sprite PH_OC0 { map PH_OC0 }
+brightmap sprite PH_OD0 { map PH_OD0 }
+
+//magnum
+brightmap sprite PAG_A0 { map PAG_A0 }
+brightmap sprite PAG_B0 { map PAG_B0 }
+brightmap sprite PAG_C0 { map PAG_C0 }
+brightmap sprite PAG_D0 { map PAG_D0 }
+brightmap sprite PAG_E0 { map PAG_E0 }
+brightmap sprite PAG_F0 { map PAG_F0 }
+brightmap sprite PAG_G0 { map PAG_G0 }
+brightmap sprite PAGDA0 { map PAGDA0 }
+brightmap sprite PAGDB0 { map PAGDB0 }
+brightmap sprite PAGDC0 { map PAGDC0 }
+brightmap sprite PAGDD0 { map PAGDD0 }
+brightmap sprite PAGOA0 { map PAGOA0 }
+brightmap sprite PAGOB0 { map PAGOB0 }
+brightmap sprite PAGOC0 { map PAGOC0 }
+brightmap sprite PAGOD0 { map PAGOD0 }
+brightmap sprite PAGRA0 { map PAGRA0 }
+brightmap sprite PAGRB0 { map PAGRB0 }
+brightmap sprite PAGRC0 { map PAGRC0 }
+brightmap sprite PAGRD0 { map PAGRD0 }
+brightmap sprite PAGRE0 { map PAGRE0 }
+
+//magnum shellcases
+brightmap sprite PCASA0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASA0.png" }
+brightmap sprite PCASB0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASB0.png" }
+brightmap sprite PCASC0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASC0.png" }
+brightmap sprite PCASD0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASD0.png" }
+brightmap sprite PCASE0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASE0.png" }
+brightmap sprite PCASF0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASF0.png" }
+brightmap sprite PCASG0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASG0.png" }
+brightmap sprite PCASH0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASH0.png" }
+brightmap sprite PCASI0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASI0.png" }
+brightmap sprite PCASJ0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASJ0.png" }
+brightmap sprite PCASK0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASK0.png" }
+brightmap sprite PCASL0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASL0.png" }
+brightmap sprite PCASM0 { map "brightmaps/weapons/magnum_powered/shellcases/PCASM0.png" }
+
+//m60
+brightmap sprite X60_A0 { map X60_A0 }
+brightmap sprite X60_B0 { map X60_B0 }
+brightmap sprite X60_C0 { map X60_C0 }
+brightmap sprite X60DA0 { map X60DA0 }
+brightmap sprite X60DB0 { map X60DB0 }
+brightmap sprite X60DC0 { map X60DC0 }
+brightmap sprite X60DD0 { map X60DD0 }
+brightmap sprite X60DE0 { map X60DE0 }
+brightmap sprite X60DF0 { map X60DF0 }
+brightmap sprite X60FA0 { map X60FA0 }
+brightmap sprite X60FB0 { map X60FB0 }
+brightmap sprite X60FC0 { map X60FC0 }
+brightmap sprite X60FE0 { map X60FE0 }
+brightmap sprite X60FF0 { map X60FF0 }
+brightmap sprite X60FG0 { map X60FG0 }
+brightmap sprite X60FI0 { map X60FI0 }
+brightmap sprite X60FJ0 { map X60FJ0 }
+brightmap sprite X60FK0 { map X60FK0 }
+brightmap sprite X60FM0 { map X60FM0 }
+brightmap sprite X60FN0 { map X60FN0 }
+brightmap sprite X60FO0 { map X60FO0 }
+brightmap sprite X60FQ0 { map X60FQ0 }
+brightmap sprite X60FR0 { map X60FR0 }
+brightmap sprite X60FS0 { map X60FS0 }
+brightmap sprite X60FU0 { map X60FU0 }
+brightmap sprite X60FV0 { map X60FV0 }
+brightmap sprite X60FW0 { map X60FW0 }
+brightmap sprite X60OA0 { map X60OA0 }
+brightmap sprite X60OB0 { map X60OB0 }
+brightmap sprite X60OC0 { map X60OC0 }
+brightmap sprite X60OD0 { map X60OD0 }
+brightmap sprite X60OE0 { map X60OE0 }
+brightmap sprite X60OF0 { map X60OF0 }
+brightmap sprite X60OG0 { map X60OG0 }
+brightmap sprite X60OH0 { map X60OH0 }
+brightmap sprite X60OI0 { map X60OI0 }
+brightmap sprite X60RA0 { map X60RA0 }
+brightmap sprite X60RB0 { map X60RB0 }
+brightmap sprite X60RC0 { map X60RC0 }
+brightmap sprite X60RD0 { map X60RD0 }
+brightmap sprite X60RE0 { map X60RE0 }
+brightmap sprite X60RF0 { map X60RF0 }
+brightmap sprite X60RG0 { map X60RG0 }
+brightmap sprite X60RH0 { map X60RH0 }
+brightmap sprite X60RI0 { map X60RI0 }
+brightmap sprite X60RJ0 { map X60RJ0 }
+brightmap sprite X60RK0 { map X60RK0 }
+brightmap sprite X60RL0 { map X60RL0 }
+brightmap sprite X60RM0 { map X60RM0 }
+brightmap sprite X60RN0 { map X60RN0 }
+brightmap sprite X60RO0 { map X60RO0 }
+brightmap sprite X60RP0 { map X60RP0 }
+brightmap sprite X60RQ0 { map X60RQ0 }
+brightmap sprite X60RR0 { map X60RR0 }
+brightmap sprite X60RS0 { map X60RS0 }
+brightmap sprite X60RT0 { map X60RT0 }
+brightmap sprite X60RU0 { map X60RU0 }
+brightmap sprite X60RV0 { map X60RV0 }
+brightmap sprite X60RW0 { map X60RW0 }
+brightmap sprite X60RX0 { map X60RX0 }
+brightmap sprite X60RY0 { map X60RY0 }
+brightmap sprite X60RZ0 { map X60RZ0 }
+brightmap sprite X60SA0 { map X60SA0 }
+brightmap sprite X60SB0 { map X60SB0 }
+brightmap sprite X60SC0 { map X60SC0 }
+brightmap sprite X60SD0 { map X60SD0 }
+brightmap sprite X60SE0 { map X60SE0 }
+brightmap sprite X60SF0 { map X60SF0 }
+brightmap sprite X60SG0 { map X60SG0 }
+brightmap sprite X60SH0 { map X60SH0 }
+brightmap sprite X60SI0 { map X60SI0 }
+brightmap sprite X60SJ0 { map X60SJ0 }
+brightmap sprite X60SK0 { map X60SK0 }
+brightmap sprite X61RA0 { map X61RA0 }
+brightmap sprite X61RB0 { map X61RB0 }
+brightmap sprite X61RC0 { map X61RC0 }
+brightmap sprite X61RD0 { map X61RD0 }
+brightmap sprite X60EA0 { map X60EA0 }
+brightmap sprite X60EB0 { map X60EB0 }
+brightmap sprite X60EC0 { map X60EC0 }
+brightmap sprite X60ED0 { map X60ED0 }
+
+//m60 shellcases
+brightmap sprite PASEA0 { map "brightmaps/weapons/m60_powered/shellcases/PASEA0.png" }
+brightmap sprite PASEB0 { map "brightmaps/weapons/m60_powered/shellcases/PASEB0.png" }
+brightmap sprite PASEC0 { map "brightmaps/weapons/m60_powered/shellcases/PASEC0.png" }
+brightmap sprite PASED0 { map "brightmaps/weapons/m60_powered/shellcases/PASED0.png" }
+brightmap sprite PASEE0 { map "brightmaps/weapons/m60_powered/shellcases/PASEE0.png" }
+brightmap sprite PASEF0 { map "brightmaps/weapons/m60_powered/shellcases/PASEF0.png" }
+brightmap sprite PASEG0 { map "brightmaps/weapons/m60_powered/shellcases/PASEG0.png" }
+brightmap sprite PASEH0 { map "brightmaps/weapons/m60_powered/shellcases/PASEH0.png" }
+brightmap sprite PASEI0 { map "brightmaps/weapons/m60_powered/shellcases/PASEI0.png" }
+brightmap sprite PASEJ0 { map "brightmaps/weapons/m60_powered/shellcases/PASEJ0.png" }
+brightmap sprite PASEK0 { map "brightmaps/weapons/m60_powered/shellcases/PASEK0.png" }
+brightmap sprite PASEL0 { map "brightmaps/weapons/m60_powered/shellcases/PASEL0.png" }
+brightmap sprite PASEM0 { map "brightmaps/weapons/m60_powered/shellcases/PASEM0.png" }
+
+//grenade
+brightmap sprite PR1FA0 { map PR1FA0 }
+brightmap sprite PR1FB0 { map PR1FB0 }
+brightmap sprite PR1FC0 { map PR1FC0 }
+brightmap sprite PR1FD0 { map PR1FD0 }
+brightmap sprite PR1FE0 { map PR1FE0 }
+brightmap sprite PR1FF0 { map PR1FF0 }
+brightmap sprite PR1FG0 { map PR1FG0 }
+brightmap sprite PR1FH0 { map PR1FH0 }
+brightmap sprite PR1FI0 { map PR1FI0 }
+brightmap sprite PR1FJ0 { map PR1FJ0 }
+brightmap sprite PR1FK0 { map PR1FK0 }
+brightmap sprite PR1FL0 { map PR1FL0 }
+brightmap sprite PR1FM0 { map PR1FM0 }
+brightmap sprite PR1FN0 { map PR1FN0 }
+brightmap sprite PR1FO0 { map PR1FO0 }
+brightmap sprite PR1FP0 { map PR1FP0 }
+brightmap sprite PR1FQ0 { map PR1FQ0 }
+brightmap sprite PR1FR0 { map PR1FR0 }
+brightmap sprite PR1FS0 { map PR1FS0 }
+brightmap sprite PR1FT0 { map PR1FT0 }
+brightmap sprite PR1FU0 { map PR1FU0 }
+brightmap sprite PR1FV0 { map PR1FV0 }
+brightmap sprite PR1FW0 { map PR1FW0 }
+brightmap sprite PR1FX0 { map PR1FX0 }
+brightmap sprite PR2FA0 { map PR2FA0 }
+brightmap sprite PR2FB0 { map PR2FB0 }
+brightmap sprite PR2FC0 { map PR2FC0 }
+brightmap sprite PR2FD0 { map PR2FD0 }
+brightmap sprite PR4FA0 { map PR4FA0 }
+brightmap sprite PR4FB0 { map PR4FB0 }
+brightmap sprite PR4FC0 { map PR4FC0 }
+brightmap sprite PR4FD0 { map PR4FD0 }
+brightmap sprite PR4FE0 { map PR4FE0 }
+brightmap sprite PR4FF0 { map PR4FF0 }
+brightmap sprite PR4FG0 { map PR4FG0 }
+brightmap sprite PR4FH0 { map PR4FH0 }
+brightmap sprite PRNOA0 { map PRNOA0 }
+brightmap sprite PRNOB0 { map PRNOB0 }
+brightmap sprite PRNOC0 { map PRNOC0 }
+brightmap sprite PRNOD0 { map PRNOD0 }
+brightmap sprite PRNSA0 { map PRNSA0 }
+brightmap sprite PRNSB0 { map PRNSB0 }
+brightmap sprite PRNSC0 { map PRNSC0 }
+brightmap sprite PRNSD0 { map PRNSD0 }
+brightmap sprite PRNSE0 { map PRNSE0 }
+brightmap sprite PRNSF0 { map PRNSF0 }
+brightmap sprite PRNSG0 { map PRNSG0 }
+brightmap sprite PRNSH0 { map PRNSH0 }
