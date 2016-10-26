@@ -1,6 +1,5 @@
-//BUBBLES - FOAM - PUFFS - EXPLOSIONS - SMOKE - AMBIANCE - MISC
+#region ============= BUBBLES
 
-//BUBBLES
 actor ExUnderwaterBubble 
 {
 	Scale 0.15
@@ -147,7 +146,10 @@ actor ExBubbleSpawner : ExAbstractSpawner 561
 	}
 }
 
-//FOAM
+#endregion
+
+#region ============= FOAM
+
 actor ExWaterFoam : ExUnderwaterBubble
 {
 	Alpha 0.0
@@ -253,7 +255,10 @@ actor ExWaterFoamSpawner : ExAbstractSpawner 5608
 	}
 }
 
-//PUFFS
+#endregion
+
+#region ============= PUFFS
+
 actor ExBulletPuff : BulletPuff
 {
 	RenderStyle Translucent
@@ -373,7 +378,10 @@ actor ExFireEmber : ExAbstractParticle
 	}
 }
 
-//EXPLOSIONS
+#endregion 
+
+#region ============= EXPLOSIONS
+
 actor ExGrenadeExplosion 
 {
 	RenderStyle "None"
@@ -446,7 +454,10 @@ actor ExFireCracker : ExAbstractParticle
 	}
 }
 
-//SMOKE
+#endregion
+
+#region ============= SMOKE
+
 actor ExSmoke
 {
 	RenderStyle Translucent
@@ -458,6 +469,9 @@ actor ExSmoke
 	+NOTELEPORT
 	+CANNOTPUSH
 	+FORCEXYBILLBOARD
+	+ROLLSPRITE
+	
+	var float user_roll;
 	
 	States
 	{
@@ -466,38 +480,23 @@ actor ExSmoke
 			goto Setup
 		
 		Setup:
-			"####" "A" 0 A_SetScale(ScaleX + FRandom(-ScaleX * 0.2, ScaleX * 0.2))
-			"####" "A" 0 A_FadeOut(FRandom(-0.1, 0.05))
-			"####" "A" 0 A_ChangeVelocity(0, 0, FRandom(0.1, 0.2))
-			goto Float
+			"####" "A" 0
+			{
+				A_SetScale(ScaleX + FRandom(-ScaleX * 0.2, ScaleX * 0.2));
+				A_FadeOut(FRandom(-0.1, 0.05));
+				A_ChangeVelocity(0, 0, FRandom(0.1, 0.2));
+				user_roll = FRandom(0.5, 1.0) * randompick(-1, 1);
+				return state("Float");
+			}
 		
 		Float:
-			//boy I could use some of them grouped action specials right about now...
-			"####" "A" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "B" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "C" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "D" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "E" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "F" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "G" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "H" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "I" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "J" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "K" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "L" 6 A_FadeOut(0.02)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			loop	
+			"####" "A" 1
+			{
+				A_FadeOut(0.006);
+				A_SetScale(ScaleX + 0.005);
+				A_SetRoll(roll + user_roll, SPF_INTERPOLATE);
+			}
+			loop
 	}
 }
 
@@ -505,29 +504,14 @@ actor ExSmokeFastFade : ExSmoke
 {
 	States
 	{
-	  Spawn:
-			NSMK A 0 NoDelay
-			goto Setup
-			
-		Setup:
-			"####" "A" 0 A_SetScale(ScaleX + FRandom(-ScaleX * 0.2, ScaleX * 0.2))
-			"####" "A" 0 A_FadeOut(FRandom(-0.1, 0.05))
-			"####" "A" 0 A_ChangeVelocity(0, 0, FRandom(0.1, 0.2))
-			goto Float	
-		
 		Float:
-			//boy I could use some of them grouped action specials right about now...
-			"####" "A" 6 A_FadeOut(0.2)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "B" 6 A_FadeOut(0.2)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "C" 6 A_FadeOut(0.2)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "D" 6 A_FadeOut(0.2)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			"####" "E" 6 A_FadeOut(0.2)
-			"####" "A" 0 A_SetScale(ScaleX + 0.03)
-			stop
+			"####" "A" 1
+			{
+				A_FadeOut(0.03);
+				A_SetScale(ScaleX + 0.03);
+				A_SetRoll(roll + user_roll, SPF_INTERPOLATE);
+			}
+			loop
 	}
 }
 
@@ -611,7 +595,10 @@ actor ExFlameSmall
 	}
 }
 
-//AMBIANCE
+#endregion
+
+#region ============= AMBIANCE
+
 actor ExAmbientSound : SwitchableDecoration 999
 {
 	RenderStyle None
@@ -670,7 +657,10 @@ actor ExAmbientSound : SwitchableDecoration 999
 	}
 }
 
-//MISC
+#endregion
+
+#region ============= MISC
+
 actor ExAbstractTrap : SwitchableDecoration
 {
 	Radius 8
@@ -693,3 +683,5 @@ actor ExAbstractTrap : SwitchableDecoration
 			stop	
 	}
 }
+
+#endregion
